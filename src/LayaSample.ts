@@ -19,7 +19,7 @@ class GameMain{
         
         var ape = new Sprite();
 		Laya.stage.addChild(ape);
-		ape.loadImage("../laya/assets/Map/map.jpg");
+		ape.loadImage("../laya/assets/Map/map.png");
     }
 }
 new GameMain();
