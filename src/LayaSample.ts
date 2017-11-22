@@ -9,17 +9,18 @@ import WebGL = Laya.WebGL;
 class GameMain{
     constructor()
     {
-        Laya.init(Browser.clientWidth, Browser.clientHeight, WebGL);
+        Laya.init(1080, 1920, WebGL);
 
         Laya.stage.alignV = Stage.ALIGN_MIDDLE;
         Laya.stage.alignH = Stage.ALIGN_CENTER;
+		Laya.stage.scaleMode = Stage.SCALE_NOSCALE;
 
         Laya.stage.scaleMode = "showall";
         Laya.stage.bgColor = "#232628";
         
         var ape = new Sprite();
 		Laya.stage.addChild(ape);
-		ape.loadImage("../laya/assets/Map/map.png");
+		ape.loadImage("../laya/assets/map/level1.png");
     }
 }
 new GameMain();
