@@ -7,6 +7,9 @@ import Handler = Laya.Handler;
 import WebGL = Laya.WebGL;
 
 class GameMain{
+
+    public map : Map;
+
     constructor()
     {
         Laya.init(1080, 1920, WebGL);
@@ -18,9 +21,10 @@ class GameMain{
         Laya.stage.scaleMode = "showall";
         Laya.stage.bgColor = "#232628";
         
-        var ape = new Sprite();
-		Laya.stage.addChild(ape);
-		ape.loadImage("../laya/assets/map/level1.png");
+        this.map = new Map();
+
+        this.map.LoadLevel(1);
+
     }
 }
 new GameMain();
