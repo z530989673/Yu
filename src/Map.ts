@@ -10,15 +10,16 @@
 
 class Map{
     private map: Sprite;
+    private objectContainer : Sprite = new Sprite();
     public width : number;
     public height : number;
     public nodeStatus : NodeStatus[][];
     public nodeSprite : Sprite[][] = new Array();
 
-    public static leftOffset : number = 40;
-    public static rightOffset : number = 40;
-    public static topOffset : number = 45;
-    public static nodeLength : number = 125;
+    public static leftOffset : number = 28;
+    public static rightOffset : number = 28;
+    public static topOffset : number = 0;
+    public static nodeLength : number = 128;
 
     public player : Player;
 
@@ -28,13 +29,11 @@ class Map{
     constructor(){
         this.map = new Sprite();
         this.map.zOrder = -1;
+
     }
 
     public LoadLevel1() : void
     {
-        this.width = 8;
-        this.height = 15;
-
 		this.map.loadImage("../laya/assets/map/level1.png");
         Layer.AddMap(this.map);
         this.nodeStatus = [ [0,0,0,0,0,0,0,0],
@@ -47,11 +46,24 @@ class Map{
                             [1,1,1,0,0,1,1,1],
                             [1,0,0,0,0,0,0,1],
                             [1,0,1,0,0,1,0,1],//9
+                            [1,0,0,0,0,1,1,1],
+                            [1,1,0,0,0,1,1,1],
+                            [1,0,0,0,0,0,0,1],
+                            [0,0,0,0,0,0,0,0],
+                            [1,1,0,0,0,0,1,1],//14
+                            [1,1,1,0,0,1,1,1],
+                            [1,1,1,0,0,1,1,1],
+                            [1,1,1,0,0,1,1,1],
+                            [1,0,0,0,0,0,0,1],
+                            [1,0,1,0,0,1,0,1],//19
                             [1,0,1,0,0,1,0,1],
                             [1,0,0,0,0,1,1,1],
                             [1,1,0,0,0,1,1,1],
                             [1,0,0,0,0,0,0,1],
-                            [0,0,0,0,0,0,0,0],];//14
+                            [0,0,0,0,0,0,0,0],];//24
+                            
+        this.width = this.nodeStatus[0].length;
+        this.height = this.nodeStatus.length;
         
         for(var i = 0; i < this.nodeStatus.length; i++)
         {
@@ -61,16 +73,18 @@ class Map{
                 var value : number = this.nodeStatus[i][j];
                 var sp : Sprite = new Sprite();
                 if (value == 0)
-                    sp.loadImage("../laya/assets/placeHolder/white.png");
+                    sp.loadImage("../laya/assets/placeHolder/White.png");
                 else if (value == 1)
-                    sp.loadImage("../laya/assets/placeHolder/black.png");
+                    sp.loadImage("../laya/assets/placeHolder/Black.png");
                 var offsetW : number = this.GetPosW(j);
                 var offsetH : number = this.GetPosH(i);
                 sp.pivot( offsetW, offsetH);
-                Layer.AddObjects(sp);
+                this.objectContainer.addChild(sp);
                 this.nodeSprite[i].push(sp);
             }
         }
+                
+        Layer.AddObjects(this.objectContainer);
 
         this.player = new Player(this);
 
@@ -81,7 +95,7 @@ class Map{
             this.mapNodes.push([]);
             for(var j = 0; j < this.nodeStatus[i].length; j++)
             {
-                this.mapNodes[i].push(new MapNode(i,j,0));
+                this.mapNodes[i].push(new MapNode(i,j));
             }
         }
         //Laya.timer.frameLoop(1, this, this.Update);
