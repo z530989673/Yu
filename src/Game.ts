@@ -17,6 +17,7 @@ class GameMain{
         Laya.stage.alignV = Stage.ALIGN_MIDDLE;
         Laya.stage.alignH = Stage.ALIGN_CENTER;
 		Laya.stage.scaleMode = Stage.SCALE_NOSCALE;
+        Laya.stage.frameRate = "fast";
 
         Laya.stage.scaleMode = "showall";
         Laya.stage.bgColor = "#232628";
@@ -25,6 +26,7 @@ class GameMain{
 
         this.map.LoadLevel1();
 
+        Laya.Stat.show(0,0);
     }
 }
 new GameMain();

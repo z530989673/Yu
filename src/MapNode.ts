@@ -8,6 +8,8 @@ class MapNode
         this.indexH = h;
         this.indexW = w;
         this.weight = weight;
+        this.parentIndexH = -1;
+        this.parentIndexW = -1;
     }
 
     public static Copy(from : MapNode, to : MapNode) : void

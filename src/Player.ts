@@ -14,7 +14,7 @@ class Player{
     private image : Sprite;
     public indexW : number = 0;
     public indexH : number = 0;
-    public moveSpeed : number = 250;
+    public moveSpeed : number = 400;
     public status : PlayerStatus = PlayerStatus.Idle;
     public dirW : number = 0;
     public dirH : number = 0;
@@ -89,7 +89,7 @@ class Player{
         else
         {
             var n : MapNode = this.wayPoints.pop();
-            if (this.map.IsWalkable(n.indexW,n.indexH))
+            if (this.map.IsWalkable(n.indexH,n.indexW))
             {
                 this.dirH = n.indexH - this.indexH;
                 this.dirW = n.indexW - this.indexW;
@@ -99,5 +99,19 @@ class Player{
             else
                 this.status = PlayerStatus.Wait;
         }
+    }
+
+    public Move(checkPoints : MapNode[]) : void
+    {
+            this.wayPoints = checkPoints;
+            var checkPoint : MapNode = checkPoints.pop();
+            if (this.status != PlayerStatus.Move)
+            {
+                this.dirW = checkPoint.indexW - this.indexW;
+                this.dirH = checkPoint.indexH - this.indexH;
+                this.indexH = checkPoint.indexH;
+                this.indexW = checkPoint.indexW;
+                this.status = PlayerStatus.Move;
+            }
     }
 }

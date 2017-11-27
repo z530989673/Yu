@@ -101,14 +101,14 @@ class Map{
         if (indexH >= this.height) indexH = this.height - 1;
         //var status : Status = this.nodeStatus[indexH][indexW];
 
-        this.MoveTo(indexW, indexH);
+        this.MoveTo(indexH, indexW);
     }
 
     private Update(e: Event): void {
         console.log(Laya.stage.mouseX);
     }
 
-    public IsWalkable(w : number, h : number) : boolean
+    public IsWalkable(h : number, w : number) : boolean
     {
         if (this.nodeStatus[h][w] == NodeStatus.Empty)
             return true;
@@ -127,7 +127,7 @@ class Map{
 
     private static neighbourDirW : number[] = [1,0,-1,0];
     private static neighbourDirH : number[] = [0,1,0,-1];
-    public MoveTo(w : number, h : number) : void
+    public MoveTo(h : number, w : number) : void
     {
         var heap : NodeHeap = new NodeHeap();
         for(var i = 0; i < this.nodeStatus.length; i++)
@@ -135,7 +135,8 @@ class Map{
             for(var j = 0; j < this.nodeStatus[i].length; j++)
             {
                 this.nodeCheck[i][j] = false;
-                //this.mapNodes[i][j];
+                this.mapNodes[i][j].parentIndexH = -1;
+                this.mapNodes[i][j].parentIndexW = -1;
             }
         }
 
@@ -152,7 +153,7 @@ class Map{
                 var indexH : number = node.indexH + Map.neighbourDirH[i];
                 if (indexW >= 0 && indexW < this.width && indexH >= 0 && indexH < this.height)
                 {
-                    if (this.nodeCheck[indexH][indexW] == false && this.IsWalkable(indexW, indexH))
+                    if (this.nodeCheck[indexH][indexW] == false && this.IsWalkable(indexH,indexW))
                     {
                         var neighbour : MapNode = this.mapNodes[indexH][indexW];
                         neighbour.weight = Math.abs(indexH - h) + Math.abs(indexW - w);
@@ -174,7 +175,22 @@ class Map{
 
         if (found)
         {
-            console.log("found");
+            var checkPoints : MapNode[] = [];
+            var indexH : number = h;
+            var indexW : number = w;
+            checkPoints.push(this.mapNodes[indexH][indexW])
+            while(true)
+            {
+                checkPoints.push(this.mapNodes[indexH][indexW])
+                var currentIndexH : number = this.mapNodes[indexH][indexW].parentIndexH;
+                var currentIndexW : number = this.mapNodes[indexH][indexW].parentIndexW;
+                indexH = currentIndexH;
+                indexW = currentIndexW;
+                if (indexH == -1 && indexW == -1)
+                    break;
+            }
+
+            this.player.Move(checkPoints);
         }
         else
         {

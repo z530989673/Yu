@@ -22,10 +22,12 @@ class NodeHeap{
         {
             if (this.mapNodes[index].weight > this.mapNodes[index - 1].weight)
             {
-                var tmpNode : MapNode = new MapNode(-1,-1,0);
-                MapNode.Copy(this.mapNodes[index],tmpNode);
-                MapNode.Copy(this.mapNodes[index - 1],this.mapNodes[index]);
-                MapNode.Copy(tmpNode,this.mapNodes[index - 1]);
+                var tmpNode : MapNode = this.mapNodes[index];
+                this.mapNodes[index] = this.mapNodes[index - 1];
+                this.mapNodes[index - 1] = tmpNode;
+                //MapNode.Copy(this.mapNodes[index],tmpNode);
+                //MapNode.Copy(this.mapNodes[index - 1],this.mapNodes[index]);
+                //MapNode.Copy(tmpNode,this.mapNodes[index - 1]);
                 index --;
             }
             else
