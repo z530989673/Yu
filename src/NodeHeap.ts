@@ -13,7 +13,7 @@ class NodeHeap{
         return this.mapNodes.length;
     }
 
-    //private static tmpNode : MapNode = new MapNode(-1,-1, 0);
+    private static tmpNode : MapNode;
     public Add(n : MapNode) : void
     {
         this.mapNodes.push(n);
@@ -22,12 +22,9 @@ class NodeHeap{
         {
             if (this.mapNodes[index].weight > this.mapNodes[index - 1].weight)
             {
-                var tmpNode : MapNode = this.mapNodes[index];
+                NodeHeap.tmpNode = this.mapNodes[index];
                 this.mapNodes[index] = this.mapNodes[index - 1];
-                this.mapNodes[index - 1] = tmpNode;
-                //MapNode.Copy(this.mapNodes[index],tmpNode);
-                //MapNode.Copy(this.mapNodes[index - 1],this.mapNodes[index]);
-                //MapNode.Copy(tmpNode,this.mapNodes[index - 1]);
+                this.mapNodes[index - 1] = NodeHeap.tmpNode;
                 index --;
             }
             else

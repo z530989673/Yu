@@ -23,7 +23,6 @@ class Map{
     public player : Player;
 
     //runtime temparary data
-    public nodeCheck : boolean[][] = new Array();
     public mapNodes : MapNode[][] = new Array();
 
     constructor(){
@@ -79,11 +78,9 @@ class Map{
 
         for(var i = 0; i < this.nodeStatus.length; i++)
         {
-            this.nodeCheck.push([]);
             this.mapNodes.push([]);
             for(var j = 0; j < this.nodeStatus[i].length; j++)
             {
-                this.nodeCheck[i].push(false);
                 this.mapNodes[i].push(new MapNode(i,j,0));
             }
         }
@@ -134,43 +131,40 @@ class Map{
         {
             for(var j = 0; j < this.nodeStatus[i].length; j++)
             {
-                this.nodeCheck[i][j] = false;
-                this.mapNodes[i][j].parentIndexH = -1;
-                this.mapNodes[i][j].parentIndexW = -1;
+                this.mapNodes[i][j].Clear();
             }
         }
 
-        var weight : number = Math.abs(this.player.indexH - h) + Math.abs(this.player.indexW - w);
-        this.nodeCheck[this.player.indexH][this.player.indexW] = true;
-        heap.Add(this.mapNodes[this.player.indexH][this.player.indexW]);
+        var playerNode : MapNode = this.mapNodes[this.player.indexH][this.player.indexW];
+        playerNode.weight = Math.abs(this.player.indexH - h) + Math.abs(this.player.indexW - w);
+        playerNode.iterLength = 0;
+        heap.Add(playerNode);
         var found : boolean = false;
         while(heap.GetSize() > 0)
         {
             var node : MapNode = heap.Pop();
+            if (node.indexW == w && node.indexH == h)
+            {
+                found = true;
+                break;
+            }
             for(var i = 0; i < 4; i++)
             {
                 var indexW : number = node.indexW + Map.neighbourDirW[i];
                 var indexH : number = node.indexH + Map.neighbourDirH[i];
-                if (indexW >= 0 && indexW < this.width && indexH >= 0 && indexH < this.height)
+                if (indexW >= 0 && indexW < this.width && indexH >= 0 && indexH < this.height && this.IsWalkable(indexH,indexW))
                 {
-                    if (this.nodeCheck[indexH][indexW] == false && this.IsWalkable(indexH,indexW))
+                    var neighbour : MapNode = this.mapNodes[indexH][indexW];
+                    if (node.weight < neighbour.weight - 1)
                     {
-                        var neighbour : MapNode = this.mapNodes[indexH][indexW];
-                        neighbour.weight = Math.abs(indexH - h) + Math.abs(indexW - w);
+                        neighbour.weight = Math.abs(indexH - h) + Math.abs(indexW - w) + node.iterLength + 1;
                         neighbour.parentIndexH = node.indexH;
                         neighbour.parentIndexW = node.indexW;
-                        this.nodeCheck[indexH][indexW] = true;
-                        if (indexW == w && indexH == h)
-                        {
-                            found = true;
-                            break;
-                        }
+                        neighbour.iterLength = node.iterLength + 1;
                         heap.Add(neighbour);
                     }
                 }
             }
-            if (found)
-                break;
         }
 
         if (found)

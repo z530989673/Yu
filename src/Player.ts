@@ -31,26 +31,6 @@ class Player{
         this.map = m;
         
         Laya.timer.frameLoop(1, this, this.Update);
-
-        // this.wayPoints.push(new MapNode(10,6,0));
-        // this.wayPoints.push(new MapNode(9,6,0));
-        // this.wayPoints.push(new MapNode(8,6,0));
-        // this.wayPoints.push(new MapNode(8,5,0));
-        // this.wayPoints.push(new MapNode(8,4,0));
-        // this.wayPoints.push(new MapNode(7,4,0));
-        // this.wayPoints.push(new MapNode(6,4,0));
-        // this.wayPoints.push(new MapNode(5,4,0));
-        // this.wayPoints.push(new MapNode(4,4,0));
-        // this.wayPoints.push(new MapNode(3,4,0));
-        // this.wayPoints.push(new MapNode(2,4,0));
-        // this.wayPoints.push(new MapNode(1,4,0));
-        // this.wayPoints.push(new MapNode(0,4,0));
-        // this.wayPoints.push(new MapNode(0,3,0));
-        // this.wayPoints.push(new MapNode(0,2,0));
-        // this.indexH = 0;
-        // this.indexW = 1;
-        // this.dirW = 1;
-        // this.status = PlayerStatus.Move;
     }
 
     public Update() : void
