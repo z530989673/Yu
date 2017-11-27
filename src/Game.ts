@@ -23,7 +23,7 @@ class GameMain{
         
         this.map = new Map();
 
-        this.map.LoadLevel(1);
+        this.map.LoadLevel1();
 
     }
 }

@@ -5,10 +5,15 @@
 class Layer{
     constructor(){
         this.background = new Sprite();
+        this.background.zOrder = 0;
         this.map = new Sprite();
+        this.background.zOrder = 1;
         this.objects = new Sprite();
+        this.background.zOrder = 2;
         this.foregroundFar = new Sprite();
+        this.background.zOrder = 3;
         this.foregroundNear = new Sprite();
+        this.background.zOrder = 4;
 
         Laya.stage.addChild(this.background);
         Laya.stage.addChild(this.map);
