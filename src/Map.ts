@@ -13,6 +13,7 @@ class Map{
     private objectContainer : Sprite = new Sprite();
     public width : number;
     public height : number;
+    public totalHeightInPxl : number;
     public nodeStatus : NodeStatus[][];
     public nodeSprite : Sprite[][] = new Array();
 
@@ -30,6 +31,7 @@ class Map{
         this.map = new Sprite();
         this.map.zOrder = -1;
 
+        Laya.timer.frameLoop(1, this, this.Update);
     }
 
     public LoadLevel1() : void
@@ -64,6 +66,7 @@ class Map{
                             
         this.width = this.nodeStatus[0].length;
         this.height = this.nodeStatus.length;
+        this.totalHeightInPxl = this.height * Map.nodeLength;
         
         for(var i = 0; i < this.nodeStatus.length; i++)
         {
@@ -104,8 +107,8 @@ class Map{
 
     private MouseDown(e : Event) : void
     {
-        var indexW : number = Math.floor((this.map.mouseX - Map.leftOffset) / Map.nodeLength);
-        var indexH : number = Math.floor((this.map.height - this.map.mouseY) / Map.nodeLength);
+        var indexW : number = Math.floor((this.objectContainer.mouseX - Map.leftOffset) / Map.nodeLength);
+        var indexH : number = Math.floor((Laya.stage.height - this.objectContainer.mouseY) / Map.nodeLength);
         if (indexW < 0) indexW = 0;
         if (indexH < 0) indexH = 0;
         if (indexW >= this.width) indexW = this.width - 1;
@@ -116,7 +119,23 @@ class Map{
     }
 
     private Update(e: Event): void {
-        console.log(Laya.stage.mouseX);
+        var pos : number = - this.objectContainer.pivotY - this.player.GetUpperBound();
+        if (pos / Laya.stage.height < 0.3)
+        {
+            if (- this.objectContainer.pivotY + Laya.stage.height < this.totalHeightInPxl)
+            {
+                this.objectContainer.pivot(this.objectContainer.pivotX,
+                    this.objectContainer.pivotY - (Laya.stage.height * 0.3 - pos));
+            }
+        }
+        else if (pos / Laya.stage.height > 0.7)
+        {
+            if ( this.objectContainer.pivotY < 0)
+            {
+                this.objectContainer.pivot(this.objectContainer.pivotX,
+                    this.objectContainer.pivotY - (Laya.stage.height * 0.7 - pos));
+            }
+        }
     }
 
     public IsWalkable(h : number, w : number) : boolean
@@ -124,6 +143,11 @@ class Map{
         if (this.nodeStatus[h][w] == NodeStatus.Empty)
             return true;
         else return false;
+    }
+
+    public AddObject(sp : Sprite) : void
+    {
+        this.objectContainer.addChild(sp);
     }
 
     public GetPosW(indexW : number) : number

@@ -14,7 +14,7 @@ class Player{
     private image : Sprite;
     public indexW : number = 0;
     public indexH : number = 0;
-    public moveSpeed : number = 400;
+    public moveSpeed : number = 1000;
     public status : PlayerStatus = PlayerStatus.Idle;
     public dirW : number = 0;
     public dirH : number = 0;
@@ -22,14 +22,14 @@ class Player{
     public wayPoints : MapNode[] = [];
 
     constructor(m : Map){
+        this.map = m;
+
         this.image = new Sprite();
         this.image.loadImage("../laya/assets/placeHolder/red.png");
         this.image.zOrder = 100;
-        Layer.AddObjects(this.image);
+        this.map.AddObject(this.image);
         this.image.pivot(m.GetPosW(0), m.GetPosH(0));
 
-        this.map = m;
-        
         Laya.timer.frameLoop(1, this, this.Update);
     }
 
@@ -93,5 +93,15 @@ class Player{
                 this.indexW = checkPoint.indexW;
                 this.status = PlayerStatus.Move;
             }
+    }
+
+    public GetUpperBound() : number
+    {
+        return this.image.pivotY;
+    }
+
+    public GetLowerBound() : number
+    {
+        return this.image.pivotY + Map.nodeLength;
     }
 }
