@@ -20,14 +20,16 @@ class Player{
     
     public wayPoints : MapNode[] = [];
 
-    constructor(m : Map, path : string){
+    constructor(m : Map, path : string, indexW : number, indexH : number){
         this.map = m;
 
+        this.indexW = indexW;
+        this.indexH = indexH;
         this.image = new Sprite();
         this.image.loadImage(path);
         this.image.zOrder = 0;
         this.map.AddObject(this.image);
-        this.image.pos(m.GetPosW(0), m.GetPosH(0));
+        this.image.pos(m.GetPosW(indexW), m.GetPosH(indexH));
 
         Laya.timer.frameLoop(1, this, this.Update);
     }

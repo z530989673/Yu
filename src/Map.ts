@@ -16,6 +16,7 @@ class Map{
     public height : number;
     public totalHeightInPxl : number;
     public nodeStatus : NodeStatus[][];
+    private currentStatus : NodeStatus[][] = new Array();
     public nodeSprite : Sprite[][] = new Array();
 
     public static leftOffset : number = 28;
@@ -74,10 +75,12 @@ class Map{
         
         for(var i = 0; i < this.nodeStatus.length; i++)
         {
+            this.currentStatus.push([]);
             this.nodeSprite.push([]);
             for(var j = 0; j < this.nodeStatus[i].length; j++)
             {
                 var value : number = this.nodeStatus[i][j];
+                this.currentStatus[i].push(value);
                 var sp : Sprite = new Sprite();
                 if (value == 0)
                     sp.loadImage("../laya/assets/placeHolder/White.png");
@@ -86,6 +89,7 @@ class Map{
                 var offsetW : number = this.GetPosW(j);
                 var offsetH : number = this.GetPosH(i);
                 sp.pos(offsetW, offsetH);
+                sp.zOrder = -10000;
                 this.objectContainer.addChild(sp);
                 this.nodeSprite[i].push(sp);
             }
@@ -93,9 +97,10 @@ class Map{
                 
         Layer.AddObjects(this.objectContainer);
 
-        this.AddGameObject("../laya/assets/placeHolder/Brown.png",1,0);
+        this.AddGameObject("../laya/assets/comp/image.png",4,3,1,2);
+        this.AddGameObject("../laya/assets/placeHolder/Brown.png",3,6,1,1);
 
-        this.player = new Player(this,"../laya/assets/placeHolder/Red.png");
+        this.player = new Player(this,"../laya/assets/placeHolder/Red.png",3,0);
 
         Laya.stage.on(Laya.Event.MOUSE_DOWN,this,this.MouseDown);
 
@@ -110,10 +115,38 @@ class Map{
         Laya.timer.frameLoop(1, this, this.Update);
     }
  
-    public AddGameObject(path : string, posW : number, posH : number) : void
+    public AddGameObject(path : string, posW : number, posH : number, sizeW : number, sizeH : number) : void
     {
+        for(var i = 0; i < sizeW; i++)
+        {
+            for(var j = 0; j < sizeH; j++)
+            {
+                var indexW : number = posW - i;
+                var indexH : number = posH - j;
+                console.log(indexW, indexH);
+                if (indexW < this.width && indexH < this.height)
+                {
+                    this.SetStatus(indexH,indexW,NodeStatus.Block);
+                }
+            }
+        }
         var obj : GameObject = new GameObject(this,path,posW,posH);
         this.objects.push(obj);
+    }
+
+    public GetStatus(h : number, w : number) : NodeStatus
+    {
+        return this.currentStatus[h][w];
+    }
+
+    public SetStatus(h : number, w : number, s : NodeStatus) : void
+    {
+        this.currentStatus[h][w] = s;
+    }
+
+    public ReSetStatus(h : number, w : number) : void
+    {
+        this.currentStatus[h][w] = this.nodeStatus[h][w];
     }
 
     private MouseDown(e : Event) : void
@@ -130,7 +163,6 @@ class Map{
 
     private Update(e: Event): void {
         var pos : number = this.objectContainer.y + this.player.GetUpperBound();
-        console.log(pos);
         if (pos / Laya.stage.height < 0.3)
         {
             if (this.objectContainer.y + Laya.stage.height < this.totalHeightInPxl)
@@ -151,7 +183,7 @@ class Map{
 
     public IsWalkable(h : number, w : number) : boolean
     {
-        if (this.nodeStatus[h][w] == NodeStatus.Empty)
+        if (this.GetStatus(h,w) == NodeStatus.Empty)
             return true;
         else return false;
     }
