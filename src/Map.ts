@@ -27,10 +27,13 @@ class Map{
 
     //runtime temparary data
     public mapNodes : MapNode[][] = new Array();
+    public objects : GameObject[] = new Array();
 
     constructor(){
         this.map = new Sprite();
         this.map.zOrder = -1;
+        this.objectContainer.pos(0,0);
+        this.objectContainer.zOrder = 0;
 
         //Laya.timer.frameLoop(1, this, this.Update);
     }
@@ -82,7 +85,7 @@ class Map{
                     sp.loadImage("../laya/assets/placeHolder/Black.png");
                 var offsetW : number = this.GetPosW(j);
                 var offsetH : number = this.GetPosH(i);
-                sp.pivot( offsetW, offsetH);
+                sp.pos(offsetW, offsetH);
                 this.objectContainer.addChild(sp);
                 this.nodeSprite[i].push(sp);
             }
@@ -90,7 +93,9 @@ class Map{
                 
         Layer.AddObjects(this.objectContainer);
 
-        this.player = new Player(this,"../laya/assets/placeHolder/red.png");
+        this.AddGameObject("../laya/assets/placeHolder/Brown.png",1,0);
+
+        this.player = new Player(this,"../laya/assets/placeHolder/Red.png");
 
         Laya.stage.on(Laya.Event.MOUSE_DOWN,this,this.MouseDown);
 
@@ -104,6 +109,12 @@ class Map{
         }
         Laya.timer.frameLoop(1, this, this.Update);
     }
+ 
+    public AddGameObject(path : string, posW : number, posH : number) : void
+    {
+        var obj : GameObject = new GameObject(this,path,posW,posH);
+        this.objects.push(obj);
+    }
 
     private MouseDown(e : Event) : void
     {
@@ -113,27 +124,27 @@ class Map{
         if (indexH < 0) indexH = 0;
         if (indexW >= this.width) indexW = this.width - 1;
         if (indexH >= this.height) indexH = this.height - 1;
-        //var status : Status = this.nodeStatus[indexH][indexW];
 
         this.MoveTo(indexH, indexW);
     }
 
     private Update(e: Event): void {
-        var pos : number = - this.objectContainer.pivotY - this.player.GetUpperBound();
+        var pos : number = this.objectContainer.y + this.player.GetUpperBound();
+        console.log(pos);
         if (pos / Laya.stage.height < 0.3)
         {
-            if (- this.objectContainer.pivotY + Laya.stage.height < this.totalHeightInPxl)
+            if (this.objectContainer.y + Laya.stage.height < this.totalHeightInPxl)
             {
-                this.objectContainer.pivot(this.objectContainer.pivotX,
-                    this.objectContainer.pivotY - (Laya.stage.height * 0.3 - pos));
+                this.objectContainer.pos(this.objectContainer.x,
+                    this.objectContainer.y + (Laya.stage.height * 0.3 - pos));
             }
         }
         else if (pos / Laya.stage.height > 0.7)
         {
-            if ( this.objectContainer.pivotY < 0)
+            if ( this.objectContainer.y > 0)
             {
-                this.objectContainer.pivot(this.objectContainer.pivotX,
-                    this.objectContainer.pivotY - (Laya.stage.height * 0.7 - pos));
+                this.objectContainer.pos(this.objectContainer.x,
+                    this.objectContainer.y + (Laya.stage.height * 0.7 - pos));
             }
         }
     }
@@ -152,12 +163,12 @@ class Map{
 
     public GetPosW(indexW : number) : number
     {
-        return - Map.leftOffset - Map.nodeLength * indexW;
+        return Map.leftOffset + Map.nodeLength * indexW;
     }
 
     public GetPosH(indexH : number) : number
     {
-        return - Laya.stage.height + Map.nodeLength * indexH + Map.nodeLength;
+        return Laya.stage.height - Map.nodeLength * indexH - Map.nodeLength;
     }
 
     private static neighbourDirW : number[] = [1,0,-1,0];
