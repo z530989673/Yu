@@ -1,7 +1,8 @@
 /*
 * name;
 */
- enum NodeStatus {
+
+enum NodeStatus {
      Empty = 0,
      Block,
      Mounster,
@@ -22,7 +23,7 @@ class Map{
     public static topOffset : number = 0;
     public static nodeLength : number = 128;
 
-    public player : Player;
+    public player : Player = null;
 
     //runtime temparary data
     public mapNodes : MapNode[][] = new Array();
@@ -31,7 +32,7 @@ class Map{
         this.map = new Sprite();
         this.map.zOrder = -1;
 
-        Laya.timer.frameLoop(1, this, this.Update);
+        //Laya.timer.frameLoop(1, this, this.Update);
     }
 
     public LoadLevel1() : void
@@ -89,7 +90,7 @@ class Map{
                 
         Layer.AddObjects(this.objectContainer);
 
-        this.player = new Player(this);
+        this.player = new Player(this,"../laya/assets/placeHolder/red.png");
 
         Laya.stage.on(Laya.Event.MOUSE_DOWN,this,this.MouseDown);
 
@@ -101,8 +102,7 @@ class Map{
                 this.mapNodes[i].push(new MapNode(i,j));
             }
         }
-        //Laya.timer.frameLoop(1, this, this.Update);
-        //this.background.pivot(0,500);
+        Laya.timer.frameLoop(1, this, this.Update);
     }
 
     private MouseDown(e : Event) : void
