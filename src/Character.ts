@@ -1,26 +1,24 @@
 /*
 * name;
 */
-enum PlayerStatus
-{
-    Idle = 0,
-    Move,
-    Wait,
-}
-
-class Player{
-    protected map : GameMap;
+class Character{
+    protected map :GameMap;
     protected image : Sprite;
     public indexW : number = 0;
     public indexH : number = 0;
     public moveSpeed : number = 500;
+    public waitTime : number = 0.4;
     public status : PlayerStatus = PlayerStatus.Idle;
     public dirW : number = 0;
     public dirH : number = 0;
     
-    public wayPoints : MapNode[] = [];
+    public wayPoints : MapNode[];
+    public nextWayPoints : MapNode[];
 
-    constructor(m : GameMap, path : string, indexW : number, indexH : number){
+    public wayPoints1 : MapNode[] = [];
+    public wayPoints2 : MapNode[] = [];
+
+    constructor(m : GameMap, path : string, indexW : number, indexH : number, checkPoints : MapNode[]){
         this.map = m;
 
         this.indexW = indexW;
@@ -31,13 +29,20 @@ class Player{
         this.map.AddObject(this.image);
         this.image.pos(m.GetPosW(indexW), m.GetPosH(indexH));
 
+        this.wayPoints = this.wayPoints1;
+        this.nextWayPoints = this.wayPoints2;
+        this.wayPoints = checkPoints;
+
         Laya.timer.frameLoop(1, this, this.Update);
     }
 
     public Update() : void
     {
         if (this.status == PlayerStatus.Idle)
-            return;
+        {
+            if (this.nextWayPoints.length != 0)
+                this.Move();
+        }
         else if (this.status == PlayerStatus.Move)
         {
             var currentPosW : number = this.image.x;
@@ -70,6 +75,7 @@ class Player{
         else
         {
             var n : MapNode = this.wayPoints.pop();
+            this.nextWayPoints.push(n);
             if (this.map.IsWalkable(n.indexH,n.indexW))
             {
                 this.dirH = n.indexH - this.indexH;
@@ -83,10 +89,13 @@ class Player{
         }
     }
 
-    public Move(checkPoints : MapNode[]) : void
+    public Move() : void
     {
-        this.wayPoints = checkPoints;
-        var checkPoint : MapNode = checkPoints.pop();
+        var tmp = this.wayPoints;
+        this.wayPoints = this.nextWayPoints;
+        this.nextWayPoints = tmp;
+        var checkPoint : MapNode = this.wayPoints.pop();
+        this.nextWayPoints.push(checkPoint);
         if (this.status != PlayerStatus.Move)
         {
             this.dirW = checkPoint.indexW - this.indexW;
@@ -95,15 +104,5 @@ class Player{
             this.indexW = checkPoint.indexW;
             this.status = PlayerStatus.Move;
         }
-    }
-
-    public GetUpperBound() : number
-    {
-        return this.image.y;
-    }
-
-    public GetLowerBound() : number
-    {
-        return this.image.y + Map.nodeLength;
     }
 }

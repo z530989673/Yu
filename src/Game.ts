@@ -8,7 +8,7 @@ import WebGL = Laya.WebGL;
 
 class GameMain{
 
-    public map : Map;
+    public map : GameMap;
 
     constructor()
     {
@@ -22,7 +22,7 @@ class GameMain{
         Laya.stage.scaleMode = "showall";
         Laya.stage.bgColor = "#232628";
         
-        this.map = new Map();
+        this.map = new GameMap();
 
         this.map.LoadLevel1();
 

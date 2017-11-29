@@ -1,6 +1,7 @@
 /*
 * name;
 */
+///<reference path="./Character.ts" />
 
 enum NodeStatus {
      Empty = 0,
@@ -9,7 +10,7 @@ enum NodeStatus {
      Switch,
 }
 
-class Map{
+class GameMap{
     private map: Sprite;
     private objectContainer : Sprite = new Sprite();
     public width : number;
@@ -29,6 +30,7 @@ class Map{
     //runtime temparary data
     public mapNodes : MapNode[][] = new Array();
     public objects : GameObject[] = new Array();
+    public characters : Character[] = new Array();
 
     constructor(){
         this.map = new Sprite();
@@ -71,7 +73,7 @@ class Map{
                             
         this.width = this.nodeStatus[0].length;
         this.height = this.nodeStatus.length;
-        this.totalHeightInPxl = this.height * Map.nodeLength;
+        this.totalHeightInPxl = this.height * GameMap.nodeLength;
         
         for(var i = 0; i < this.nodeStatus.length; i++)
         {
@@ -112,17 +114,27 @@ class Map{
                 this.mapNodes[i].push(new MapNode(i,j));
             }
         }
+
+        var nodes : MapNode[] = [this.mapNodes[0][1],this.mapNodes[0][5]];
+        this.AddCharacter("../laya/assets/placeHolder/Green.png",1,0,nodes);
+
         Laya.timer.frameLoop(1, this, this.Update);
     }
  
-    public AddGameObject(path : string, posW : number, posH : number, sizeW : number, sizeH : number) : void
+    public AddCharacter(path : string, indexW :number, indexH : number, checkPoints : MapNode[]) : void
+    {
+        var character : Character = new Character(this, path, indexW, indexH, checkPoints);
+        this.characters.push(character);
+    }
+
+    public AddGameObject(path : string, indexW : number, indexH : number, sizeW : number, sizeH : number) : void
     {
         for(var i = 0; i < sizeW; i++)
         {
             for(var j = 0; j < sizeH; j++)
             {
-                var indexW : number = posW - i;
-                var indexH : number = posH - j;
+                var indexW : number = indexW - i;
+                var indexH : number = indexH + j;
                 console.log(indexW, indexH);
                 if (indexW < this.width && indexH < this.height)
                 {
@@ -130,7 +142,7 @@ class Map{
                 }
             }
         }
-        var obj : GameObject = new GameObject(this,path,posW,posH);
+        var obj : GameObject = new GameObject(this,path,indexW,indexH, sizeW, sizeH);
         this.objects.push(obj);
     }
 
@@ -151,8 +163,8 @@ class Map{
 
     private MouseDown(e : Event) : void
     {
-        var indexW : number = Math.floor((this.objectContainer.mouseX - Map.leftOffset) / Map.nodeLength);
-        var indexH : number = Math.floor((Laya.stage.height - this.objectContainer.mouseY) / Map.nodeLength);
+        var indexW : number = Math.floor((this.objectContainer.mouseX - GameMap.leftOffset) / GameMap.nodeLength);
+        var indexH : number = Math.floor((Laya.stage.height - this.objectContainer.mouseY) / GameMap.nodeLength);
         if (indexW < 0) indexW = 0;
         if (indexH < 0) indexH = 0;
         if (indexW >= this.width) indexW = this.width - 1;
@@ -195,12 +207,12 @@ class Map{
 
     public GetPosW(indexW : number) : number
     {
-        return Map.leftOffset + Map.nodeLength * indexW;
+        return GameMap.leftOffset + GameMap.nodeLength * indexW;
     }
 
     public GetPosH(indexH : number) : number
     {
-        return Laya.stage.height - Map.nodeLength * indexH - Map.nodeLength;
+        return Laya.stage.height - GameMap.nodeLength * indexH - GameMap.nodeLength;
     }
 
     private static neighbourDirW : number[] = [1,0,-1,0];
@@ -231,8 +243,8 @@ class Map{
             }
             for(var i = 0; i < 4; i++)
             {
-                var indexW : number = node.indexW + Map.neighbourDirW[i];
-                var indexH : number = node.indexH + Map.neighbourDirH[i];
+                var indexW : number = node.indexW + GameMap.neighbourDirW[i];
+                var indexH : number = node.indexH + GameMap.neighbourDirH[i];
                 if (indexW >= 0 && indexW < this.width && indexH >= 0 && indexH < this.height && this.IsWalkable(indexH,indexW))
                 {
                     var neighbour : MapNode = this.mapNodes[indexH][indexW];
