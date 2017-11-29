@@ -8,6 +8,7 @@ enum NodeStatus {
      Block,
      Mounster,
      Switch,
+     // Flag
 }
 
 class GameMap{
@@ -47,29 +48,29 @@ class GameMap{
         Layer.AddMap(this.map);
         this.nodeStatus = [ [0,0,0,0,0,0,0,0],
                             [1,0,0,0,0,0,0,1],
-                            [1,1,0,0,0,0,1,1],
-                            [1,1,0,0,0,0,1,1],
-                            [1,1,0,0,0,0,1,1],//4
-                            [1,1,1,0,0,1,1,1],
-                            [1,1,1,0,0,1,1,1],
-                            [1,1,1,0,0,1,1,1],
                             [1,0,0,0,0,0,0,1],
-                            [1,0,1,0,0,1,0,1],//9
-                            [1,0,0,0,0,1,1,1],
-                            [1,1,0,0,0,1,1,1],
                             [1,0,0,0,0,0,0,1],
+                            [1,0,0,0,0,0,0,1],//4
+                            [1,0,0,0,0,0,0,1],
+                            [1,0,0,0,0,0,0,1],
+                            [1,0,0,0,0,0,0,1],
+                            [1,0,0,0,0,0,0,1],
+                            [1,0,0,0,0,0,0,1],//9
+                            [1,0,0,0,0,0,0,1],
+                            [1,0,0,0,0,0,0,1],
+                            [1,0,0,0,7,0,0,1],
                             [0,0,0,0,0,0,0,0],
-                            [1,1,0,0,0,0,1,1],//14
-                            [1,1,1,0,0,1,1,1],
-                            [1,1,1,0,0,1,1,1],
-                            [1,1,1,0,0,1,1,1],
+                            [1,0,0,0,0,0,0,1],//14
                             [1,0,0,0,0,0,0,1],
-                            [1,0,1,0,0,1,0,1],//19
-                            [1,0,1,0,0,1,0,1],
-                            [1,0,0,0,0,1,1,1],
-                            [1,1,0,0,0,1,1,1],
                             [1,0,0,0,0,0,0,1],
-                            [0,0,0,0,0,0,0,0],];//24
+                            [1,0,0,0,0,0,0,1],
+                            [1,0,0,0,0,0,0,1],
+                            [1,0,0,0,0,0,0,1],//19
+                            [1,0,0,0,0,0,0,1],
+                            [1,0,0,0,0,0,0,1],
+                            [1,0,0,0,0,0,0,1],
+                            [1,0,0,0,0,0,0,1],
+                            [1,0,0,0,0,0,0,0],];//24
                             
         this.width = this.nodeStatus[0].length;
         this.height = this.nodeStatus.length;
@@ -81,13 +82,15 @@ class GameMap{
             this.nodeSprite.push([]);
             for(var j = 0; j < this.nodeStatus[i].length; j++)
             {
-                var value : number = this.nodeStatus[i][j];
+                var value : number = this.nodeStatus[this.nodeStatus.length - 1 - i][j];
                 this.currentStatus[i].push(value);
                 var sp : Sprite = new Sprite();
                 if (value == 0)
                     sp.loadImage("../laya/assets/placeHolder/White.png");
                 else if (value == 1)
                     sp.loadImage("../laya/assets/placeHolder/Black.png");
+                else if (value == 7)
+                    sp.loadImage("../laya/assets/placeHolder/Flag.png");
                 var offsetW : number = this.GetPosW(j);
                 var offsetH : number = this.GetPosH(i);
                 sp.pos(offsetW, offsetH);

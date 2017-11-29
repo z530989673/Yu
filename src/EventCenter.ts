@@ -1,0 +1,47 @@
+
+class GameEvent
+{
+  public eventName:string;
+  public eventArgs:any;
+  constructor(eventName:string, eventArgs:any)
+  {
+    this.eventName = eventName;
+    this.eventArgs = eventArgs;
+  }
+}
+
+class EventCenter {
+  private static _eventHandlers = {};
+
+  // maintain a list of listeners
+  public static addEventListener(theEvent:GameEvent, theHandler:any) : void {
+    this._eventHandlers[theEvent.eventName] = this._eventHandlers[theEvent.eventName] || [];
+    this._eventHandlers[theEvent.eventName].push(theHandler);
+  }
+
+  // remove a listener
+  public static removeEventListener(theEvent:GameEvent, theHandler:any) {
+    this._eventHandlers[theEvent.eventName].filter(obj => obj !== theHandler);
+  }
+
+  // remove all listeners
+  public static removeAllListeners(theEvent:GameEvent) {
+    this._eventHandlers = {};
+  }
+
+  // dispatch event to all listeners
+  public static dispatchAll(theEvent:GameEvent) {
+    var theHandlers = this._eventHandlers[theEvent.eventName];
+    if(theHandlers) {
+      for(var i = 0; i < theHandlers.length; i += 1) {
+        this.dispatchEvent(theEvent, theHandlers[i]);
+      }
+    }
+  }
+
+  // send event to a handler
+  public static dispatchEvent(theEvent:GameEvent, theHandler:any) {
+    theHandler(theEvent);
+  }
+}
+	

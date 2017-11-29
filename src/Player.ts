@@ -104,6 +104,6 @@ class Player{
 
     public GetLowerBound() : number
     {
-        return this.image.y + Map.nodeLength;
+        return this.image.y + GameMap.nodeLength;
     }
 }
