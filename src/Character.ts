@@ -11,6 +11,8 @@ class Character{
     public status : PlayerStatus = PlayerStatus.Idle;
     public dirW : number = 0;
     public dirH : number = 0;
+    public dirLength : number = 0;
+    public  blockable : boolean = false;
     
     public wayPoints : MapNode[];
     public nextWayPoints : MapNode[];
@@ -18,20 +20,22 @@ class Character{
     public wayPoints1 : MapNode[] = [];
     public wayPoints2 : MapNode[] = [];
 
-    constructor(m : GameMap, path : string, indexW : number, indexH : number, checkPoints : MapNode[]){
+    constructor(m : GameMap, path : string, indexH : number, indexW : number, blockable : boolean, checkPoints : MapNode[]){
         this.map = m;
 
         this.indexW = indexW;
         this.indexH = indexH;
+        this.map.SetStatus(this.indexH,this.indexW,NodeStatus.Block);
         this.image = new Sprite();
         this.image.loadImage(path);
         this.image.zOrder = indexH;
         this.map.AddObject(this.image);
         this.image.pos(m.GetPosW(indexW), m.GetPosH(indexH));
+        this.blockable = blockable;
 
         this.wayPoints = this.wayPoints1;
         this.nextWayPoints = this.wayPoints2;
-        this.nextWayPoints = checkPoints;
+        this.nextWayPoints = checkPoints.reverse();
 
         Laya.timer.frameLoop(1, this, this.Update);
     }
@@ -51,8 +55,11 @@ class Character{
             var destPosH : number = this.map.GetPosH(this.indexH);
             var valueW : number = destPosW - currentPosW;
             var valueH : number = destPosH - currentPosH;
-            currentPosW += Laya.timer.delta / 1000 * this.moveSpeed * this.dirW;
-            currentPosH -= Laya.timer.delta / 1000 * this.moveSpeed * this.dirH;
+            if (this.dirLength != 0)
+            {
+                currentPosW += Laya.timer.delta / 1000 * this.moveSpeed * this.dirW / this.dirLength;
+                currentPosH -= Laya.timer.delta / 1000 * this.moveSpeed * this.dirH / this.dirLength;
+            }
             if (valueW * (destPosW - currentPosW) <= 0 && 
                 valueH * (destPosH - currentPosH) <= 0)
                 {
@@ -62,16 +69,15 @@ class Character{
                 }
             this.image.pos(currentPosW, currentPosH);
         }
-        else if (this.status == PlayerStatus.Wait)
-            this.CheckNextWayPoint();
     }
 
     public CheckNextWayPoint() : void
     {
+        if (this.dirLength != 0)
+            this.map.ReSetStatus(this.indexH - this.dirH,this.indexW - this.dirW);
+        
         if (this.wayPoints.length == 0)
-        {
             this.status = PlayerStatus.Idle;
-        }
         else
         {
             var n : MapNode = this.wayPoints.pop();
@@ -80,12 +86,14 @@ class Character{
             {
                 this.dirH = n.indexH - this.indexH;
                 this.dirW = n.indexW - this.indexW;
+                this.dirLength = Math.sqrt(this.dirH * this.dirH + this.dirW * this.dirW);
                 this.indexH = n.indexH;
                 this.indexW = n.indexW;
+                this.map.SetStatus(this.indexH,this.indexW,NodeStatus.Block);
                 this.image.zOrder = this.indexH;
             }
             else
-                this.status = PlayerStatus.Wait;
+                this.status = PlayerStatus.Idle;
         }
     }
 
@@ -103,6 +111,7 @@ class Character{
             this.indexH = checkPoint.indexH;
             this.indexW = checkPoint.indexW;
             this.status = PlayerStatus.Move;
+            this.map.SetStatus(this.indexH,this.indexW,NodeStatus.Block);
         }
     }
 }

@@ -10,14 +10,16 @@ class GameObject
     public indexH : number = 0;
     public sizeW : number = 1;
     public sizeH : number = 1;
+    public blockable : boolean = false;
 
-    constructor(m : GameMap, path : string, indexW : number, indexH : number,
-                sW : number, sH : number){
+    constructor(m : GameMap, path : string, indexH : number, indexW : number,
+                sH : number, sW : number, blockable : boolean){
         this.map = m;
         this.indexW = indexW;
         this.indexH = indexH;
         this.sizeH = sH;
         this.sizeW = sW;
+        this.blockable = blockable;
 
         this.image = new Sprite();
         this.image.loadImage(path);
