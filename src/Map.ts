@@ -105,7 +105,7 @@ class GameMap{
 
         this.player = new Player(this,"../laya/assets/placeHolder/Red.png",0,3);
 
-        Laya.stage.on(Laya.Event.MOUSE_DOWN,this,this.MouseDown);
+        this.map.on(Laya.Event.MOUSE_DOWN,this,this.MouseDown);
 
         for(var i = 0; i < this.nodeStatus.length; i++)
         {
@@ -174,6 +174,18 @@ class GameMap{
         if (indexH >= this.height) indexH = this.height - 1;
 
         this.MoveTo(indexH, indexW);
+    }
+
+    public StopUpdate() : void
+    {
+        for(var i =0; i < this.characters.length; i++)
+            this.characters[i].SetActive(false);
+    }
+
+    public RestoreUpdate() : void
+    {
+        for(var i =0; i < this.characters.length; i++)
+            this.characters[i].SetActive(true);
     }
 
     private Update(e: Event): void {

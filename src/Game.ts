@@ -1,5 +1,6 @@
 // 程序入口
 import Sprite = Laya.Sprite;
+import Button = Laya.Button;
 import Stage = Laya.Stage;
 import Texture = Laya.Texture;
 import Browser = Laya.Browser;
@@ -9,6 +10,7 @@ import WebGL = Laya.WebGL;
 class GameMain{
 
     public map : GameMap;
+    public uiMgr : UIManager;
 
     constructor()
     {
@@ -22,8 +24,9 @@ class GameMain{
         Laya.stage.scaleMode = "showall";
         Laya.stage.bgColor = "#232628";
         
+        this.uiMgr = new UIManager(this);
+        
         this.map = new GameMap();
-
         this.map.LoadLevel1();
 
         Laya.Stat.show(0,0);
