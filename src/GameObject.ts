@@ -11,8 +11,8 @@ class GameObject
     public sizeW : number = 1;
     public sizeH : number = 1;
 
-    constructor(m : GameMap, path : string, indexW : number, indexH : number,
-                sW : number, sH : number){
+    constructor(m : GameMap, path : string, indexH : number, indexW : number,
+                sH : number, sW : number){
         this.map = m;
         this.indexW = indexW;
         this.indexH = indexH;

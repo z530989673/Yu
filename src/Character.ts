@@ -18,7 +18,7 @@ class Character{
     public wayPoints1 : MapNode[] = [];
     public wayPoints2 : MapNode[] = [];
 
-    constructor(m : GameMap, path : string, indexW : number, indexH : number, checkPoints : MapNode[]){
+    constructor(m : GameMap, path : string, indexH : number, indexW : number, checkPoints : MapNode[]){
         this.map = m;
 
         this.indexW = indexW;

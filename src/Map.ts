@@ -99,10 +99,10 @@ class GameMap{
                 
         Layer.AddObjects(this.objectContainer);
 
-        this.AddGameObject("../laya/assets/comp/image.png",4,3,1,2);
-        this.AddGameObject("../laya/assets/placeHolder/Brown.png",3,6,1,1);
+        this.AddGameObject("../laya/assets/comp/image.png",3,4,2,1);
+        this.AddGameObject("../laya/assets/placeHolder/Brown.png",6,3,1,1);
 
-        this.player = new Player(this,"../laya/assets/placeHolder/Red.png",3,0);
+        this.player = new Player(this,"../laya/assets/placeHolder/Red.png",0,3);
 
         Laya.stage.on(Laya.Event.MOUSE_DOWN,this,this.MouseDown);
 
@@ -121,13 +121,13 @@ class GameMap{
         Laya.timer.frameLoop(1, this, this.Update);
     }
  
-    public AddCharacter(path : string, indexW :number, indexH : number, checkPoints : MapNode[]) : void
+    public AddCharacter(path : string, indexH : number, indexW :number, checkPoints : MapNode[]) : void
     {
-        var character : Character = new Character(this, path, indexW, indexH, checkPoints);
+        var character : Character = new Character(this, path, indexH, indexW, checkPoints);
         this.characters.push(character);
     }
 
-    public AddGameObject(path : string, indexW : number, indexH : number, sizeW : number, sizeH : number) : void
+    public AddGameObject(path : string, indexH : number, indexW : number, sizeH : number, sizeW : number) : void
     {
         for(var i = 0; i < sizeW; i++)
         {
@@ -135,14 +135,13 @@ class GameMap{
             {
                 var indexW : number = indexW - i;
                 var indexH : number = indexH + j;
-                console.log(indexW, indexH);
                 if (indexW < this.width && indexH < this.height)
                 {
                     this.SetStatus(indexH,indexW,NodeStatus.Block);
                 }
             }
         }
-        var obj : GameObject = new GameObject(this,path,indexW,indexH, sizeW, sizeH);
+        var obj : GameObject = new GameObject(this,path, indexH,indexW, sizeH, sizeW);
         this.objects.push(obj);
     }
 
@@ -215,6 +214,11 @@ class GameMap{
         return Laya.stage.height - GameMap.nodeLength * indexH - GameMap.nodeLength;
     }
 
+    public MapDistance(h1 : number, w1 : number, h2 : number, w2 : number) : number
+    {
+        return Math.abs(h1 - h2) + Math.abs(w1 - w2);
+    }
+
     private static neighbourDirW : number[] = [1,0,-1,0];
     private static neighbourDirH : number[] = [0,1,0,-1];
     public MoveTo(h : number, w : number) : void
@@ -233,14 +237,26 @@ class GameMap{
         playerNode.iterLength = 0;
         heap.Add(playerNode);
         var found : boolean = false;
+        var times : number = 0;
+        var isReachable  : boolean = this.GetStatus(h,w) == NodeStatus.Empty;
         while(heap.GetSize() > 0)
         {
+            times ++;
             var node : MapNode = heap.Pop();
+            if (!isReachable && this.MapDistance(h,w,node.indexH,node.indexW) <= 1)
+            {   
+                w = node.indexW;
+                h = node.indexH;             
+                found = true;
+                break;
+            }
             if (node.indexW == w && node.indexH == h)
             {
                 found = true;
                 break;
             }
+            if (times > 400)
+                break;
             for(var i = 0; i < 4; i++)
             {
                 var indexW : number = node.indexW + GameMap.neighbourDirW[i];

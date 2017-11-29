@@ -20,7 +20,7 @@ class Player{
     
     public wayPoints : MapNode[] = [];
 
-    constructor(m : GameMap, path : string, indexW : number, indexH : number){
+    constructor(m : GameMap, path : string, indexH : number, indexW : number){
         this.map = m;
 
         this.indexW = indexW;
