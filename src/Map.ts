@@ -99,8 +99,9 @@ class GameMap{
                 
         Layer.AddObjects(this.objectContainer);
 
-        this.AddGameObject("../laya/assets/comp/image.png",3,4,2,1);
-        this.AddGameObject("../laya/assets/placeHolder/Brown.png",6,3,1,1);
+        this.AddGameObject("../laya/assets/comp/image.png",3,4,2,1,true);
+        this.AddGameObject("../laya/assets/placeHolder/Brown.png",6,3,1,1,true);
+        this.AddGameObject("../laya/assets/placeHolder/Brown.png",9,3,1,1,false);
 
         this.player = new Player(this,"../laya/assets/placeHolder/Red.png",0,3);
 
@@ -115,33 +116,36 @@ class GameMap{
             }
         }
 
-        var nodes : MapNode[] = [this.mapNodes[1][1],this.mapNodes[1][5]];
-        this.AddCharacter("../laya/assets/placeHolder/Green.png",1,1,nodes);
+        var nodes : MapNode[] = [this.mapNodes[8][3],this.mapNodes[8][4],this.mapNodes[8][5],this.mapNodes[8][6],this.mapNodes[9][6]];
+        this.AddCharacter("../laya/assets/placeHolder/Green.png",8,3,true,nodes);
 
         Laya.timer.frameLoop(1, this, this.Update);
     }
  
-    public AddCharacter(path : string, indexH : number, indexW :number, checkPoints : MapNode[]) : void
+    public AddCharacter(path : string, indexH : number, indexW :number, blockable : boolean, checkPoints : MapNode[]) : void
     {
-        var character : Character = new Character(this, path, indexH, indexW, checkPoints);
+        var character : Character = new Character(this, path, indexH, indexW, blockable, checkPoints);
         this.characters.push(character);
     }
 
-    public AddGameObject(path : string, indexH : number, indexW : number, sizeH : number, sizeW : number) : void
+    public AddGameObject(path : string, indexH : number, indexW : number, sizeH : number, sizeW : number, blockable : boolean) : void
     {
-        for(var i = 0; i < sizeW; i++)
+        if (blockable)
         {
-            for(var j = 0; j < sizeH; j++)
+            for(var i = 0; i < sizeW; i++)
             {
-                var indexW : number = indexW - i;
-                var indexH : number = indexH + j;
-                if (indexW < this.width && indexH < this.height)
+                for(var j = 0; j < sizeH; j++)
                 {
-                    this.SetStatus(indexH,indexW,NodeStatus.Block);
+                    var indexW : number = indexW - i;
+                    var indexH : number = indexH + j;
+                    if (indexW < this.width && indexH < this.height)
+                    {
+                        this.SetStatus(indexH,indexW,NodeStatus.Block);
+                    }
                 }
             }
         }
-        var obj : GameObject = new GameObject(this,path, indexH,indexW, sizeH, sizeW);
+        var obj : GameObject = new GameObject(this,path, indexH,indexW, sizeH, sizeW, blockable);
         this.objects.push(obj);
     }
 

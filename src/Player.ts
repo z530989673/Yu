@@ -5,7 +5,6 @@ enum PlayerStatus
 {
     Idle = 0,
     Move,
-    Wait,
 }
 
 class Player{
@@ -57,8 +56,6 @@ class Player{
                 }
             this.image.pos(currentPosW, currentPosH);
         }
-        else if (this.status == PlayerStatus.Wait)
-            this.CheckNextWayPoint();
     }
 
     public CheckNextWayPoint() : void
@@ -79,7 +76,7 @@ class Player{
                 this.image.zOrder = this.indexH;
             }
             else
-                this.status = PlayerStatus.Wait;
+                this.status = PlayerStatus.Idle;
         }
     }
 
@@ -104,6 +101,6 @@ class Player{
 
     public GetLowerBound() : number
     {
-        return this.image.y + Map.nodeLength;
+        return this.image.y + GameMap.nodeLength;
     }
 }
