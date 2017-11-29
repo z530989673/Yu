@@ -115,8 +115,8 @@ class GameMap{
             }
         }
 
-        var nodes : MapNode[] = [this.mapNodes[0][1],this.mapNodes[0][5]];
-        this.AddCharacter("../laya/assets/placeHolder/Green.png",1,0,nodes);
+        var nodes : MapNode[] = [this.mapNodes[1][1],this.mapNodes[1][5]];
+        this.AddCharacter("../laya/assets/placeHolder/Green.png",1,1,nodes);
 
         Laya.timer.frameLoop(1, this, this.Update);
     }

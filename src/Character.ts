@@ -6,7 +6,7 @@ class Character{
     protected image : Sprite;
     public indexW : number = 0;
     public indexH : number = 0;
-    public moveSpeed : number = 500;
+    public moveSpeed : number = 300;
     public waitTime : number = 0.4;
     public status : PlayerStatus = PlayerStatus.Idle;
     public dirW : number = 0;
@@ -31,7 +31,7 @@ class Character{
 
         this.wayPoints = this.wayPoints1;
         this.nextWayPoints = this.wayPoints2;
-        this.wayPoints = checkPoints;
+        this.nextWayPoints = checkPoints;
 
         Laya.timer.frameLoop(1, this, this.Update);
     }
