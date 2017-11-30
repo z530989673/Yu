@@ -10,7 +10,7 @@ class GameMain{
 
     public map : GameMap;
     public gm : GameManager;
-    constructor()
+    constructor() 
     {
         Laya.init(1080, 1920, WebGL);
 
@@ -21,11 +21,11 @@ class GameMain{
 
         Laya.stage.scaleMode = "showall";
         Laya.stage.bgColor = "#232628";
-        this.gm = new GameManager();
-        EventCenter.dispatchAll("touchWater");
+        // EventCenter.dispatchAll("touchWater");
             
         this.map = new GameMap();
 
+        this.gm = new GameManager(this.map);
         this.map.LoadLevel1();
 
 
