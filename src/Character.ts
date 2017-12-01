@@ -6,7 +6,7 @@ class Character{
     protected image : Sprite;
     public indexW : number = 0;
     public indexH : number = 0;
-    public moveSpeed : number = 300;
+    public moveSpeed : number = 1000;
     public waitTime : number = 0.4;
     public status : PlayerStatus = PlayerStatus.Idle;
     public dirW : number = 0;

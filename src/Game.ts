@@ -6,12 +6,16 @@ import Texture = Laya.Texture;
 import Browser = Laya.Browser;
 import Handler = Laya.Handler;
 import WebGL = Laya.WebGL;
+import myShaderSprite = myModule.myShaderSprite;
+import Loader = Laya.Loader;
+import HTMLCanvas = Laya.HTMLCanvas;
 
 class GameMain{
 
     public map : GameMap;
     public gm : GameManager;
     public uiMgr : UIManager;
+    public sp : myShaderSprite;
 
     constructor()
     {
@@ -24,13 +28,33 @@ class GameMain{
 
         Laya.stage.scaleMode = "showall";
         Laya.stage.bgColor = "#232628";
-        // EventCenter.dispatchAll("touchWater");
-            
+        
+
         this.map = new GameMap();
         this.uiMgr = new UIManager(this);
         this.gm = new GameManager(this.map);
         this.map.LoadLevel1();
+
+        //this.sp = new myShaderSprite();
+        //var tex : HTMLCanvas = Layer.GetInstance().map.drawToCanvas(Laya.stage.width,Laya.stage.height,0,0);
+        //var texture : Texture = new Texture(tex);
+        //this.sp.init(texture);
+        //Layer.AddForeGroundNear(this.sp);
+
         Laya.Stat.show(0,0);
+
+        //Laya.timer.frameLoop(1, this, this.Update);
+
+        //Laya.loader.load("../laya/assets/comp/image.png", Handler.create(this, this.loadComplete), null, Loader.IMAGE);
+    }
+
+    private loadComplete():void
+    {
+        var texture:Texture = Loader.getRes("../laya/assets/comp/image.png");
+        this.sp = new myShaderSprite();
+        this.sp.pos(100,100);
+        this.sp.init(texture);
+        Layer.AddForeGroundNear(this.sp);
     }
 }
 new GameMain();
