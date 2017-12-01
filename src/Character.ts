@@ -12,7 +12,8 @@ class Character{
     public dirW : number = 0;
     public dirH : number = 0;
     public dirLength : number = 0;
-    public  blockable : boolean = false;
+    public blockable : boolean = false;
+    public isActive = true;
     
     public wayPoints : MapNode[];
     public nextWayPoints : MapNode[];
@@ -40,8 +41,15 @@ class Character{
         Laya.timer.frameLoop(1, this, this.Update);
     }
 
+    public SetActive(active : boolean) : void
+    {
+        this.isActive = active;
+    }
+
     public Update() : void
     {
+        if (!this.isActive)
+            return;
         if (this.status == PlayerStatus.Idle)
         {
             if (this.nextWayPoints.length != 0)

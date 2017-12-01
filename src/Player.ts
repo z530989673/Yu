@@ -13,6 +13,7 @@ class Player{
     public indexW : number = 0;
     public indexH : number = 0;
     public moveSpeed : number = 500;
+    public stopTimeSpeed : number = 2000;
     public status : PlayerStatus = PlayerStatus.Idle;
     public dirW : number = 0;
     public dirH : number = 0;
@@ -68,7 +69,7 @@ class Player{
         {
             var n : MapNode = this.wayPoints.pop();
             var pos = [this.indexW, this.indexH];
-            EventCenter.dispatchAll(new GameEvent("standPos", pos));
+            EventCenter.dispatchAll(new GameEvent("standPos", pos, this));
         
             if (this.map.IsWalkable(n.indexH,n.indexW))
             {

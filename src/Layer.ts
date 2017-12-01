@@ -19,12 +19,16 @@ class Layer{
         this.foregroundNear = new Sprite();
         this.foregroundNear.zOrder = 4;
         this.foregroundNear.pos(0,0);
+        this.ui = new Sprite();
+        this.ui.zOrder = 5;
+        this.ui.pos(0,0);
 
         Laya.stage.addChild(this.background);
         Laya.stage.addChild(this.map);
         Laya.stage.addChild(this.objects);
         Laya.stage.addChild(this.foregroundFar);
         Laya.stage.addChild(this.foregroundNear);
+        Laya.stage.addChild(this.ui);
     }
 
     private static m_instance : Layer;
@@ -42,6 +46,7 @@ class Layer{
     public objects : Sprite;
     public foregroundFar : Sprite;
     public foregroundNear : Sprite;
+    public ui : Sprite;
 
     public static AddBackground( s : Sprite) : void
     {
@@ -66,5 +71,10 @@ class Layer{
     public static AddForeGroundNear( s : Sprite) : void
     {
         Layer.GetInstance().foregroundNear.addChild(s);
+    }
+
+    public static AddUI(s : Sprite) : void
+    {
+        Layer.GetInstance().ui.addChild(s);
     }
 }

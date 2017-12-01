@@ -1,5 +1,6 @@
 // 程序入口
 import Sprite = Laya.Sprite;
+import Button = Laya.Button;
 import Stage = Laya.Stage;
 import Texture = Laya.Texture;
 import Browser = Laya.Browser;
@@ -10,7 +11,9 @@ class GameMain{
 
     public map : GameMap;
     public gm : GameManager;
-    constructor() 
+    public uiMgr : UIManager;
+
+    constructor()
     {
         Laya.init(1080, 1920, WebGL);
 
@@ -24,12 +27,9 @@ class GameMain{
         // EventCenter.dispatchAll("touchWater");
             
         this.map = new GameMap();
-
+        this.uiMgr = new UIManager(this);
         this.gm = new GameManager(this.map);
         this.map.LoadLevel1();
-
-
-
         Laya.Stat.show(0,0);
     }
 }

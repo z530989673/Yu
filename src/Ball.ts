@@ -1,7 +1,8 @@
-class Ball extends Character
+class Ball 
+// extends Character
 {
 	constructor()
 	{
-		super();
+		// super();
 	}
 }

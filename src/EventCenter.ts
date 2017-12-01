@@ -3,10 +3,12 @@ class GameEvent
 {
   public eventName:string;
   public eventArgs:any;
-  constructor(eventName:string, eventArgs:any)
+  public eventInst:any;
+  constructor(eventName:string, eventArgs:any, eventInst:any)
   {
     this.eventName = eventName;
     this.eventArgs = eventArgs;
+    this.eventInst = eventInst;
   }
 }
 
@@ -16,12 +18,12 @@ class EventCenter {
   // maintain a list of listeners
   public static addEventListener(theEvent:GameEvent, theHandler:any) : void {
     this._eventHandlers[theEvent.eventName] = this._eventHandlers[theEvent.eventName] || [];
-    this._eventHandlers[theEvent.eventName].push(theHandler);
+    this._eventHandlers[theEvent.eventName].push([theHandler, theEvent.eventInst]);
   }
 
   // remove a listener
   public static removeEventListener(theEvent:GameEvent, theHandler:any) {
-    this._eventHandlers[theEvent.eventName].filter(obj => obj !== theHandler);
+    this._eventHandlers[theEvent.eventName].filter(obj => obj[0] !== theHandler);
   }
 
   // remove all listeners
@@ -41,7 +43,8 @@ class EventCenter {
 
   // send event to a handler
   public static dispatchEvent(theEvent:GameEvent, theHandler:any) {
-    theHandler(theEvent);
+    theEvent.eventInst = theHandler[1];
+    theHandler[0](theEvent);
   }
 }
 	
