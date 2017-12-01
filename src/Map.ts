@@ -120,8 +120,8 @@ class GameMap{
         }
 
         // this.AddCharacter("../laya/assets/placeHolder/Green.png",8,3,true,nodes);
-        var nodes : MapNode[] = [this.mapNodes[8][3],this.mapNodes[8][4],this.mapNodes[8][5]];
-        this.AddCharacter("../laya/assets/placeHolder/Green.png",8,3,true,nodes);
+        //var nodes : MapNode[] = [this.mapNodes[8][3],this.mapNodes[8][4],this.mapNodes[8][5]];
+        //this.AddCharacter("../laya/assets/placeHolder/Green.png",8,3,true,nodes);
         Laya.timer.frameLoop(1, this, this.Update);
     }
  
