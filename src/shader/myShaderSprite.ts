@@ -24,10 +24,19 @@ module myModule
         /** 着色器变量。      */
         private shaderValue:myShaderValue;
         private tex : Texture;
+        private path : string;
 
-        constructor(){
+        constructor(path : string){
             super();
+            this.path = path;
             Laya.timer.frameLoop(1, this, this.RefreshTexture);
+            Laya.loader.load(path, Handler.create(this, this.LoadComplete), null, Loader.IMAGE);
+        }
+
+        private LoadComplete():void
+        {
+            var texture:Texture = Loader.getRes(this.path);
+            this.init(texture);
         }
 
         public RefreshTexture() : void
@@ -36,8 +45,7 @@ module myModule
             //this._renderType -= RenderSprite.CUSTOM;//设置当前显示对象的渲染模式为自定义渲染模式。 
             if (this.tex != null)
             {
-                this.shaderValue.uv_info = [this.tex.uv[0],this.tex.uv[1],this.tex.uv[4] - this.tex.uv[0],this.tex.uv[5] - this.tex.uv[1]];
-                console.log(this.tex.uv);         
+                this.shaderValue.uv_info = [this.tex.uv[0],this.tex.uv[1],this.tex.uv[4] - this.tex.uv[0],this.tex.uv[5] - this.tex.uv[1]];        
             }
         }
 
