@@ -7,6 +7,7 @@ class GameManager {
 	public energy: number;
 	public map:GameMap
 
+	private static isSingleBlockStart = false;
 	constructor(map : GameMap) {
 		this.score = 0;
 		this.girlHappiness = 0;
@@ -43,12 +44,13 @@ class GameManager {
 		console.log(e.eventArgs);
 		var PosX = e.eventArgs[0];
 		var PosY = e.eventArgs[1];
-		if (PosY == 5)
+		if (PosY == 5 && !e.eventInst.isSingleBlockStart)
 		{
+			e.eventInst.isSingleBlockStart = true;
 			console.log(this);
 			e.eventInst.startSingleBlockLevel(e);
 		}
-		if (PosY == 30)
+		if (PosY == 30 && !e.eventInst.isSingleBlockStart)
 		{
 			this.startMusicStoneLevel();
 		} 
