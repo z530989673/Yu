@@ -1,7 +1,7 @@
 /*
 * name;
 */
-module myModule
+module Yu
 {
     import Sprite = Laya.Sprite;
     import RenderContext = Laya.RenderContext;
@@ -10,10 +10,10 @@ module myModule
     import Buffer = Laya.Buffer;
     import IndexBuffer2D = Laya.IndexBuffer2D;
     import VertexBuffer2D = Laya.VertexBuffer2D;
-    import myShader = shader.myShader;
-    import myShaderValue = shader.myShaderValue;
+    import CustomShader = Yu.CustomShader;
+    import CustoShaderValue = Yu.CustomShaderValue;
 
-    export class myShaderSprite extends Laya.Sprite
+    export class CustomSprite extends Laya.Sprite
     {
         private vBuffer:VertexBuffer2D;
         /** 片元缓冲区。      */
@@ -22,7 +22,7 @@ module myModule
         private ibData:Uint16Array;
         private iNum: number = 0;
         /** 着色器变量。      */
-        private shaderValue:myShaderValue;
+        private shaderValue:CustomShaderValue;
         private tex : Texture;
         private path : string;
 
@@ -36,7 +36,7 @@ module myModule
         private LoadComplete():void
         {
             var texture:Texture = Loader.getRes(this.path);
-            this.init(texture);
+            this.Init(texture);
         }
 
         public RefreshTexture() : void
@@ -55,7 +55,7 @@ module myModule
          * @param vb 顶点数组。
          * @param ib 顶点索引数组。
          */
-        public init(texture:Texture, vb:any = null, ib:any = null) : void
+        public Init(texture:Texture, vb:any = null, ib:any = null) : void
         {
             this.tex = texture;
             this.vBuffer = VertexBuffer2D.create();
@@ -109,7 +109,7 @@ module myModule
             this.vBuffer.append(this.vbData);
             this.iBuffer.append(this.ibData);
 
-            this.shaderValue = new myShaderValue();
+            this.shaderValue = new CustomShaderValue();
             this.shaderValue.textureHost = texture;
             this.shaderValue
             this._renderType |= RenderSprite.CUSTOM;//设置当前显示对象的渲染模式为自定义渲染模式。 
@@ -120,7 +120,7 @@ module myModule
         //重写渲染函数。
         public customRender(context:RenderContext, x:number, y:number):void
         {
-            (context.ctx as WebGLContext2D).setIBVB(x, y, this.iBuffer, this.vBuffer, this.iNum, null, myShader.shader, this.shaderValue, 0, 0);
+            (context.ctx as WebGLContext2D).setIBVB(x, y, this.iBuffer, this.vBuffer, this.iNum, null, CustomShader.shader, this.shaderValue, 0, 0);
         }
 }
 }

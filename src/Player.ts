@@ -9,7 +9,7 @@ enum PlayerStatus
 
 class Player{
     protected map : GameMap;
-    protected image : myShaderSprite;
+    protected image : CustomSprite;
     public indexW : number = 0;
     public indexH : number = 0;
     public moveSpeed : number = 500;
@@ -25,7 +25,7 @@ class Player{
 
         this.indexW = indexW;
         this.indexH = indexH;
-        this.image = new myShaderSprite(path);
+        this.image = new CustomSprite(path);
         this.image.zOrder = indexH;
         this.map.AddObject(this.image);
         this.image.pos(m.GetPosW(indexW), m.GetPosH(indexH));

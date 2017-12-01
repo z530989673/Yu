@@ -1,11 +1,11 @@
 /**
 * name 
 */
-module shader{
+module Yu{
 	import Shader = Laya.Shader;
-	export class myShader extends Shader{
+	export class CustomShader extends Shader{
 
-  		public static shader:myShader = new myShader();
+  		public static shader:CustomShader = new CustomShader();
 		constructor(){  //__INCLUDESTR__ ：包含一个文本文件到程序代码里。识别一个文本，并转换为字符串。
   //通过__INCLUDESTR__ 方法引入顶点着色器程序和片元着色器程序。
   			var vs:string = "\

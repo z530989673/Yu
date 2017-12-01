@@ -1,12 +1,12 @@
 /**
 * name 
 */
-module shader{
+module Yu{
 	import WebGLContext = Laya.WebGLContext;
 	import Value2D = Laya.Value2D;
 	import CONST3D2D = Laya.CONST3D2D;
 
-	export class myShaderValue extends Value2D{
+	export class CustomShaderValue extends Value2D{
 
   		public texcoord : any;
         public uv_info: Array<any>;
