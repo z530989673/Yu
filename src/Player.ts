@@ -67,6 +67,9 @@ class Player{
         else
         {
             var n : MapNode = this.wayPoints.pop();
+            var pos = [this.indexW, this.indexH];
+            EventCenter.dispatchAll(new GameEvent("standPos", pos, this));
+        
             if (this.map.IsWalkable(n.indexH,n.indexW))
             {
                 this.dirH = n.indexH - this.indexH;

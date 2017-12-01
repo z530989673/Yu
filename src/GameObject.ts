@@ -27,5 +27,4 @@ class GameObject
         this.map.AddObject(this.image);
         this.image.pos(m.GetPosW(indexW), m.GetPosH(indexH));
     }
-
 }

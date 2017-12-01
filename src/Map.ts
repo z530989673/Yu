@@ -8,6 +8,7 @@ enum NodeStatus {
      Block,
      Mounster,
      Switch,
+     // Flag
 }
 
 class GameMap{
@@ -45,31 +46,31 @@ class GameMap{
     {
 		this.map.loadImage("../laya/assets/map/level1.png");
         Layer.AddMap(this.map);
-        this.nodeStatus = [ [0,0,0,0,0,0,0,0],
+        this.nodeStatus = [ [1,0,0,0,0,0,0,1],
                             [1,0,0,0,0,0,0,1],
-                            [1,1,0,0,0,0,1,1],
-                            [1,1,0,0,0,0,1,1],
-                            [1,1,0,0,0,0,1,1],//4
-                            [1,1,1,0,0,1,1,1],
-                            [1,1,1,0,0,1,1,1],
-                            [1,1,1,0,0,1,1,1],
                             [1,0,0,0,0,0,0,1],
-                            [1,0,1,0,0,1,0,1],//9
-                            [1,0,0,0,0,1,1,1],
-                            [1,1,0,0,0,1,1,1],
                             [1,0,0,0,0,0,0,1],
-                            [0,0,0,0,0,0,0,0],
-                            [1,1,0,0,0,0,1,1],//14
-                            [1,1,1,0,0,1,1,1],
-                            [1,1,1,0,0,1,1,1],
-                            [1,1,1,0,0,1,1,1],
+                            [1,0,0,0,0,0,0,1],//19
                             [1,0,0,0,0,0,0,1],
-                            [1,0,1,0,0,1,0,1],//19
-                            [1,0,1,0,0,1,0,1],
-                            [1,0,0,0,0,1,1,1],
-                            [1,1,0,0,0,1,1,1],
                             [1,0,0,0,0,0,0,1],
-                            [0,0,0,0,0,0,0,0],];//24
+                            [1,0,0,0,0,0,0,1],
+                            [1,0,0,0,0,0,0,1],
+                            [1,0,0,0,0,0,0,1],//14
+                            [1,0,0,0,0,0,0,1],
+                            [1,0,0,0,0,0,0,1],
+                            [1,0,0,0,0,0,0,1],
+                            [1,0,0,0,0,0,0,1],
+                            [1,1,1,0,1,1,1,1],//9
+                            [1,1,1,0,1,1,1,1],
+                            [1,1,1,0,1,1,1,1],
+                            [1,0,0,0,0,0,0,1],
+                            [1,0,0,0,0,0,0,1],
+                            [1,0,0,0,0,0,0,1],//4
+                            [1,0,0,0,0,0,0,1],
+                            [1,0,0,0,0,0,0,1],
+                            [1,0,0,0,0,0,0,1],
+                            [1,0,0,0,0,0,0,1],
+                            [1,0,0,0,0,0,0,1],];//0
                             
         this.width = this.nodeStatus[0].length;
         this.height = this.nodeStatus.length;
@@ -81,13 +82,15 @@ class GameMap{
             this.nodeSprite.push([]);
             for(var j = 0; j < this.nodeStatus[i].length; j++)
             {
-                var value : number = this.nodeStatus[i][j];
+                var value : number = this.nodeStatus[this.nodeStatus.length - 1 - i][j];
                 this.currentStatus[i].push(value);
                 var sp : Sprite = new Sprite();
                 if (value == 0)
                     sp.loadImage("../laya/assets/placeHolder/White.png");
                 else if (value == 1)
                     sp.loadImage("../laya/assets/placeHolder/Black.png");
+                else if (value == 7)
+                    sp.loadImage("../laya/assets/placeHolder/Flag.png");
                 var offsetW : number = this.GetPosW(j);
                 var offsetH : number = this.GetPosH(i);
                 sp.pos(offsetW, offsetH);
@@ -99,9 +102,9 @@ class GameMap{
                 
         Layer.AddObjects(this.objectContainer);
 
-        this.AddGameObject("../laya/assets/comp/image.png",3,4,2,1,true);
-        this.AddGameObject("../laya/assets/placeHolder/Brown.png",6,3,1,1,true);
-        this.AddGameObject("../laya/assets/placeHolder/Brown.png",9,3,1,1,false);
+        // this.AddGameObject("../laya/assets/comp/image.png",3,4,2,1,true);
+        // this.AddGameObject("../laya/assets/placeHolder/Brown.png",6,3,1,1,true);
+        // this.AddGameObject("../laya/assets/placeHolder/Brown.png",9,3,1,1,false);
 
         this.player = new Player(this,"../laya/assets/placeHolder/Red.png",0,3);
 
@@ -116,18 +119,21 @@ class GameMap{
             }
         }
 
+        // this.AddCharacter("../laya/assets/placeHolder/Green.png",8,3,true,nodes);
         var nodes : MapNode[] = [this.mapNodes[8][3],this.mapNodes[8][4],this.mapNodes[8][5]];
         this.AddCharacter("../laya/assets/placeHolder/Green.png",8,3,true,nodes);
-
         Laya.timer.frameLoop(1, this, this.Update);
     }
  
-    public AddCharacter(path : string, indexH : number, indexW :number, blockable : boolean, checkPoints : MapNode[]) : void
+    // public AddCharacter(path : string, indexH : number, indexW :number, blockable : boolean, checkPoints : MapNode[]) : void
+    // {
+    //     var character : Character = new Character(this, path, indexH, indexW, blockable, checkPoints);
+    //     this.characters.push(character);
+    // }
+    public AddCharacter(character : any)
     {
-        var character : Character = new Character(this, path, indexH, indexW, blockable, checkPoints);
         this.characters.push(character);
     }
-
     public AddGameObject(path : string, indexH : number, indexW : number, sizeH : number, sizeW : number, blockable : boolean) : void
     {
         if (blockable)

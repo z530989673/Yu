@@ -13,6 +13,7 @@ import HTMLCanvas = Laya.HTMLCanvas;
 class GameMain{
 
     public map : GameMap;
+    public gm : GameManager;
     public uiMgr : UIManager;
     public sp : myShaderSprite;
 
@@ -28,9 +29,10 @@ class GameMain{
         Laya.stage.scaleMode = "showall";
         Laya.stage.bgColor = "#232628";
         
-        this.uiMgr = new UIManager(this);
 
         this.map = new GameMap();
+        this.uiMgr = new UIManager(this);
+        this.gm = new GameManager(this.map);
         this.map.LoadLevel1();
 
         //this.sp = new myShaderSprite();
