@@ -43,23 +43,15 @@ class GameMain{
 
         //Laya.timer.frameLoop(1, this, this.Update);
 
-        //Laya.loader.load("../laya/assets/map/level1.png", Handler.create(this, this.loadComplete), null, Loader.IMAGE);
-    }
-
-    private Update() : void
-    {
-         var tex : HTMLCanvas = Layer.GetInstance().map.drawToCanvas(Laya.stage.width,Laya.stage.height,0,0);
-         var texture : Texture = new Texture(tex);
-         this.sp.refreshTexture(texture);
-         this.sp.customRenderEnable = !this.sp.customRenderEnable ;
+        //Laya.loader.load("../laya/assets/comp/image.png", Handler.create(this, this.loadComplete), null, Loader.IMAGE);
     }
 
     private loadComplete():void
     {
-        var texture:Texture = Loader.getRes("../laya/assets/map/level1.png");
+        var texture:Texture = Loader.getRes("../laya/assets/comp/image.png");
         this.sp = new myShaderSprite();
-        this.sp.texture = texture;
-        //this.sp.init(texture);
+        this.sp.pos(100,100);
+        this.sp.init(texture);
         Layer.AddForeGroundNear(this.sp);
     }
 }

@@ -23,16 +23,22 @@ module myModule
         private iNum: number = 0;
         /** 着色器变量。      */
         private shaderValue:myShaderValue;
+        private tex : Texture;
 
         constructor(){
             super();
+            Laya.timer.frameLoop(1, this, this.RefreshTexture);
         }
 
-        public refreshTexture(texture : Texture) : void
+        public RefreshTexture() : void
         {
-            this.customRenderEnable = false;
+            //this.customRenderEnable = false;
             //this._renderType -= RenderSprite.CUSTOM;//设置当前显示对象的渲染模式为自定义渲染模式。 
-            this.shaderValue.textureHost = texture;
+            if (this.tex != null)
+            {
+                this.shaderValue.uv_info = [this.tex.uv[0],this.tex.uv[1],this.tex.uv[4] - this.tex.uv[0],this.tex.uv[5] - this.tex.uv[1]];
+                console.log(this.tex.uv);         
+            }
         }
 
         /**
@@ -41,8 +47,9 @@ module myModule
          * @param vb 顶点数组。
          * @param ib 顶点索引数组。
          */
-        public init(texture:Texture, vb?:any, ib?:any) : void
+        public init(texture:Texture, vb:any = null, ib:any = null) : void
         {
+            this.tex = texture;
             this.vBuffer = VertexBuffer2D.create();
             this.iBuffer = IndexBuffer2D.create();
 
@@ -67,11 +74,11 @@ module myModule
                 var alpha:Number = 1;
 
                 //在顶点数组中放入4个顶点
-                //每个顶点的数据：(坐标X,坐标Y,u,v,R,G,B,A)            
-                vbArray.push(0, 0, 0, 0, red, greed, blue, alpha);
-                vbArray.push(texWidth, 0, 1, 0, red, greed, blue, alpha);
-                vbArray.push(texWidth, texHeight, 1, 1, red, greed, blue, alpha);
-                vbArray.push(0, texHeight, 0, 1, red, greed, blue, alpha);
+                //每个顶点的数据：(坐标X,坐标Y,u,v,R,G,B,A)   
+                vbArray.push(0, 0, texture.uv[0], texture.uv[1], red, greed, blue, alpha);
+                vbArray.push(texWidth, 0, texture.uv[2], texture.uv[3], red, greed, blue, alpha);
+                vbArray.push(texWidth, texHeight, texture.uv[4], texture.uv[5], red, greed, blue, alpha);
+                vbArray.push(0, texHeight, texture.uv[6], texture.uv[7], red, greed, blue, alpha);
                 }
 
             if (ib)
@@ -84,7 +91,7 @@ module myModule
                 //在顶点索引数组中放入组成三角形的顶点索引。
                 //三角形的顶点索引对应顶点数组vbArray 里的点索引，索引从0开始。
                 ibArray.push(0, 1, 3);//第一个三角形的顶点索引。
-                //ibArray.push(3, 1, 2);//第二个三角形的顶点索引。           
+                ibArray.push(3, 1, 2);//第二个三角形的顶点索引。           
             }
             this.iNum = ibArray.length;
 
@@ -96,6 +103,7 @@ module myModule
 
             this.shaderValue = new myShaderValue();
             this.shaderValue.textureHost = texture;
+            this.shaderValue
             this._renderType |= RenderSprite.CUSTOM;//设置当前显示对象的渲染模式为自定义渲染模式。 
         }
         
