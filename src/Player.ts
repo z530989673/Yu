@@ -47,12 +47,22 @@ class Player{
     {
             settings.textureName = "../laya/assets/" + settings.textureName;
             this.particle = new Particle2D(settings);
-            this.particle.emitter.start();
-            this.particle.play();
-            Layer.AddUI(this.particle);
-
+            Layer.AddForeGroundFar(this.particle);
             this.particle.x = Laya.stage.width / 2;
             this.particle.y = Laya.stage.height / 2;
+    }
+
+    public startParticle() : void
+    {
+        this.particle.emitter.start();
+        this.particle.emitter.minEmissionTime = 0.1;
+        this.particle.play();
+    }
+
+    public removeParticle() : void
+    {
+        this.particle.emitter.clear();
+        this.particle.stop();
     }
 
     public Update() : void

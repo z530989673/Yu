@@ -92,7 +92,7 @@ class GameMap{
                 var offsetH : number = this.GetPosH(i);
                 sp.pos(offsetW, offsetH);
                 sp.zOrder = -10000;
-                this.objectContainer.addChild(sp);
+                //this.objectContainer.addChild(sp);
                 this.nodeSprite[i].push(sp);
             }
         }
