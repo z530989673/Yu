@@ -41,6 +41,16 @@ class Character{
         Laya.timer.frameLoop(1, this, this.Update);
     }
 
+    public GetX() : number
+    {
+        return this.image.x + GameMap.nodeLength / 2;
+    }
+    
+    public GetY() : number
+    {
+        return this.image.y + GameMap.nodeLength / 2;
+    }
+
     public SetActive(active : boolean) : void
     {
         this.isActive = active;
@@ -65,8 +75,8 @@ class Character{
             var valueH : number = destPosH - currentPosH;
             if (this.dirLength != 0)
             {
-                currentPosW += Laya.timer.delta / 1000 * this.moveSpeed * this.dirW / this.dirLength;
-                currentPosH -= Laya.timer.delta / 1000 * this.moveSpeed * this.dirH / this.dirLength;
+                currentPosW += Laya.timer.delta / 1000 * this.moveSpeed * GameMap.globalSpeed * this.dirW / this.dirLength;
+                currentPosH -= Laya.timer.delta / 1000 * this.moveSpeed * GameMap.globalSpeed * this.dirH / this.dirLength;
             }
             if (valueW * (destPosW - currentPosW) <= 0 && 
                 valueH * (destPosH - currentPosH) <= 0)

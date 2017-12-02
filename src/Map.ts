@@ -8,6 +8,7 @@ enum NodeStatus {
 }
 
 class GameMap{
+    public static globalSpeed : number = 1;
     private map: CustomSprite;
     private objectContainer : Sprite = new Sprite();
     public width : number;
@@ -194,14 +195,14 @@ class GameMap{
 
     public StopUpdate() : void
     {
-        for(var i =0; i < this.characters.length; i++)
-            this.characters[i].SetActive(false);
+        CustomSprite.SetPause(true);
     }
 
     public RestoreUpdate() : void
     {
         for(var i =0; i < this.characters.length; i++)
             this.characters[i].SetActive(true);
+        CustomSprite.SetPause(false);
     }
 
     private Update(e: Event): void {
@@ -222,6 +223,25 @@ class GameMap{
                     this.objectContainer.y + (Laya.stage.height * 0.7 - pos));
             }
         }
+
+        if (CustomSprite.IsUpdating())
+        {
+            GameMap.globalSpeed = 0.25;
+            var playerX : number = this.player.GexX();
+            var playerY : number = this.player.GexY();
+            for(var i =0; i < this.characters.length; i++)
+            {
+                var x : number = this.characters[i].GetX();
+                var y : number = this.characters[i].GetY();
+                var dis : number = Math.sqrt((playerX - x) * (playerX - x) + (playerY - y) * (playerY - y));
+                if (dis < CustomSprite.radius)
+                    this.characters[i].SetActive(false);
+                else
+                    this.characters[i].SetActive(true);
+            }
+        }
+        else
+            GameMap.globalSpeed = 1;
     }
 
     public IsWalkable(h : number, w : number) : boolean
