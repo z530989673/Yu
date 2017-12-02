@@ -21,6 +21,7 @@ class GameManager {
 		EventCenter.addEventListener(new GameEvent("touchBall", null, this), this.touchBall);
 		EventCenter.addEventListener(new GameEvent("touchMusicStone", null, this), this.musicStoneTouch);
 
+		EventCenter.addEventListener(new GameEvent("playerCollision", null, this), this.playerCollision);
 	}
 
 	private startSingleBlockLevel(e:GameEvent) : void
@@ -37,6 +38,14 @@ class GameManager {
         var character : Character = new Character(this.map, "../laya/assets/placeHolder/Flag.png", 13, 3, false, nodes);
 		this.addCharacter(character);
 
+	}
+
+	playerCollision(e:GameEvent)
+	{
+		console.log(e.eventArgs);
+		var player = e.eventArgs[0];
+		var character = e.eventArgs[1];
+		player.Load();
 	}
 
 	standPos(e:GameEvent)

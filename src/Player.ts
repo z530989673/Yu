@@ -20,8 +20,12 @@ class Player{
     
     public wayPoints : MapNode[] = [];
 
+    public saveW : number = 0;
+    public saveH : number = 0;
+
     constructor(m : GameMap, path : string, indexH : number, indexW : number){
         this.map = m;
+        this.Save(indexW, indexH);
 
         this.indexW = indexW;
         this.indexH = indexH;
@@ -97,6 +101,21 @@ class Player{
         }
     }
 
+    public Save(w : number, h : number) : void
+    {
+        this.saveW = w;
+        this.saveH = h;
+    }
+
+    public Load() : void
+    {
+        this.status = PlayerStatus.Idle;
+        this.indexW = this.saveW;
+        this.indexH = this.saveH;
+        this.image.zOrder = this.indexH;
+        this.image.pos(this.map.GetPosW(this.indexW), this.map.GetPosH(this.indexH));
+    }
+
     public GetUpperBound() : number
     {
         return this.image.y;
@@ -106,4 +125,16 @@ class Player{
     {
         return this.image.y + GameMap.nodeLength;
     }
+
+    public GetRect() : Rectangle
+    {
+        var x = this.image.x;
+        var y = this.image.y;
+        return new Rectangle(x, y, this.image.width, this.image.height);
+    }
+
+    public Intersects (rect : Rectangle) : boolean
+    {
+        return this.GetRect().intersects(rect);
+	}
 }

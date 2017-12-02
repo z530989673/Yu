@@ -1,7 +1,6 @@
 /*
 * name;
 */
-///<reference path="./Character.ts" />
 
 enum NodeStatus {
      Empty = 0,
