@@ -13,7 +13,7 @@ class ObjectLight extends GameObject
                 sH : number, sW : number, blockable : boolean){
         super(m, path, indexH, indexW, sH, sW, blockable);
 
-		EventCenter.addEventListener(new GameEvent("standPos", null, this), this.standPos);
+		EventCenter.addEventListener(new GameEvent("TurnLight", null, this), this.CheckTurnLight);
     }
 
     public AddChild(light : ObjectLight) : void
@@ -46,6 +46,7 @@ class ObjectLight extends GameObject
     public SetEnable(enable : boolean) : void
     {
         this.enable = enable;
+        this.image.visible = enable;
 
         EventCenter.dispatchAll(new GameEvent("LightEnableChanged", [this, enable], this));
     }
@@ -55,11 +56,8 @@ class ObjectLight extends GameObject
         return this.enable;
     }
 
-    private standPos(e:GameEvent) : void
+    public IntersectsXY(PosX : number, PosY : number) : boolean
     {
-		var PosX = e.eventArgs[0];
-		var PosY = e.eventArgs[1];
-
         for(var i = 0; i < this.sizeW; ++i)
         {
             if (this.indexW + i == PosX)
@@ -67,9 +65,19 @@ class ObjectLight extends GameObject
                 for(var j = 0; j < this.sizeH; ++j)
                 {
                     if (this.indexH + j == PosY)
-                        this.SetEnable(!this.enable);
+                        return true;
                 }
             }
         }
+        
+        return false;
+    }
+
+    private CheckTurnLight(e:GameEvent) : void
+    {
+		var player = e.eventArgs;
+        var inst = e.eventInst;
+        if (inst.Intersects(player.GetRect()))
+            inst.SetEnable(!inst.enable);
     }
 }

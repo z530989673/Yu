@@ -11,7 +11,7 @@ class Actress extends Character
         super(m, path, indexH, indexW, blockable, []);
         this.currTargetObject = rootObject;
         if (rootObject != null)
-            Laya.timer.once(1000, this, this.FindNextTargetObject);
+            Laya.timer.once(3000, this, this.FindNextTargetObject);
 
         EventCenter.addEventListener(new GameEvent("LightEnableChanged", null, this), this.TargetObjectEnableChange);
     }
@@ -21,8 +21,6 @@ class Actress extends Character
         if (!this.isActive)
             return;
 
-        var point : Point = this.image.localToGlobal(new Point(GameMap.nodeLength / 2,GameMap.nodeLength / 2));
-        Yu.CustomShaderValue.pointPos = [point.x,point.y];
         if (this.status == PlayerStatus.Idle)
             return;
         else if (this.status == PlayerStatus.Move)
@@ -54,7 +52,7 @@ class Actress extends Character
         if (this.wayPoints.length == 0)
         {
             this.status = PlayerStatus.Idle;
-            Laya.timer.once(1000, this, this.FindNextTargetObject);
+            Laya.timer.once(3000, this, this.FindNextTargetObject);
         }
         else
         {
@@ -105,17 +103,19 @@ class Actress extends Character
     //被吓到了赶紧跑回去
     private FindPrevTargetObject(e:GameEvent) : void
     {
-        var NextTargetObject = this.currTargetObject.parent;
+        var inst = e.eventInst;
+        var NextTargetObject = inst.currTargetObject.parent;
         if (NextTargetObject != null)
         {
-            this.currTargetObject = NextTargetObject;
-            this.map.MoveTo(NextTargetObject.indexH, NextTargetObject.indexW, this);
+            inst.currTargetObject = NextTargetObject;
+            inst.map.MoveTo(NextTargetObject.indexH, NextTargetObject.indexW, inst);
         }
     }
 
     private TargetObjectEnableChange(e:GameEvent) : void
     {
-        if (this.status != PlayerStatus.Move)
-            this.FindNextTargetObject();
+        var inst = e.eventInst;
+        if (inst.status != PlayerStatus.Move)
+            inst.FindNextTargetObject();
     }
 }

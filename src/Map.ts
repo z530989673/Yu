@@ -116,19 +116,20 @@ class GameMap{
             }
         }
 
-        var light = new ObjectLight(this, "../laya/assets/placeHolder/Brown.png", 1, 3, 1, 1, false);
-        var light1 = new ObjectLight(this, "../laya/assets/placeHolder/Brown.png", 8, 3, 1, 1, false);
-        var light2 = new ObjectLight(this, "../laya/assets/placeHolder/Brown.png", 14, 1, 1, 1, false);
-        var light3 = new ObjectLight(this, "../laya/assets/placeHolder/Brown.png", 13, 6, 1, 1, false);
-        this.AddGameObject(light);
-        this.AddGameObject(light1);
-        this.AddGameObject(light2);
-        this.AddGameObject(light3);
-        light.AddChild(light1);
-        light1.AddChild(light2);
-        light1.AddChild(light3);
+        // var light = new ObjectLight(this, "../laya/assets/placeHolder/Brown.png", 1, 3, 1, 1, false);
+        // var light1 = new ObjectLight(this, "../laya/assets/placeHolder/Brown.png", 8, 3, 1, 1, false);
+        // var light2 = new ObjectLight(this, "../laya/assets/placeHolder/Brown.png", 14, 1, 1, 1, false);
+        // var light3 = new ObjectLight(this, "../laya/assets/placeHolder/Brown.png", 13, 6, 1, 1, false);
+        // this.AddGameObject(light);
+        // this.AddGameObject(light1);
+        // this.AddGameObject(light2);
+        // this.AddGameObject(light3);
+        // light.AddChild(light1);
+        // light1.AddChild(light2);
+        // light1.AddChild(light3);
 
-        var actress = new Actress(this, "../laya/assets/placeHolder/Green.png", 1, 3, false, light);
+        // var actress = new Actress(this, "../laya/assets/placeHolder/Green.png", 1, 3, false, light);
+        // this.AddCharacter(actress);
 
         // this.AddCharacter("../laya/assets/placeHolder/Green.png",8,3,true,nodes);
         //var nodes : MapNode[] = [this.mapNodes[8][3],this.mapNodes[8][4],this.mapNodes[8][5]];
@@ -153,7 +154,7 @@ class GameMap{
             {
                 for(var j = 0; j < obj.sizeH; j++)
                 {
-                    var indexW : number = obj.indexW - i;
+                    var indexW : number = obj.indexW + i;
                     var indexH : number = obj.indexH + j;
                     if (indexW < this.width && indexH < this.height)
                     {

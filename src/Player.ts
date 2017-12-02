@@ -72,6 +72,7 @@ class Player{
         if (this.wayPoints.length == 0)
         {
             this.status = PlayerStatus.Idle;
+            Laya.timer.once(1000, this, this.TurnLight);
         }
         else
         {
@@ -94,6 +95,8 @@ class Player{
 
     public MoveTo(checkPoints : MapNode[]) : void
     {
+        Laya.timer.clear(this, this.TurnLight);
+        
         this.wayPoints = checkPoints;
         var checkPoint : MapNode = checkPoints.pop();
         if (this.status != PlayerStatus.Move)
@@ -154,4 +157,9 @@ class Player{
     {
         return this.GetRect().intersects(rect);
 	}
+
+    private TurnLight(args) : void
+    {
+        EventCenter.dispatchAll(new GameEvent("TurnLight", this, this));
+    }
 }
