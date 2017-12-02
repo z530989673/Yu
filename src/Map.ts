@@ -128,7 +128,7 @@ class GameMap{
         light1.AddChild(light2);
         light1.AddChild(light3);
 
-        var actress = new Actress(this, "../laya/assets/placeHolder/Green.png", 1, 3, false, light);
+        var actress = new Actress(this, "../laya/assets/placeHolder/Green.png", 1, 3, false);
         this.AddCharacter(actress);
 
         // this.AddCharacter("../laya/assets/placeHolder/Green.png",8,3,true,nodes);
