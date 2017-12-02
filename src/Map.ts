@@ -134,13 +134,13 @@ class GameMap{
     {
         this.characters.push(character);
     }
-    public AddGameObject(path : string, indexH : number, indexW : number, sizeH : number, sizeW : number, blockable : boolean) : void
+    public AddGameObject(object:GameObject)
     {
-        if (blockable)
+        if (object.blockable)
         {
-            for(var i = 0; i < sizeW; i++)
+            for(var i = 0; i < object.sizeW; i++)
             {
-                for(var j = 0; j < sizeH; j++)
+                for(var j = 0; j < object.sizeH; j++)
                 {
                     var indexW : number = indexW - i;
                     var indexH : number = indexH + j;
@@ -151,9 +151,28 @@ class GameMap{
                 }
             }
         }
-        var obj : GameObject = new GameObject(this,path, indexH,indexW, sizeH, sizeW, blockable);
-        this.objects.push(obj);
+        this.objects.push(object);
     }
+    // public AddGameObject(path : string, indexH : number, indexW : number, sizeH : number, sizeW : number, blockable : boolean) : void
+    // {
+    //     if (blockable)
+    //     {
+    //         for(var i = 0; i < sizeW; i++)
+    //         {
+    //             for(var j = 0; j < sizeH; j++)
+    //             {
+    //                 var indexW : number = indexW - i;
+    //                 var indexH : number = indexH + j;
+    //                 if (indexW < this.width && indexH < this.height)
+    //                 {
+    //                     this.SetStatus(indexH,indexW,NodeStatus.Block);
+    //                 }
+    //             }
+    //         }
+    //     }
+    //     var obj : GameObject = new GameObject(this,path, indexH,indexW, sizeH, sizeW, blockable);
+    //     this.objects.push(obj);
+    // }
 
     public GetStatus(h : number, w : number) : NodeStatus
     {
