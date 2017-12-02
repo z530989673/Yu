@@ -183,8 +183,6 @@ class GameMap{
 
     public StopUpdate() : void
     {
-        for(var i =0; i < this.characters.length; i++)
-            this.characters[i].SetActive(false);
         CustomSprite.SetPause(true);
     }
 
@@ -212,6 +210,20 @@ class GameMap{
                 this.objectContainer.pos(this.objectContainer.x,
                     this.objectContainer.y + (Laya.stage.height * 0.7 - pos));
             }
+        }
+
+        var playerX : number = this.player.GexX();
+        var playerY : number = this.player.GexY();
+        for(var i =0; i < this.characters.length; i++)
+        {
+            var x : number = this.characters[i].GetX();
+            var y : number = this.characters[i].GetY();
+            var dis : number = Math.sqrt((playerX - x) * (playerX - x) + (playerY - y) * (playerY - y));
+            if (dis < CustomSprite.radius)
+                this.characters[i].SetActive(false);
+            else
+                this.characters[i].SetActive(true);
+
         }
     }
 

@@ -41,6 +41,16 @@ class Character{
         Laya.timer.frameLoop(1, this, this.Update);
     }
 
+    public GetX() : number
+    {
+        return this.image.x + GameMap.nodeLength / 2;
+    }
+    
+    public GetY() : number
+    {
+        return this.image.y + GameMap.nodeLength / 2;
+    }
+
     public SetActive(active : boolean) : void
     {
         this.isActive = active;

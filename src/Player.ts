@@ -121,6 +121,16 @@ class Player{
         this.image.pos(this.map.GetPosW(this.indexW), this.map.GetPosH(this.indexH));
     }
 
+    public GexX() : number
+    {
+        return this.image.x + GameMap.nodeLength / 2;
+    }
+    
+    public GexY() : number
+    {
+        return this.image.y + GameMap.nodeLength / 2;
+    }
+
     public GetUpperBound() : number
     {
         return this.image.y;
