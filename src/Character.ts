@@ -3,7 +3,7 @@
 */
 class Character{
     protected map :GameMap;
-    protected image : Sprite;
+    protected image : CustomSprite;
     public indexW : number = 0;
     public indexH : number = 0;
     public moveSpeed : number = 1000;
@@ -27,8 +27,7 @@ class Character{
         this.indexW = indexW;
         this.indexH = indexH;
         this.map.SetStatus(this.indexH,this.indexW,NodeStatus.Block);
-        this.image = new Sprite();
-        this.image.loadImage(path);
+        this.image = new CustomSprite(path);
         this.image.zOrder = indexH;
         this.map.AddObject(this.image);
         this.image.pos(m.GetPosW(indexW), m.GetPosH(indexH));

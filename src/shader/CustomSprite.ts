@@ -24,13 +24,15 @@ module Yu
         /** 着色器变量。      */
         private shaderValue:CustomShaderValue;
         private tex : Texture;
+        private noiseTex : Texture;
         private path : string;
+        private noisePath : string = "../laya/assets/comp/image.png";
 
         constructor(path : string){
             super();
             this.path = path;
             Laya.timer.frameLoop(1, this, this.RefreshTexture);
-            Laya.loader.load(path, Handler.create(this, this.LoadComplete), null, Loader.IMAGE);
+            Laya.loader.load([path,this.noisePath], Handler.create(this, this.LoadComplete), null, Loader.IMAGE);
         }
 
         private LoadComplete():void
@@ -46,6 +48,7 @@ module Yu
             if (this.tex != null)
             {
                 this.shaderValue.uv_info = [this.tex.uv[0],this.tex.uv[1],this.tex.uv[4] - this.tex.uv[0],this.tex.uv[5] - this.tex.uv[1]];        
+                this.shaderValue.uv_noise_info = [this.noiseTex.uv[0],this.noiseTex.uv[1],this.noiseTex.uv[4] - this.noiseTex.uv[0],this.noiseTex.uv[5] - this.noiseTex.uv[1]];        
             }
         }
 
@@ -111,8 +114,12 @@ module Yu
 
             this.shaderValue = new CustomShaderValue();
             this.shaderValue.textureHost = texture;
-            this.shaderValue
+            this.noiseTex = Loader.getRes(this.noisePath);
+            this.shaderValue.u_tex1 = this.noiseTex.source;
             this._renderType |= RenderSprite.CUSTOM;//设置当前显示对象的渲染模式为自定义渲染模式。 
+            this.mouseEnabled = true;
+            this.width = texture.width;
+            this.height = texture.height;
         }
         
 

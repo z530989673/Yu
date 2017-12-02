@@ -5,7 +5,7 @@
 class GameObject
 {
     protected map : GameMap;
-    protected image : Sprite;
+    protected image : CustomSprite;
     public indexW : number = 0;
     public indexH : number = 0;
     public sizeW : number = 1;
@@ -21,8 +21,7 @@ class GameObject
         this.sizeW = sW;
         this.blockable = blockable;
 
-        this.image = new Sprite();
-        this.image.loadImage(path);
+        this.image = new CustomSprite(path);
         this.image.zOrder = - indexH;
         this.map.AddObject(this.image);
         this.image.pos(m.GetPosW(indexW), m.GetPosH(indexH));

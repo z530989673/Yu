@@ -12,14 +12,14 @@ enum NodeStatus {
 }
 
 class GameMap{
-    private map: Sprite;
+    private map: CustomSprite;
     private objectContainer : Sprite = new Sprite();
     public width : number;
     public height : number;
     public totalHeightInPxl : number;
     public nodeStatus : NodeStatus[][];
     private currentStatus : NodeStatus[][] = new Array();
-    public nodeSprite : Sprite[][] = new Array();
+    public nodeSprite : CustomSprite[][] = new Array();
 
     public static leftOffset : number = 28;
     public static rightOffset : number = 28;
@@ -34,8 +34,6 @@ class GameMap{
     public characters : Character[] = new Array();
 
     constructor(){
-        this.map = new Sprite();
-        this.map.zOrder = -1;
         this.objectContainer.pos(0,0);
         this.objectContainer.zOrder = 0;
 
@@ -44,7 +42,8 @@ class GameMap{
 
     public LoadLevel1() : void
     {
-		this.map.loadImage("../laya/assets/map/level1.png");
+        this.map = new CustomSprite("../laya/assets/map/level1.png");
+        this.map.zOrder = -1;
         Layer.AddMap(this.map);
         this.nodeStatus = [ [1,0,0,0,0,0,0,1],
                             [1,0,0,0,0,0,0,1],
@@ -84,13 +83,14 @@ class GameMap{
             {
                 var value : number = this.nodeStatus[this.nodeStatus.length - 1 - i][j];
                 this.currentStatus[i].push(value);
-                var sp : Sprite = new Sprite();
+                var path : string = "";
                 if (value == 0)
-                    sp.loadImage("../laya/assets/placeHolder/White.png");
+                    path = "../laya/assets/placeHolder/White.png";
                 else if (value == 1)
-                    sp.loadImage("../laya/assets/placeHolder/Black.png");
+                    path = "../laya/assets/placeHolder/Black.png";
                 else if (value == 7)
-                    sp.loadImage("../laya/assets/placeHolder/Flag.png");
+                    path = "../laya/assets/placeHolder/Flag.png";
+                var sp : CustomSprite = new CustomSprite(path);
                 var offsetW : number = this.GetPosW(j);
                 var offsetH : number = this.GetPosH(i);
                 sp.pos(offsetW, offsetH);
