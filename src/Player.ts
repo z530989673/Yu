@@ -91,7 +91,7 @@ class Player{
         }
     }
 
-    public Move(checkPoints : MapNode[]) : void
+    public MoveTo(checkPoints : MapNode[]) : void
     {
         this.wayPoints = checkPoints;
         var checkPoint : MapNode = checkPoints.pop();
@@ -113,7 +113,9 @@ class Player{
 
     public Load() : void
     {
+   		this.map.RestoreUpdate();
         this.status = PlayerStatus.Idle;
+
         this.indexW = this.saveW;
         this.indexH = this.saveH;
         this.image.zOrder = this.indexH;
