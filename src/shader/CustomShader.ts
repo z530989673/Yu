@@ -35,7 +35,7 @@ uniform vec4 uv_noise_info;\
 uniform sampler2D texture;\
 uniform sampler2D u_tex1;\
 uniform vec2 u_pointPos;\
-uniform vec4 pos_info;\
+uniform vec2 pos_info;\
 void main(){\
 	vec4 c = texture2D(texture, v_texcoord);\
 	vec4 noise = texture2D(u_tex1, v_worldPos*uv_noise_info.zw + uv_noise_info.xy);\

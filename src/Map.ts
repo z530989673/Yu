@@ -214,8 +214,6 @@ class GameMap{
 
     public RestoreUpdate() : void
     {
-        for(var i =0; i < this.characters.length; i++)
-            this.characters[i].SetActive(true);
         CustomSprite.SetPause(false);
     }
 

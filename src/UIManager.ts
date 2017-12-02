@@ -25,7 +25,6 @@ class UIManager{
         if (this.game.map.IsPaused())
             this.game.map.RestoreUpdate();
         else
-            this.game.map.StopUpdate();     
-        this.button.on(Laya.Event.MOUSE_UP,this,this.SkillButtonPressed);
+            this.game.map.StopUpdate();
     }
 }
