@@ -219,6 +219,11 @@ class GameMap{
         CustomSprite.SetPause(false);
     }
 
+    public IsPaused() : boolean
+    {
+        return CustomSprite.Paused();
+    }
+
     private Update(e: Event): void {
         var pos : number = this.objectContainer.y + this.player.GetUpperBound();
         if (pos / Laya.stage.height < 0.3)
