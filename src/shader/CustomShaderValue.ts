@@ -8,13 +8,17 @@ module Yu{
 
 	export class CustomShaderValue extends Value2D{
 
+		public static pointPos :Array<any> = [0,0];
+		public u_pointPos :Array<any> = [0,0];
 		public u_tex1 : any;
   		public texcoord : any;
+        public pos_info: Array<any>;
         public uv_info: Array<any>;
         public uv_noise_info: Array<any>;
 		constructor(){
 			super(0, 0);
 			
+   			this.pos_info = [0.0, 0.0, 1.0, 1.0];
    			this.uv_info = [0.0, 0.0, 1.0, 1.0];
    			this.uv_noise_info = [0.0, 0.0, 1.0, 1.0];
 			var _vlen: number = 8 * CONST3D2D.BYTES_PE;
