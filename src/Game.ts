@@ -10,11 +10,13 @@ import CustomSprite = Yu.CustomSprite;
 import Loader = Laya.Loader;
 import HTMLCanvas = Laya.HTMLCanvas;
 import Point = Laya.Point;
+import Rectangle = Laya.Rectangle;
 
 class GameMain{
 
     public map : GameMap;
     public gm : GameManager;
+    public cm : CollisionManager;
     public uiMgr : UIManager;
 
     constructor()
@@ -33,6 +35,7 @@ class GameMain{
         this.map = new GameMap();
         this.uiMgr = new UIManager(this);
         this.gm = new GameManager(this.map);
+        this.cm = new CollisionManager(this.map);
         this.map.LoadLevel1();
 
         Laya.Stat.show(0,0);

@@ -22,7 +22,7 @@ class GameManager {
 		EventCenter.addEventListener(new GameEvent("touchWater", null, this), this.touchWater);
 		EventCenter.addEventListener(new GameEvent("touchBall", null, this), this.touchBall);
 		EventCenter.addEventListener(new GameEvent("touchMusicStone", null, this), this.musicStoneTouch);
-
+		EventCenter.addEventListener(new GameEvent("playerCollision", null, this), this.playerCollision);
 	}
 
 	private startSingleBlockLevel(e:GameEvent) : void
@@ -43,25 +43,32 @@ class GameManager {
 
 	private startMusicStoneLevel(e:GameEvent) 
 	{
-		var musicStone1 = new MusicStone(e.eventInst.map, "../laya/assets/placeHolder/Flag.png",20, 4, 1, 1, 1, 21, 5);
-		var musicStone2 = new MusicStone(e.eventInst.map, "../laya/assets/placeHolder/Flag.png",20, 2, 1, 1, 2, 21, 1);
-		var musicStone3 = new MusicStone(e.eventInst.map, "../laya/assets/placeHolder/Flag.png",23, 2, 1, 1, 3, 23, 1);
-		var musicStone4 = new MusicStone(e.eventInst.map, "../laya/assets/placeHolder/Flag.png",23, 4, 1, 1, 4, 23, 5);
+		var musicStone1 = new MusicStone(e.eventInst.map, "../laya/assets/placeHolder/Flag.png",21, 7, 1, 1, 1, 21, 7);
+		var musicStone2 = new MusicStone(e.eventInst.map, "../laya/assets/placeHolder/Flag.png",21, 0, 1, 1, 2, 21, 0);
+		var musicStone3 = new MusicStone(e.eventInst.map, "../laya/assets/placeHolder/Flag.png",23, 0, 1, 1, 3, 23, 0);
+		var musicStone4 = new MusicStone(e.eventInst.map, "../laya/assets/placeHolder/Flag.png",26, 7, 1, 1, 4, 27, 7);
+		var musicStone5 = new MusicStone(e.eventInst.map, "../laya/assets/placeHolder/Flag.png",27, 3, 1, 1, 5, 29, 3);
 		e.eventInst.map.AddGameObject(musicStone1);
 		e.eventInst.map.AddGameObject(musicStone2);
 		e.eventInst.map.AddGameObject(musicStone3);
 		e.eventInst.map.AddGameObject(musicStone4);
+		e.eventInst.map.AddGameObject(musicStone5);
 	}
+	playerCollision(e:GameEvent)
+	{
+		var player = e.eventArgs[0];
+		var character = e.eventArgs[1];
+		player.Load();
+	}
+
 	standPos(e:GameEvent)
 	{
-		console.log(e.eventArgs);
 		var PosX = e.eventArgs[0];
 		var PosY = e.eventArgs[1];
 		if (PosY == 5 && !e.eventInst.isSingleBlockStart)
 		{
 			e.eventInst.isSingleBlockStart = true;
-			console.log(this);
-			e.eventInst.startSingleBlockLevel(e);
+			// e.eventInst.startSingleBlockLevel(e);
 		}
 		if (PosY == 15 && !e.eventInst.isMusicStoneStart)
 		{
@@ -143,13 +150,11 @@ class GameManager {
 	}
 	lightLatern()
 	{
-		console.log("lightLatern");
 		return;
 	}
 
 	solveLaternPuzzle()
 	{
-		console.log("solveLaternPuzzle");
 		return;
 	}
 
@@ -161,13 +166,11 @@ class GameManager {
 
 	touchWater(e:Event)
 	{
-		console.log("touch water");
 		// this.damageBoy();
 	}
 
 	damageBoy():void 
 	{
-		console.log("damage boy");
 		return;
 	}
 
@@ -210,6 +213,7 @@ class GameManager {
 	
 	solveMusicPuzzle(e:GameEvent)
 	{
+		console.log("music puzzle");
 		var pitch = e.eventArgs;
 		if(pitch == e.eventInst.stoneCurrentID)
 		{

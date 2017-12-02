@@ -26,12 +26,13 @@ class Character{
 
         this.indexW = indexW;
         this.indexH = indexH;
-        this.map.SetStatus(this.indexH,this.indexW,NodeStatus.Block);
+        this.blockable = blockable;
+        if (this.blockable)
+            this.map.SetStatus(this.indexH,this.indexW,NodeStatus.Block);
         this.image = new CustomSprite(path);
         this.image.zOrder = indexH;
         this.map.AddObject(this.image);
         this.image.pos(m.GetPosW(indexW), m.GetPosH(indexH));
-        this.blockable = blockable;
 
         this.wayPoints = this.wayPoints1;
         this.nextWayPoints = this.wayPoints2;
@@ -80,7 +81,7 @@ class Character{
 
     public CheckNextWayPoint() : void
     {
-        if (this.dirLength != 0)
+        if (this.dirLength != 0 && this.blockable)
             this.map.ReSetStatus(this.indexH - this.dirH,this.indexW - this.dirW);
         
         if (this.wayPoints.length == 0)
@@ -96,7 +97,8 @@ class Character{
                 this.dirLength = Math.sqrt(this.dirH * this.dirH + this.dirW * this.dirW);
                 this.indexH = n.indexH;
                 this.indexW = n.indexW;
-                this.map.SetStatus(this.indexH,this.indexW,NodeStatus.Block);
+                if (this.blockable)
+                    this.map.SetStatus(this.indexH,this.indexW,NodeStatus.Block);
                 this.image.zOrder = this.indexH;
             }
             else
@@ -118,7 +120,20 @@ class Character{
             this.indexH = checkPoint.indexH;
             this.indexW = checkPoint.indexW;
             this.status = PlayerStatus.Move;
-            this.map.SetStatus(this.indexH,this.indexW,NodeStatus.Block);
+            if (this.blockable)
+                this.map.SetStatus(this.indexH,this.indexW,NodeStatus.Block);
         }
     }
+
+    public GetRect() : Rectangle
+    {
+        var x = this.image.x;
+        var y = this.image.y;
+        return new Rectangle(x, y, this.image.width, this.image.height);
+    }
+
+    public Intersects (rect : Rectangle) : boolean
+    {
+        return this.GetRect().intersects(rect);
+	}
 }
