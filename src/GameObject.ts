@@ -26,4 +26,16 @@ class GameObject
         this.map.AddObject(this.image);
         this.image.pos(m.GetPosW(indexW), m.GetPosH(indexH));
     }
+
+    public GetRect() : Rectangle
+    {
+        var x = this.image.x;
+        var y = this.image.y;
+        return new Rectangle(x, y, this.image.width, this.image.height);
+    }
+
+    public Intersects (rect : Rectangle) : boolean
+    {
+        return this.GetRect().intersects(rect);
+	}
 }

@@ -11,6 +11,8 @@ import Loader = Laya.Loader;
 import HTMLCanvas = Laya.HTMLCanvas;
 import Point = Laya.Point;
 import Rectangle = Laya.Rectangle;
+import Particle2D = Laya.Particle2D;
+import ParticleSetting = Laya.ParticleSetting;
 
 class GameMain{
 

@@ -10,6 +10,7 @@ enum PlayerStatus
 class Player{
     protected map : GameMap;
     protected image : Sprite;
+    protected particle : Particle2D;
     public indexW : number = 0;
     public indexH : number = 0;
     public moveSpeed : number = 500;
@@ -38,6 +39,19 @@ class Player{
         Yu.CustomShaderValue.pointPos = [point.x,point.y];
 
         Laya.timer.frameLoop(1, this, this.Update);
+        
+        Laya.loader.load("../laya/assets/pages/timeStop.part", Handler.create(this, this.onParticleLoaded), null, Loader.JSON);
+    }
+
+    public onParticleLoaded(settings: ParticleSetting) : void
+    {
+            //this.particle = new Particle2D(settings);
+            //this.particle.emitter.start();
+            //this.particle.play();
+            //Layer.AddForeGroundFar(this.particle);
+
+            //this.particle.x = Laya.stage.width / 2;
+            //this.particle.y = Laya.stage.height / 2;
     }
 
     public Update() : void
@@ -72,6 +86,7 @@ class Player{
         if (this.wayPoints.length == 0)
         {
             this.status = PlayerStatus.Idle;
+            Laya.timer.once(1000, this, this.TurnLight);
         }
         else
         {
@@ -92,8 +107,10 @@ class Player{
         }
     }
 
-    public Move(checkPoints : MapNode[]) : void
+    public MoveTo(checkPoints : MapNode[]) : void
     {
+        Laya.timer.clear(this, this.TurnLight);
+        
         this.wayPoints = checkPoints;
         var checkPoint : MapNode = checkPoints.pop();
         if (this.status != PlayerStatus.Move)
@@ -114,11 +131,23 @@ class Player{
 
     public Load() : void
     {
+   		this.map.RestoreUpdate();
         this.status = PlayerStatus.Idle;
+
         this.indexW = this.saveW;
         this.indexH = this.saveH;
         this.image.zOrder = this.indexH;
         this.image.pos(this.map.GetPosW(this.indexW), this.map.GetPosH(this.indexH));
+    }
+
+    public GexX() : number
+    {
+        return this.image.x + GameMap.nodeLength / 2;
+    }
+    
+    public GexY() : number
+    {
+        return this.image.y + GameMap.nodeLength / 2;
     }
 
     public GetUpperBound() : number
@@ -142,4 +171,9 @@ class Player{
     {
         return this.GetRect().intersects(rect);
 	}
+
+    private TurnLight(args) : void
+    {
+        EventCenter.dispatchAll(new GameEvent("TurnLight", this, this));
+    }
 }

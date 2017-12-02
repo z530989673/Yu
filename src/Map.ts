@@ -4,13 +4,11 @@
 
 enum NodeStatus {
      Empty = 0,
-     Block,
-     Mounster,
-     Switch,
-     // Flag
+     Block
 }
 
 class GameMap{
+    public static globalSpeed : number = 1;
     private map: CustomSprite;
     private objectContainer : Sprite = new Sprite();
     public width : number;
@@ -126,6 +124,21 @@ class GameMap{
             }
         }
 
+        var light = new ObjectLight(this, "../laya/assets/placeHolder/Brown.png", 1, 3, 1, 1, false);
+        var light1 = new ObjectLight(this, "../laya/assets/placeHolder/Brown.png", 8, 3, 1, 1, false);
+        var light2 = new ObjectLight(this, "../laya/assets/placeHolder/Brown.png", 14, 1, 1, 1, false);
+        var light3 = new ObjectLight(this, "../laya/assets/placeHolder/Brown.png", 13, 6, 1, 1, false);
+        this.AddGameObject(light);
+        this.AddGameObject(light1);
+        this.AddGameObject(light2);
+        this.AddGameObject(light3);
+        light.AddChild(light1);
+        light1.AddChild(light2);
+        light1.AddChild(light3);
+
+        var actress = new Actress(this, "../laya/assets/placeHolder/Green.png", 1, 3, false, light);
+        this.AddCharacter(actress);
+
         // this.AddCharacter("../laya/assets/placeHolder/Green.png",8,3,true,nodes);
         //var nodes : MapNode[] = [this.mapNodes[8][3],this.mapNodes[8][4],this.mapNodes[8][5]];
         //this.AddCharacter("../laya/assets/placeHolder/Green.png",8,3,true,nodes);
@@ -139,18 +152,32 @@ class GameMap{
     // }
     public AddCharacter(character : any)
     {
+        if (CustomSprite.Paused())
+        {            
+            var playerX : number = this.player.GexX();
+            var playerY : number = this.player.GexY();
+        
+            var x : number = character.GetX();
+            var y : number = character.GetY();
+            var dis : number = Math.sqrt((playerX - x) * (playerX - x) + (playerY - y) * (playerY - y));
+            if (dis < CustomSprite.radius)
+                character.SetActive(false);
+            else
+                character.SetActive(true);
+        }
         this.characters.push(character);
     }
-    public AddGameObject(object:GameObject)
+
+    public AddGameObject(obj : any)
     {
-        if (object.blockable)
+        if (obj.blockable)
         {
-            for(var i = 0; i < object.sizeW; i++)
+            for(var i = 0; i < obj.sizeW; i++)
             {
-                for(var j = 0; j < object.sizeH; j++)
+                for(var j = 0; j < obj.sizeH; j++)
                 {
-                    var indexW : number = indexW - i;
-                    var indexH : number = indexH + j;
+                    var indexW : number = obj.indexW + i;
+                    var indexH : number = obj.indexH + j;
                     if (indexW < this.width && indexH < this.height)
                     {
                         this.SetStatus(indexH,indexW,NodeStatus.Block);
@@ -158,28 +185,9 @@ class GameMap{
                 }
             }
         }
-        this.objects.push(object);
+        // var obj : GameObject = new GameObject(this,path, indexH,indexW, sizeH, sizeW, blockable);
+        this.objects.push(obj);
     }
-    // public AddGameObject(path : string, indexH : number, indexW : number, sizeH : number, sizeW : number, blockable : boolean) : void
-    // {
-    //     if (blockable)
-    //     {
-    //         for(var i = 0; i < sizeW; i++)
-    //         {
-    //             for(var j = 0; j < sizeH; j++)
-    //             {
-    //                 var indexW : number = indexW - i;
-    //                 var indexH : number = indexH + j;
-    //                 if (indexW < this.width && indexH < this.height)
-    //                 {
-    //                     this.SetStatus(indexH,indexW,NodeStatus.Block);
-    //                 }
-    //             }
-    //         }
-    //     }
-    //     var obj : GameObject = new GameObject(this,path, indexH,indexW, sizeH, sizeW, blockable);
-    //     this.objects.push(obj);
-    // }
 
     public GetStatus(h : number, w : number) : NodeStatus
     {
@@ -210,8 +218,6 @@ class GameMap{
 
     public StopUpdate() : void
     {
-        for(var i =0; i < this.characters.length; i++)
-            this.characters[i].SetActive(false);
         CustomSprite.SetPause(true);
     }
 
@@ -238,8 +244,29 @@ class GameMap{
             {
                 this.objectContainer.pos(this.objectContainer.x,
                     this.objectContainer.y + (Laya.stage.height * 0.7 - pos));
+                if (this.objectContainer.y < 0)
+                    this.objectContainer.y = 0;
             }
         }
+
+        if (CustomSprite.IsUpdating())
+        {
+            GameMap.globalSpeed = 0.25;
+            var playerX : number = this.player.GexX();
+            var playerY : number = this.player.GexY();
+            for(var i =0; i < this.characters.length; i++)
+            {
+                var x : number = this.characters[i].GetX();
+                var y : number = this.characters[i].GetY();
+                var dis : number = Math.sqrt((playerX - x) * (playerX - x) + (playerY - y) * (playerY - y));
+                if (dis < CustomSprite.radius)
+                    this.characters[i].SetActive(false);
+                else
+                    this.characters[i].SetActive(true);
+            }
+        }
+        else
+            GameMap.globalSpeed = 1;
     }
 
     public IsWalkable(h : number, w : number) : boolean
@@ -271,8 +298,11 @@ class GameMap{
 
     private static neighbourDirW : number[] = [1,0,-1,0];
     private static neighbourDirH : number[] = [0,1,0,-1];
-    public MoveTo(h : number, w : number) : void
+    public MoveTo(h : number, w : number, obj : any = null) : void
     {
+        if (obj == null)
+            obj = this.player;
+
         var heap : NodeHeap = new NodeHeap();
         for(var i = 0; i < this.nodeStatus.length; i++)
         {
@@ -282,8 +312,8 @@ class GameMap{
             }
         }
 
-        var playerNode : MapNode = this.mapNodes[this.player.indexH][this.player.indexW];
-        playerNode.weight = Math.abs(this.player.indexH - h) + Math.abs(this.player.indexW - w);
+        var playerNode : MapNode = this.mapNodes[obj.indexH][obj.indexW];
+        playerNode.weight = Math.abs(obj.indexH - h) + Math.abs(obj.indexW - w);
         playerNode.iterLength = 0;
         heap.Add(playerNode);
         var found : boolean = false;
@@ -331,7 +361,6 @@ class GameMap{
             var checkPoints : MapNode[] = [];
             var indexH : number = h;
             var indexW : number = w;
-            checkPoints.push(this.mapNodes[indexH][indexW])
             while(true)
             {
                 checkPoints.push(this.mapNodes[indexH][indexW])
@@ -343,7 +372,7 @@ class GameMap{
                     break;
             }
 
-            this.player.Move(checkPoints);
+            obj.MoveTo(checkPoints);
         }
         else
         {
