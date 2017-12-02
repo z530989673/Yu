@@ -44,7 +44,11 @@ class GameMap{
         this.map = new CustomSprite("../laya/assets/map/level1.png");
         this.map.zOrder = -1;
         Layer.AddMap(this.map);
-        this.nodeStatus = [ [0,0,0,0,0,0,0,0],//29
+        this.nodeStatus = [ [0,0,0,0,0,0,0,0],//34
+                            [0,0,0,0,0,0,0,0],
+                            [0,0,0,0,0,0,0,0],
+                            [0,0,0,0,0,0,0,0],
+                            [0,0,0,0,0,0,0,0],//29
                             [1,1,1,0,1,1,1,1],
                             [0,0,0,0,0,0,1,0],
                             [0,1,1,0,1,0,0,0],
