@@ -357,7 +357,6 @@ class GameMap{
             var checkPoints : MapNode[] = [];
             var indexH : number = h;
             var indexW : number = w;
-            checkPoints.push(this.mapNodes[indexH][indexW])
             while(true)
             {
                 checkPoints.push(this.mapNodes[indexH][indexW])
