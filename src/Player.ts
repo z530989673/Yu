@@ -10,6 +10,7 @@ enum PlayerStatus
 class Player{
     protected map : GameMap;
     protected image : Sprite;
+    protected particle : Particle2D;
     public indexW : number = 0;
     public indexH : number = 0;
     public moveSpeed : number = 500;
@@ -38,6 +39,19 @@ class Player{
         Yu.CustomShaderValue.pointPos = [point.x,point.y];
 
         Laya.timer.frameLoop(1, this, this.Update);
+        
+        Laya.loader.load("../laya/assets/pages/timeStop.part", Handler.create(this, this.onParticleLoaded), null, Loader.JSON);
+    }
+
+    public onParticleLoaded(settings: ParticleSetting) : void
+    {
+            //this.particle = new Particle2D(settings);
+            //this.particle.emitter.start();
+            //this.particle.play();
+            //Layer.AddForeGroundFar(this.particle);
+
+            //this.particle.x = Laya.stage.width / 2;
+            //this.particle.y = Laya.stage.height / 2;
     }
 
     public Update() : void
