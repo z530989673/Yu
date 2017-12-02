@@ -116,20 +116,20 @@ class GameMap{
             }
         }
 
-        // var light = new ObjectLight(this, "../laya/assets/placeHolder/Brown.png", 1, 3, 1, 1, false);
-        // var light1 = new ObjectLight(this, "../laya/assets/placeHolder/Brown.png", 8, 3, 1, 1, false);
-        // var light2 = new ObjectLight(this, "../laya/assets/placeHolder/Brown.png", 14, 1, 1, 1, false);
-        // var light3 = new ObjectLight(this, "../laya/assets/placeHolder/Brown.png", 13, 6, 1, 1, false);
-        // this.AddGameObject(light);
-        // this.AddGameObject(light1);
-        // this.AddGameObject(light2);
-        // this.AddGameObject(light3);
-        // light.AddChild(light1);
-        // light1.AddChild(light2);
-        // light1.AddChild(light3);
+        var light = new ObjectLight(this, "../laya/assets/placeHolder/Brown.png", 1, 3, 1, 1, false);
+        var light1 = new ObjectLight(this, "../laya/assets/placeHolder/Brown.png", 8, 3, 1, 1, false);
+        var light2 = new ObjectLight(this, "../laya/assets/placeHolder/Brown.png", 14, 1, 1, 1, false);
+        var light3 = new ObjectLight(this, "../laya/assets/placeHolder/Brown.png", 13, 6, 1, 1, false);
+        this.AddGameObject(light);
+        this.AddGameObject(light1);
+        this.AddGameObject(light2);
+        this.AddGameObject(light3);
+        light.AddChild(light1);
+        light1.AddChild(light2);
+        light1.AddChild(light3);
 
-        // var actress = new Actress(this, "../laya/assets/placeHolder/Green.png", 1, 3, false, light);
-        // this.AddCharacter(actress);
+        var actress = new Actress(this, "../laya/assets/placeHolder/Green.png", 1, 3, false, light);
+        this.AddCharacter(actress);
 
         // this.AddCharacter("../laya/assets/placeHolder/Green.png",8,3,true,nodes);
         //var nodes : MapNode[] = [this.mapNodes[8][3],this.mapNodes[8][4],this.mapNodes[8][5]];
@@ -144,6 +144,19 @@ class GameMap{
     // }
     public AddCharacter(character : any)
     {
+        if (CustomSprite.Paused())
+        {            
+            var playerX : number = this.player.GexX();
+            var playerY : number = this.player.GexY();
+        
+            var x : number = character.GetX();
+            var y : number = character.GetY();
+            var dis : number = Math.sqrt((playerX - x) * (playerX - x) + (playerY - y) * (playerY - y));
+            if (dis < CustomSprite.radius)
+                character.SetActive(false);
+            else
+                character.SetActive(true);
+        }
         this.characters.push(character);
     }
     public AddGameObject(obj : any)
@@ -222,6 +235,8 @@ class GameMap{
             {
                 this.objectContainer.pos(this.objectContainer.x,
                     this.objectContainer.y + (Laya.stage.height * 0.7 - pos));
+                if (this.objectContainer.y < 0)
+                    this.objectContainer.y = 0;
             }
         }
 

@@ -8,10 +8,19 @@ class Actress extends Character
 
     constructor(m : GameMap, path : string, indexH : number, indexW : number, blockable : boolean, rootObject : ObjectLight = null)
     {
-        super(m, path, indexH, indexW, blockable, []);
+        super(m, "", indexH, indexW, blockable, []);
+
         this.currTargetObject = rootObject;
         if (rootObject != null)
             Laya.timer.once(3000, this, this.FindNextTargetObject);
+
+        this.image = new Sprite();
+        this.image.loadImage(path);
+        this.image.zOrder = indexH;
+        this.map.AddObject(this.image);
+        this.image.pos(m.GetPosW(indexW), m.GetPosH(indexH));
+
+        this.moveSpeed = 200;
 
         EventCenter.addEventListener(new GameEvent("LightEnableChanged", null, this), this.TargetObjectEnableChange);
     }
@@ -31,8 +40,8 @@ class Actress extends Character
             var destPosH : number = this.map.GetPosH(this.indexH);
             var valueW : number = destPosW - currentPosW;
             var valueH : number = destPosH - currentPosH;
-            currentPosW += Laya.timer.delta / 1000 * this.moveSpeed * this.dirW;
-            currentPosH -= Laya.timer.delta / 1000 * this.moveSpeed * this.dirH;
+            currentPosW += Laya.timer.delta / 1000 * this.moveSpeed * GameMap.globalSpeed * this.dirW;
+            currentPosH -= Laya.timer.delta / 1000 * this.moveSpeed * GameMap.globalSpeed * this.dirH;
             if (valueW * (destPosW - currentPosW) <= 0 && 
                 valueH * (destPosH - currentPosH) <= 0)
                 {

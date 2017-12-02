@@ -15,6 +15,11 @@ module Yu
 
     export class CustomSprite extends Laya.Sprite
     {
+        public static Paused() : boolean
+        {
+            return CustomSprite.isPaused > 0.5;
+        }
+
         public static AddTime() : void
         {
             var maxW = Math.max(CustomShaderValue.pointPos[0],Laya.stage.width - CustomShaderValue.pointPos[0]);

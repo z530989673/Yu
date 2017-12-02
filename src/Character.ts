@@ -3,7 +3,7 @@
 */
 class Character{
     protected map :GameMap;
-    protected image : CustomSprite;
+    protected image : any;
     public indexW : number = 0;
     public indexH : number = 0;
     public moveSpeed : number = 1000;
@@ -29,10 +29,13 @@ class Character{
         this.blockable = blockable;
         if (this.blockable)
             this.map.SetStatus(this.indexH,this.indexW,NodeStatus.Block);
-        this.image = new CustomSprite(path);
-        this.image.zOrder = indexH;
-        this.map.AddObject(this.image);
-        this.image.pos(m.GetPosW(indexW), m.GetPosH(indexH));
+        if (path != "")
+        {
+            this.image = new CustomSprite(path);
+            this.image.zOrder = indexH;
+            this.map.AddObject(this.image);
+            this.image.pos(m.GetPosW(indexW), m.GetPosH(indexH));
+        }
 
         this.wayPoints = this.wayPoints1;
         this.nextWayPoints = this.wayPoints2;
