@@ -15,6 +15,43 @@ module Yu
 
     export class CustomSprite extends Laya.Sprite
     {
+        public static AddTime() : void
+        {
+            var maxW = Math.max(CustomShaderValue.pointPos[0],Laya.stage.width - CustomShaderValue.pointPos[0]);
+            var maxH = Math.max(CustomShaderValue.pointPos[1],Laya.stage.width - CustomShaderValue.pointPos[1]);
+            CustomSprite.distance = Math.sqrt(maxW * maxW + maxH * maxH) + 600;
+            if (CustomSprite.isPaused < 0.5)
+            {
+                CustomSprite.currentTime -= Laya.timer.delta;
+                if (CustomSprite.currentTime < 0)
+                    CustomSprite.currentTime = 0;
+            }
+            else
+            {
+                CustomSprite.currentTime += Laya.timer.delta;
+                if (CustomSprite.currentTime > CustomSprite.maxTime)
+                    CustomSprite.currentTime = CustomSprite.maxTime;
+            }
+            var coeff = (CustomSprite.currentTime / CustomSprite.maxTime);
+            CustomSprite.radius = CustomSprite.distance * coeff * coeff;
+        }
+
+        public static SetPause( p : boolean) : void
+        {
+            if (p)
+            {
+                CustomSprite.isPaused = 1;
+            }
+            else
+            {
+                CustomSprite.isPaused = 0;
+            }
+        }
+        public static currentTime : number = 0;
+        public static maxTime : number = 1000;
+        public static distance : number = 2000;
+        public static radius : number = 0;
+        public static isPaused : number = 0;
         private vBuffer:VertexBuffer2D;
         /** 片元缓冲区。      */
         private iBuffer:IndexBuffer2D;
@@ -26,7 +63,7 @@ module Yu
         private tex : Texture;
         private noiseTex : Texture;
         private path : string;
-        private noisePath : string = "../laya/assets/comp/image.png";
+        private noisePath : string = "../laya/assets/placeHolder/mask.png";
 
         constructor(path : string){
             super();
@@ -51,7 +88,7 @@ module Yu
                 this.shaderValue.uv_noise_info = [this.noiseTex.uv[0],this.noiseTex.uv[1],this.noiseTex.uv[4] - this.noiseTex.uv[0],this.noiseTex.uv[5] - this.noiseTex.uv[1]];   
                 this.shaderValue.u_pointPos = CustomShaderValue.pointPos;     
                 var point : Point = this.localToGlobal(new Point(GameMap.nodeLength / 2,GameMap.nodeLength / 2));
-                this.shaderValue.pos_info = [point.x,point.y,this.tex.width,this.tex.height];
+                this.shaderValue.pos_info = [CustomSprite.isPaused,CustomSprite.radius,this.tex.width,this.tex.height];
             }
         }
 

@@ -185,12 +185,14 @@ class GameMap{
     {
         for(var i =0; i < this.characters.length; i++)
             this.characters[i].SetActive(false);
+        CustomSprite.SetPause(true);
     }
 
     public RestoreUpdate() : void
     {
         for(var i =0; i < this.characters.length; i++)
             this.characters[i].SetActive(true);
+        CustomSprite.SetPause(false);
     }
 
     private Update(e: Event): void {

@@ -40,9 +40,14 @@ class GameMain{
 
         Laya.Stat.show(0,0);
 
-        //Laya.timer.frameLoop(1, this, this.Update);
+        Laya.timer.frameLoop(1, this, this.Update);
 
         //Laya.loader.load("../laya/assets/comp/image.png", Handler.create(this, this.loadComplete), null, Loader.IMAGE);
+    }
+
+    private Update() : void
+    {
+        CustomSprite.AddTime();
     }
 }
 new GameMain();
