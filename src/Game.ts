@@ -9,7 +9,9 @@ import WebGL = Laya.WebGL;
 import CustomSprite = Yu.CustomSprite;
 import Loader = Laya.Loader;
 import HTMLCanvas = Laya.HTMLCanvas;
-import Point = Laya.Point;import Rectangle = Laya.Rectangle;
+import Point = Laya.Point;
+import Rectangle = Laya.Rectangle;
+
 class GameMain{
 
     public map : GameMap;
