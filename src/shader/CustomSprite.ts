@@ -52,6 +52,12 @@ module Yu
         public static distance : number = 2000;
         public static radius : number = 0;
         public static isPaused : number = 0;
+        public static IsUpdating () : boolean
+        {
+            return ((CustomSprite.isPaused < 0.5 && CustomSprite.currentTime != 0) ||
+            (CustomSprite.isPaused > 0.5 && CustomSprite.currentTime != CustomSprite.maxTime))
+
+        }
         private vBuffer:VertexBuffer2D;
         /** 片元缓冲区。      */
         private iBuffer:IndexBuffer2D;
