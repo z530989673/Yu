@@ -41,6 +41,8 @@ class Player{
 
     public Update() : void
     {
+        var point : Point = this.image.localToGlobal(new Point(GameMap.nodeLength / 2,GameMap.nodeLength / 2));
+        Yu.CustomShaderValue.pointPos = [point.x,point.y];
         if (this.status == PlayerStatus.Idle)
             return;
         else if (this.status == PlayerStatus.Move)
@@ -61,9 +63,6 @@ class Player{
                     this.CheckNextWayPoint();
                 }
             this.image.pos(currentPosW, currentPosH);
-            var point : Point = this.image.localToGlobal(new Point(GameMap.nodeLength / 2,GameMap.nodeLength / 2));
-            console.log(point);
-            Yu.CustomShaderValue.pointPos = [point.x,point.y];
         }
     }
 

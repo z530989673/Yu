@@ -40,7 +40,7 @@ void main(){\
 	vec4 c = texture2D(texture, v_texcoord);\
 	vec4 noise = texture2D(u_tex1, v_worldPos*uv_noise_info.zw + uv_noise_info.xy);\
 	float d = length(v_worldPos * vec2(1080,1920) - u_pointPos) / 1000.0;\
-  gl_FragColor = c * vec4(vec3(d) * noise.rgb,1);\
+  gl_FragColor = c * vec4(vec3(d),1);\
 }";
 
   //vec4 t_color = texture2D(texture, v_texcoord);\
