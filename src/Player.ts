@@ -29,6 +29,8 @@ class Player{
         this.image.zOrder = indexH;
         this.map.AddObject(this.image);
         this.image.pos(m.GetPosW(indexW), m.GetPosH(indexH));
+        var point : Point = this.image.localToGlobal(new Point(GameMap.nodeLength / 2,GameMap.nodeLength / 2));
+        Yu.CustomShaderValue.pointPos = [point.x,point.y];
 
         Laya.timer.frameLoop(1, this, this.Update);
     }
@@ -55,6 +57,9 @@ class Player{
                     this.CheckNextWayPoint();
                 }
             this.image.pos(currentPosW, currentPosH);
+            var point : Point = this.image.localToGlobal(new Point(GameMap.nodeLength / 2,GameMap.nodeLength / 2));
+            console.log(point);
+            Yu.CustomShaderValue.pointPos = [point.x,point.y];
         }
     }
 

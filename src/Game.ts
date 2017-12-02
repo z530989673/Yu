@@ -9,6 +9,7 @@ import WebGL = Laya.WebGL;
 import CustomSprite = Yu.CustomSprite;
 import Loader = Laya.Loader;
 import HTMLCanvas = Laya.HTMLCanvas;
+import Point = Laya.Point;
 
 class GameMain{
 
