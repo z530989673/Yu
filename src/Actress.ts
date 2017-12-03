@@ -13,7 +13,10 @@ class Actress extends Character
 
         this.currTargetObject = rootObject;
         if (rootObject != null)
+        {
+            rootObject.SetCanTurn(false);
             Laya.timer.once(1000, this, this.FindNextTargetObject);
+        }
 
         this.image = new Sprite();
         

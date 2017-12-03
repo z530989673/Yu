@@ -8,6 +8,7 @@ class ObjectLight extends GameObject
     public children : ObjectLight[] = [];
     public selfIdx : number = 0;
     public enable : boolean = true;
+    public canTurn : boolean = true;
 
     private onTexPath : string = "../laya/assets/item/icon_lantern.png";
     private offTexPath : string = "../laya/assets/item/icon_nolantern.png";
@@ -55,6 +56,11 @@ class ObjectLight extends GameObject
         }
     }
 
+    public SetCanTurn(canTurn : boolean) : void
+    {
+        this.canTurn = canTurn;
+    }
+
     public SetEnable(enable : boolean) : void
     {
         this.enable = enable;
@@ -93,6 +99,9 @@ class ObjectLight extends GameObject
     {
 		var player = e.eventArgs;
         var inst = e.eventInst;
+        if (!inst.canTurn)
+            return;
+            
         if (inst.Intersects(player.GetRect()))
         {
             if (inst.enable)

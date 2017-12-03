@@ -189,25 +189,25 @@ class GameMap{
         this.map = new CustomSprite("../laya/assets/level1/bg.jpg");
         this.map.zOrder = -1;
         Layer.AddMap(this.map);
-        this.nodeStatus = [ [1,1,0,1,0,1,1,1],//29
-                            [1,1,0,1,0,1,0,0],
-                            [1,1,0,1,0,1,0,1],
-                            [0,0,0,1,0,1,0,1],
-                            [1,0,1,1,0,1,0,1],
-                            [0,0,0,1,0,1,0,0],//24
-                            [0,0,0,1,0,0,0,0],
-                            [0,0,0,1,0,0,0,0],
-                            [1,1,0,0,1,1,1,0],
-                            [1,0,1,0,1,0,1,0],
-                            [1,0,1,0,1,0,1,0],//19
-                            [1,0,1,0,1,0,1,0],
-                            [1,0,0,0,1,0,1,0],
-                            [0,1,1,0,0,0,1,0],
-                            [0,1,1,0,0,1,0,0],
-                            [0,1,1,0,0,1,0,1],//14
-                            [0,1,1,0,0,1,0,0],
-                            [0,1,1,0,0,1,0,0],
-                            [0,0,0,0,0,1,0,0],
+        this.nodeStatus = [ [1,1,1,1,0,1,1,1],//29
+                            [1,1,1,1,0,1,0,0],
+                            [1,1,1,1,0,1,0,1],
+                            [1,1,1,1,0,1,0,1],
+                            [1,1,1,1,0,1,0,1],
+                            [1,1,1,1,0,1,0,0],//24
+                            [1,1,1,1,0,0,0,0],
+                            [1,1,1,1,0,0,0,0],
+                            [1,1,1,1,1,1,1,0],
+                            [1,1,1,1,1,1,1,0],
+                            [1,1,1,1,1,1,1,0],//19
+                            [1,1,1,1,1,1,1,0],
+                            [1,1,1,1,1,1,1,0],
+                            [1,1,1,1,1,1,1,0],
+                            [1,1,1,1,1,1,0,0],
+                            [1,1,1,1,1,1,0,1],//14
+                            [1,1,1,1,1,1,0,0],
+                            [1,1,1,1,1,1,0,0],
+                            [0,1,1,1,1,1,0,0],
                             [0,1,1,1,1,1,1,0],
                             [0,1,1,1,1,1,1,0],//9
                             [0,1,0,0,0,1,1,0],
@@ -274,11 +274,7 @@ class GameMap{
         var lights = [
             new ObjectLight(this, 2, 1, 1, 1, false),
 
-            new ObjectLight(this, 16, 0, 1, 1, false),
-
-            new ObjectLight(this, 13, 3, 1, 1, false, false),
-            new ObjectLight(this, 20, 1, 1, 1, false),
-            new ObjectLight(this, 26, 0, 1, 1, false),
+            new ObjectLight(this, 9, 0, 1, 1, false),
 
             new ObjectLight(this, 1, 6, 1, 1, false),
             new ObjectLight(this, 4, 6, 1, 1, false, false),
@@ -291,18 +287,14 @@ class GameMap{
 
         lights[0].AddChild(lights[1]);
         lights[0].AddChild(lights[2]);
-        lights[0].AddChild(lights[5]);
 
         lights[2].AddChild(lights[3]);
-        lights[2].AddChild(lights[4]);
+        lights[3].AddChild(lights[4]);
+        lights[4].AddChild(lights[5]);
+        lights[4].AddChild(lights[7]);
 
         lights[5].AddChild(lights[6]);
-        lights[6].AddChild(lights[7]);
         lights[7].AddChild(lights[8]);
-        lights[7].AddChild(lights[10]);
-
-        lights[8].AddChild(lights[9]);
-        lights[10].AddChild(lights[11]);
         
 
         for (var i = 0; i < lights.length; ++i)
