@@ -61,7 +61,8 @@ class Actress extends Character
         if (this.wayPoints.length == 0)
         {
             this.status = PlayerStatus.Idle;
-            Laya.timer.once(3000, this, this.FindNextTargetObject);
+            if (this.currTargetObject != null)
+                Laya.timer.once(3000, this, this.FindNextTargetObject);
         }
         else
         {
@@ -101,6 +102,8 @@ class Actress extends Character
 
     private FindNextTargetObject() : void
     {
+        if (this.currTargetObject == null)
+            return;
         var NextTargetObject = this.currTargetObject.GetNextObject();
         if (NextTargetObject != null)
         {

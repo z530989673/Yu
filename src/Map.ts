@@ -113,7 +113,7 @@ class GameMap{
                 var offsetH : number = this.GetPosH(i);
                 sp.pos(offsetW, offsetH);
                 sp.zOrder = -10000;
-                this.objectContainer.addChild(sp);
+                //this.objectContainer.addChild(sp);
                 this.nodeSprite[i].push(sp);
             }
         }
@@ -149,20 +149,9 @@ class GameMap{
         light1.AddChild(light2);
         light1.AddChild(light3);
 
-        // var actress = new Actress(this, "../laya/assets/placeHolder/Green.png", 1, 3, false, light);
-        // this.AddCharacter(actress);
-
-        // this.AddCharacter("../laya/assets/placeHolder/Green.png",8,3,true,nodes);
-        //var nodes : MapNode[] = [this.mapNodes[8][3],this.mapNodes[8][4],this.mapNodes[8][5]];
-        //this.AddCharacter("../laya/assets/placeHolder/Green.png",8,3,true,nodes);
         Laya.timer.frameLoop(1, this, this.Update);
     }
  
-    // public AddCharacter(path : string, indexH : number, indexW :number, blockable : boolean, checkPoints : MapNode[]) : void
-    // {
-    //     var character : Character = new Character(this, path, indexH, indexW, blockable, checkPoints);
-    //     this.characters.push(character);
-    // }
     public AddCharacter(character : any)
     {
         if (CustomSprite.Paused())
@@ -236,9 +225,12 @@ class GameMap{
 
     public RestoreUpdate() : void
     {
-        for(var i =0; i < this.characters.length; i++)
-            this.characters[i].SetActive(true);
         CustomSprite.SetPause(false);
+    }
+
+    public IsPaused() : boolean
+    {
+        return CustomSprite.Paused();
     }
 
     private Update(e: Event): void {

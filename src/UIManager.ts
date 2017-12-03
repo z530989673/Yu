@@ -15,23 +15,16 @@ class UIManager{
         this.button.pos(Laya.stage.width - 200,Laya.stage.height - 200);
         this.button.scale(1.8,6);
         this.button.mouseThrough = true;
-        this.button.on(Laya.Event.MOUSE_UP,this,this.StopTime);
+        this.button.on(Laya.Event.MOUSE_UP,this,this.SkillButtonPressed);
         Layer.AddUI(this.button);
     }
 
-    public StopTime(e : Event) : void
+    public SkillButtonPressed(e : Event) : void
     {
         e.stopPropagation();
-        this.button.off(Laya.Event.MOUSE_UP,this,this.StopTime);
-        this.button.on(Laya.Event.MOUSE_UP,this,this.RestoreTime);
-        this.game.map.StopUpdate();
-    }
-
-    public RestoreTime(e : Event) : void
-    {
-        e.stopPropagation();
-        this.button.on(Laya.Event.MOUSE_UP,this,this.StopTime);
-        this.button.off(Laya.Event.MOUSE_UP,this,this.RestoreTime);
-        this.game.map.RestoreUpdate();
+        if (this.game.map.IsPaused())
+            this.game.map.RestoreUpdate();
+        else
+            this.game.map.StopUpdate();
     }
 }
