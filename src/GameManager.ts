@@ -23,6 +23,7 @@ class GameManager {
 		EventCenter.addEventListener(new GameEvent("touchBall", null, this), this.touchBall);
 		EventCenter.addEventListener(new GameEvent("touchMusicStone", null, this), this.musicStoneTouch);
 		EventCenter.addEventListener(new GameEvent("playerCollision", null, this), this.playerCollision);
+		EventCenter.addEventListener(new GameEvent("ballSwitchTouch", null, this), this.ballSwitchTouch);
 	}
 
 	private startSingleBlockLevel(e:GameEvent) : void
@@ -229,6 +230,21 @@ class GameManager {
 
 	}
 
+	openGate(e:GameEvent)
+	{
+		var pitch = e.eventArgs;
+		if(pitch == 1)
+		{
+			// var gateNode:MapNode = e.eventInst.map.mapNodes[34][3];
+			// gateNode.
+		}
+
+	}
+	ballSwitchTouch(e:GameEvent)
+	{
+		e.eventInst.openGate(e);
+		// e.eventInst.
+	}
 	musicStoneTouch(e:GameEvent)
 	{
 		console.log("musicstone touch");
