@@ -5,11 +5,11 @@ class MusicStone extends GameObject
 	public switchY:number;
 
 	constructor(m : GameMap, path : string, indexW : number, indexH : number, 
-				sW:number, sH:number, stoneId:number, switchX:number, switchY:number)
+				stoneId:number)
 	{
-		super(m, path, indexW, indexH, sW, sH, true);
-		this.switchX = switchX;
-		this.switchY = switchY
+		super(m, path, indexW, indexH, 1, 1, false);
+		this.switchX = indexW;
+		this.switchY = indexH
 		var StandEvent = new GameEvent("standPos", [indexW, indexH], this);
 		EventCenter.addEventListener(StandEvent, this.standStone);
 		this.stoneId = stoneId;
@@ -17,12 +17,10 @@ class MusicStone extends GameObject
 
 	standStone(e:GameEvent)
 	{
-		console.log("stand stone");
-		console.log(e.eventArgs);
 		var Pos = e.eventArgs;
-		if (e.eventInst.switchX == Pos[0] && e.eventInst.switchY == Pos[1]) 
+		if (e.eventInst.switchX == Pos[1] && e.eventInst.switchY == Pos[0]) 
 		{
-			var Event = new GameEvent("touchMusicStone", this.stoneId, this);
+			var Event = new GameEvent("touchMusicStone", e.eventInst.stoneId, this);
 			EventCenter.dispatchAll(Event);
 		}
 	}
