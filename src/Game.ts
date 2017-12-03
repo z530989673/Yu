@@ -40,7 +40,7 @@ class GameMain{
         this.cm = new CollisionManager(this.map);
         this.map.LoadLevel1();
 
-        //Laya.Stat.show(0,0);
+        Laya.Stat.show(0,0);
 
         Laya.timer.frameLoop(1, this, this.Update);
 
