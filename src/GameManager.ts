@@ -37,18 +37,18 @@ class GameManager {
 	        e.eventInst.map.mapNodes[8][3],
 	        e.eventInst.map.mapNodes[7][3],
 	        e.eventInst.map.mapNodes[6][3]];
-        var character : Character = new Character(e.eventInst.map, "../laya/assets/placeHolder/Flag.png", 13, 3, false, nodes);
+        var character : Character = new Character(e.eventInst.map, "../laya/assets/item/icon_wildfire.png", 13, 3, false, nodes);
 		e.eventInst.addCharacter(character);
 	}
 
 	private startMusicStoneLevel(e:GameEvent) 
 	{
-		var musicStone1 = new MusicStone(e.eventInst.map, "../laya/assets/placeHolder/Flag.png",19, 3, 1);
-		var musicStone2 = new MusicStone(e.eventInst.map, "../laya/assets/placeHolder/Flag.png",21, 7, 2);
-		var musicStone3 = new MusicStone(e.eventInst.map, "../laya/assets/placeHolder/Flag.png",21, 0, 3);
-		var musicStone4 = new MusicStone(e.eventInst.map, "../laya/assets/placeHolder/Flag.png",23, 0, 4);
-		var musicStone5 = new MusicStone(e.eventInst.map, "../laya/assets/placeHolder/Flag.png",26, 7, 5);
-		var musicStone6 = new MusicStone(e.eventInst.map, "../laya/assets/placeHolder/Flag.png",27, 3, 6);
+		var musicStone1 = new MusicStone(e.eventInst.map, "../laya/assets/item/icon_wildfire.png",19, 3, 1);
+		var musicStone2 = new MusicStone(e.eventInst.map, "../laya/assets/item/icon_wildfire.png",21, 7, 2);
+		var musicStone3 = new MusicStone(e.eventInst.map, "../laya/assets/item/icon_wildfire.png",21, 0, 3);
+		var musicStone4 = new MusicStone(e.eventInst.map, "../laya/assets/item/icon_wildfire.png",23, 0, 4);
+		var musicStone5 = new MusicStone(e.eventInst.map, "../laya/assets/item/icon_wildfire.png",26, 7, 5);
+		var musicStone6 = new MusicStone(e.eventInst.map, "../laya/assets/item/icon_wildfire.png",27, 3, 6);
 		e.eventInst.map.AddGameObject(musicStone1);
 		e.eventInst.map.AddGameObject(musicStone2);
 		e.eventInst.map.AddGameObject(musicStone3);
