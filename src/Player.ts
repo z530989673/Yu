@@ -23,6 +23,7 @@ class Player{
 
     public saveW : number = 0;
     public saveH : number = 0;
+    public isHoldFirefly : boolean = false;
 
     constructor(m : GameMap, path : string, indexH : number, indexW : number){
         this.map = m;
@@ -35,12 +36,15 @@ class Player{
         this.image.zOrder = indexH;
         this.map.AddObject(this.image);
         this.image.pos(m.GetPosW(indexW), m.GetPosH(indexH));
+        //this.image.scale(GameMap.nodeLength / 128,GameMap.nodeLength / 128);
         var point : Point = this.image.localToGlobal(new Point(GameMap.nodeLength / 2,GameMap.nodeLength));
         Yu.CustomShaderValue.pointPos = [point.x,point.y];
 
         Laya.timer.frameLoop(1, this, this.Update);
         
         Laya.loader.load("../laya/pages/timeStop.part", Handler.create(this, this.onParticleLoaded), null, Loader.JSON);
+        EventCenter.addEventListener(new GameEvent("holdFirefly", null, this), this.OnHoldFirefly);
+        EventCenter.addEventListener(new GameEvent("LightEnableChanged", null, this), this.OnLightEnableChanged);
     }
 
     public onParticleLoaded(settings: ParticleSetting) : void
@@ -50,7 +54,7 @@ class Player{
         this.particle.emitter.start();
         this.particle.emitter.minEmissionTime = 0.1;
         this.particle.play();
-        Layer.AddForeGroundFar(this.particle);
+        Layer.AddObjects(this.particle);
         this.particle.x = Laya.stage.width / 2;
         this.particle.y = Laya.stage.height / 2;
     }
@@ -87,7 +91,7 @@ class Player{
         if (this.wayPoints.length == 0)
         {
             this.status = PlayerStatus.Idle;
-            Laya.timer.once(1000, this, this.TurnLight);
+            Laya.timer.once(500, this, this.TurnLight);
         }
         else
         {
@@ -168,6 +172,11 @@ class Player{
         return this.image.y + GameMap.nodeLength / 2;
     }
 
+    public GetUpperX() : number
+    {
+        return this.image.x;
+    }
+
     public GetUpperBound() : number
     {
         return this.image.y;
@@ -182,7 +191,7 @@ class Player{
     {
         var x = this.image.x;
         var y = this.image.y;
-        return new Rectangle(x, y, this.image.width - 1, this.image.height - 1);
+        return new Rectangle(x, y, this.image.width * GameMap.nodeLength / 128- 1, this.image.height* GameMap.nodeLength / 128 - 1);
     }
 
     public Intersects (rect : Rectangle) : boolean
@@ -193,5 +202,18 @@ class Player{
     private TurnLight(args) : void
     {
         EventCenter.dispatchAll(new GameEvent("TurnLight", this, this));
+    }
+
+    private OnHoldFirefly(e:GameEvent) : void
+    {
+        var inst = e.eventInst;
+        inst.isHoldFirefly = true;
+        inst.map.RestoreUpdate();
+    }
+
+    private OnLightEnableChanged(e:GameEvent) : void
+    {
+        var inst = e.eventInst;
+        inst.isHoldFirefly = false;
     }
 }

@@ -9,10 +9,14 @@ class Actress extends Character
     constructor(m : GameMap, path : string, indexH : number, indexW : number, blockable : boolean, rootObject : ObjectLight = null)
     {
         super(m, "", indexH, indexW, blockable, []);
+        this.type = CharacterType.ACTRESS;
 
         this.currTargetObject = rootObject;
         if (rootObject != null)
-            Laya.timer.once(3000, this, this.FindNextTargetObject);
+        {
+            rootObject.SetCanTurn(false);
+            Laya.timer.once(1000, this, this.FindNextTargetObject);
+        }
 
         this.image = new Sprite();
         
@@ -20,8 +24,9 @@ class Actress extends Character
         this.image.zOrder = indexH;
         this.map.AddObject(this.image);
         this.image.pos(m.GetPosW(indexW), m.GetPosH(indexH));
+        //this.image.scale(GameMap.nodeLength / 128,GameMap.nodeLength / 128);
 
-        this.moveSpeed = 200;
+        this.moveSpeed = 500;
 
         EventCenter.addEventListener(new GameEvent("LightEnableChanged", null, this), this.TargetObjectEnableChange);
     }
@@ -130,14 +135,13 @@ class Actress extends Character
     }
 
     //被吓到了赶紧跑回去
-    private FindPrevTargetObject(e:GameEvent) : void
+    public FindPrevTargetObject() : void
     {
-        var inst = e.eventInst;
-        var NextTargetObject = inst.currTargetObject.parent;
-        if (NextTargetObject != null)
+        var PrevTargetObject = this.currTargetObject.parent;
+        if (PrevTargetObject != null)
         {
-            inst.currTargetObject = NextTargetObject;
-            inst.map.MoveTo(NextTargetObject.indexH, NextTargetObject.indexW, inst);
+            this.currTargetObject = PrevTargetObject;
+            this.map.MoveTo(PrevTargetObject.indexH, PrevTargetObject.indexW, this);
         }
     }
 

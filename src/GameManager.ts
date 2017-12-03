@@ -20,6 +20,7 @@ class GameManager {
 		// this.player.Save(4, 29);
 		// this.player.Load();
 		EventCenter.addEventListener(new GameEvent("standPos", null, this), this.standPos);
+		// EventCenter.addEventListener(new GameEvent("standPos", null, this), this.standPos);
 		EventCenter.addEventListener(new GameEvent("touchLatern", null, this), this.touchLatern);
 		EventCenter.addEventListener(new GameEvent("touchWater", null, this), this.touchWater);
 		EventCenter.addEventListener(new GameEvent("touchBall", null, this), this.touchBall);
@@ -32,15 +33,9 @@ class GameManager {
 	{
 		e.eventInst.map.player.Save(4, 29);
         var nodes : MapNode[] = [
-	        e.eventInst.map.mapNodes[13][3],
-	        e.eventInst.map.mapNodes[12][3],
-	        e.eventInst.map.mapNodes[11][3],
-	        e.eventInst.map.mapNodes[10][3],
-	        e.eventInst.map.mapNodes[9][3],
-	        e.eventInst.map.mapNodes[8][3],
-	        e.eventInst.map.mapNodes[7][3],
-	        e.eventInst.map.mapNodes[6][3]];
-        var character : Character = new Character(e.eventInst.map, "../laya/assets/item/icon_wildfire.png", 13, 3, false, nodes);
+	        e.eventInst.map.mapNodes[18][3],
+	        e.eventInst.map.mapNodes[11][3]];
+        var character : Character = new Character(e.eventInst.map, "../laya/assets/item/icon_wildfire.png", 18, 3, false, nodes);
 		e.eventInst.addCharacter(character);
 
 		var nodes1 : MapNode[] = [
@@ -56,6 +51,21 @@ class GameManager {
 		e.eventInst.map.MoveTo(20, 5, ball);
 		// ball.MoveTo(nodes1);
 		// e.eventArgs.map = nodes1;
+        var nodes2 : MapNode[] = [
+	        e.eventInst.map.mapNodes[18][4],
+	        e.eventInst.map.mapNodes[13][4]];
+        var character2 : Character = new Character(e.eventInst.map, "../laya/assets/item/icon_wildfire.png", 18, 4, false, nodes2);
+		e.eventInst.addCharacter(character2);
+
+		// var nodes1 : MapNode[] = [
+	    //     e.eventInst.map.mapNodes[5][5],
+	    //     e.eventInst.map.mapNodes[5][4],
+	    //     e.eventInst.map.mapNodes[5][3],
+	    //     e.eventInst.map.mapNodes[5][2],
+	    //     e.eventInst.map.mapNodes[5][1],
+	    //     e.eventInst.map.mapNodes[5][0]
+	    //    	];
+		// e.eventInst.map.AddCharacter(new Ball(e.eventInst.map, "../laya/assets/item/icon_wildfire.png", 5, 5, false, nodes1));
 
 	}
 
@@ -103,7 +113,7 @@ class GameManager {
 	{
 		var player = e.eventArgs[0];
 		var character = e.eventArgs[1];
-		player.Load();
+		// player.Load();
 
 		// if(character.ClassName == "Character")
 		// {
@@ -115,6 +125,18 @@ class GameManager {
 		// 	var X = ball.indexW;
 		// 	var Y = ball.indexH;
 		// }
+
+		if (character.type == CharacterType.FIREFLY && e.eventInst.map.IsPaused())
+		{
+        	EventCenter.dispatchAll(new GameEvent("holdFirefly", character, this));
+			return;
+		}
+		
+		player.Load();
+		if(character.type == CharacterType.ACTRESS)
+		{
+			character.FindPrevTargetObject();
+		}
 	}
 
 	standPos(e:GameEvent)
@@ -123,12 +145,12 @@ class GameManager {
 		var PosY = e.eventArgs[1];
 		if (PosY == 5 && !e.eventInst.isSingleBlockStart)
 		{			
-			e.eventInst.isSingleBlockStart = true;
+			e.eventInst.c = true;
 			e.eventInst.startSingleBlockLevel(e);
 		}
-		if (PosY == 15 && !e.eventInst.isMusicStoneStart)
+		if (PosY == 19 && !e.eventInst.isMusicStoneStart)
 		{
-			e.eventInst.map.player.Save(3, 15);
+			e.eventInst.map.player.Save(2, 19);
 			e.eventInst.isMusicStoneStart = true;
 			e.eventInst.startMusicStoneLevel(e);
 		} 

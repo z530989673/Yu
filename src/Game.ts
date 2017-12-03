@@ -32,24 +32,28 @@ class GameMain{
 
         Laya.stage.scaleMode = "showall";
         Laya.stage.bgColor = "#232628";
-        
 
-        this.map = new GameMap();
-        this.uiMgr = new UIManager(this);
-        this.gm = new GameManager(this.map);
-        this.cm = new CollisionManager(this.map);
-        this.map.LoadLevel1();
+        Laya.Stat.show(0,0);
 
-        //Laya.Stat.show(0,0);
 
-        Laya.timer.frameLoop(1, this, this.Update);
-
-        //Laya.loader.load("../laya/assets/comp/image.png", Handler.create(this, this.loadComplete), null, Loader.IMAGE);
+        Laya.loader.load(["../laya/assets/item/shadow.png",
+                          "../laya/assets/placeHolder/mask.png"], Handler.create(this, this.loadComplete), null, Loader.IMAGE);
     }
 
     private Update() : void
     {
         CustomSprite.AddTime();
+    }
+
+    private loadComplete() : void
+    {
+        this.map = new GameMap();
+        this.uiMgr = new UIManager(this);
+        this.gm = new GameManager(this.map);
+        this.cm = new CollisionManager(this.map);
+        // this.map.LoadLevel1();
+        this.map.LoadLevel2();
+        Laya.timer.frameLoop(1, this, this.Update);
     }
 }
 new GameMain();

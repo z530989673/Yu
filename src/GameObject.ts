@@ -5,7 +5,7 @@
 class GameObject
 {
     protected map : GameMap;
-    protected image : CustomSprite;
+    protected image : any;
     public indexW : number = 0;
     public indexH : number = 0;
     public sizeW : number = 1;
@@ -21,17 +21,21 @@ class GameObject
         this.sizeW = sW;
         this.blockable = blockable;
 
-        this.image = new CustomSprite(path);
-        this.image.zOrder = - indexH;
-        this.map.AddObject(this.image);
-        this.image.pos(m.GetPosW(indexW), m.GetPosH(indexH));
+        if (path != "")
+        {
+            this.image = new CustomSprite(path);
+            //this.image.zOrder = - indexH;
+            this.map.AddObject(this.image);
+            this.image.pos(m.GetPosW(indexW), m.GetPosH(indexH));
+            this.image.scale(GameMap.nodeLength / 128,GameMap.nodeLength / 128);
+        }
     }
 
     public GetRect() : Rectangle
     {
         var x = this.image.x;
         var y = this.image.y;
-        return new Rectangle(x, y, this.image.width - 1, this.image.height - 1);
+        return new Rectangle(x, y, this.image.width* GameMap.nodeLength / 128 - 1, this.image.height* GameMap.nodeLength / 128 - 1);
     }
 
     public Intersects (rect : Rectangle) : boolean

@@ -8,10 +8,23 @@ class ObjectLight extends GameObject
     public children : ObjectLight[] = [];
     public selfIdx : number = 0;
     public enable : boolean = true;
+    public canTurn : boolean = true;
 
-    constructor(m : GameMap, path : string, indexH : number, indexW : number,
-                sH : number, sW : number, blockable : boolean){
-        super(m, path, indexH, indexW, sH, sW, blockable);
+    private onTexPath : string = "../laya/assets/item/icon_lantern.png";
+    private offTexPath : string = "../laya/assets/item/icon_nolantern.png";
+
+    constructor(m : GameMap, indexH : number, indexW : number,
+                sH : number, sW : number, blockable : boolean, enable : boolean = true){
+        super(m, "", indexH, indexW, sH, sW, blockable);
+
+        this.enable = enable;
+        var path = enable ? this.onTexPath : this.offTexPath
+
+        this.image = new Sprite();
+        this.image.loadImage(path);
+        this.image.zOrder = indexH;
+        this.map.AddObject(this.image);
+        this.image.pos(m.GetPosW(indexW), m.GetPosH(indexH));
 
 		EventCenter.addEventListener(new GameEvent("TurnLight", null, this), this.CheckTurnLight);
     }
@@ -43,10 +56,19 @@ class ObjectLight extends GameObject
         }
     }
 
+    public SetCanTurn(canTurn : boolean) : void
+    {
+        this.canTurn = canTurn;
+    }
+
     public SetEnable(enable : boolean) : void
     {
         this.enable = enable;
-        this.image.visible = enable;
+
+        var path = enable?this.onTexPath:this.offTexPath;
+        this.image.graphics.clear();
+        this.image.loadImage(path);
+        // this.image.visible = enable;
 
         EventCenter.dispatchAll(new GameEvent("LightEnableChanged", [this, enable], this));
     }
@@ -77,7 +99,15 @@ class ObjectLight extends GameObject
     {
 		var player = e.eventArgs;
         var inst = e.eventInst;
+        if (!inst.canTurn)
+            return;
+            
         if (inst.Intersects(player.GetRect()))
-            inst.SetEnable(!inst.enable);
+        {
+            if (inst.enable)
+                inst.SetEnable(false);
+            else if(player.isHoldFirefly)
+                inst.SetEnable(true);
+        }
     }
 }

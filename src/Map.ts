@@ -37,24 +37,63 @@ class GameMap{
         //Laya.timer.frameLoop(1, this, this.Update);
     }
 
-    public LoadLevel1() : void
+    public ClearLevel() : void
     {
-        this.map = new CustomSprite("../laya/assets/level1/bg.jpg");
+    }
+
+    public LoadBasicLevel(level : string) : void
+    {
+        this.map = new CustomSprite("../laya/assets/" + level + "/bg.jpg");
         this.map.zOrder = -1;
         Layer.AddMap(this.map);
-        this.nodeStatus = [ [0,0,0,0,0,0,0,0],
-                            [0,0,0,0,0,0,0,0],
-                            [0,0,0,0,0,0,0,0],//44
-                            [0,0,0,0,0,0,0,0],
-                            [0,0,0,0,0,0,0,0],
-                            [1,1,1,0,1,1,1,1],
-                            [0,0,0,0,0,0,0,0],
-                            [0,0,0,0,0,0,0,0],//39
-                            [0,0,0,0,0,0,0,0],
-                            [0,0,0,0,0,0,0,0],
-                            [0,0,0,0,0,0,0,0],
-                            [0,0,0,0,0,0,0,0],
-                            [1,1,1,0,1,1,1,1],//34
+
+        for(var i = 0; i < 20; i++)
+        {
+            var closeShot : CustomSprite = new CustomSprite("../laya/assets/" + level + "/close_shot_01.png");
+            closeShot.pos(-250,1600 - i * 800);
+            Layer.AddForeGroundNear(closeShot);
+        }
+        
+        for(var i = 0; i < 15; i++)
+        {
+            var closeShot : CustomSprite = new CustomSprite("../laya/assets/" + level + "/close_shot_02.png");
+            closeShot.pos(-250,1000 - i * 800);
+            Layer.AddForeGroundMid(closeShot);
+        }
+        
+        for(var i = 0; i < 10; i++)
+        {
+            var closeShot : CustomSprite = new CustomSprite("../laya/assets/" + level + "/close_shot_03.png");
+            closeShot.pos(-250,1500 - i * 800);
+            Layer.AddForeGroundFar(closeShot);
+        }
+
+        for(var i = 0; i < 20; i++)
+        {
+            var closeShot : CustomSprite = new CustomSprite("../laya/assets/" + level + "/close_shot_01_r.png");
+            closeShot.pos(1080 - 300,2000 - i * 800);
+            Layer.AddForeGroundNear(closeShot);
+        }
+        
+        for(var i = 0; i < 15; i++)
+        {
+            var closeShot : CustomSprite = new CustomSprite("../laya/assets/" + level + "/close_shot_02_r.png");
+            closeShot.pos(1080 - 300,1400 - i * 800);
+            Layer.AddForeGroundMid(closeShot);
+        }
+        
+        for(var i = 0; i < 10; i++)
+        {
+            var closeShot : CustomSprite = new CustomSprite("../laya/assets/" + level + "/close_shot_03_r.png");
+            closeShot.pos(1080 - 300,1900 - i * 800);
+            Layer.AddForeGroundFar(closeShot);
+        }
+    }
+
+    public LoadLevel1() : void
+    {
+        this.LoadBasicLevel("level1");
+        this.nodeStatus = [ [1,1,1,0,1,1,1,1],//34
                             [0,0,0,0,0,0,0,0],
                             [0,0,0,0,0,0,0,0],
                             [0,0,0,0,0,0,0,0],
@@ -67,6 +106,13 @@ class GameMap{
                             [0,1,0,0,0,0,0,0],//24
                             [1,1,1,1,0,1,1,1],
                             [0,0,0,0,0,0,0,0],
+                            [2,2,2,0,2,2,2,2],
+                            [0,0,0,0,0,0,2,0],
+                            [0,2,2,0,2,0,0,0],
+                            [0,2,2,0,2,2,2,2],
+                            [0,2,0,0,0,0,0,0],//24
+                            [2,2,2,2,0,2,2,2],
+                            [1,0,0,0,0,0,0,1],
                             [1,1,0,0,0,0,1,1],
                             [1,1,0,0,0,0,1,1],//19
                             [1,1,0,0,0,0,0,1],
@@ -97,6 +143,10 @@ class GameMap{
         ground.pos(150,-750);
         this.objectContainer.addChild(ground);
 
+        var ground1 : CustomSprite = new CustomSprite("../laya/assets/level1/land_full.jpg");
+        ground1.pos(0,-2665);
+        this.objectContainer.addChild(ground1);
+
         for(var i = 0; i < this.nodeStatus.length; i++)
         {
             this.currentStatus.push([]);
@@ -105,20 +155,21 @@ class GameMap{
             {
                 var value : number = this.nodeStatus[this.nodeStatus.length - 1 - i][j];
                 this.currentStatus[i].push(value);
+                
+                if (value == 0 || value == 1)
+                    continue;
+
                 var path : string = "";
-                if (value == 0)
-                    path = "../laya/assets/placeHolder/White.png";
-                else if (value == 1)
-                    path = "";
-                else if (value == 7)
-                    path = "../laya/assets/placeHolder/Flag.png";
-                //var sp : CustomSprite = new CustomSprite(path);
+                
+                if (value == 2)
+                    path = "../laya/assets/level1/obstacle_01.png";
+                var sp : CustomSprite = new CustomSprite(path);
                 var offsetW : number = this.GetPosW(j);
                 var offsetH : number = this.GetPosH(i);
-                //sp.pos(offsetW, offsetH);
-                //sp.zOrder = -10000;
-                //this.objectContainer.addChild(sp);
-                //this.nodeSprite[i].push(sp);
+                sp.pos(offsetW, offsetH);
+                this.objectContainer.addChild(sp);
+                this.nodeSprite[i].push(sp);
+
             }
         }
         
@@ -137,21 +188,138 @@ class GameMap{
             }
         }
 
-        var light = new ObjectLight(this, "../laya/assets/item/icon_lantern.png", 1, 3, 1, 1, false);
-        var light1 = new ObjectLight(this, "../laya/assets/item/icon_lantern.png", 8, 3, 1, 1, false);
-        var light2 = new ObjectLight(this, "../laya/assets/item/icon_lantern.png", 14, 1, 1, 1, false);
-        var light3 = new ObjectLight(this, "../laya/assets/item/icon_lantern.png", 13, 6, 1, 1, false);
-        var girl = new Actress(this,"back",1,3,false,light);
-        this.AddGameObject(light);
-        this.AddGameObject(light1);
-        this.AddGameObject(light2);
-        this.AddGameObject(light3);
-        light.AddChild(light1);
-        light1.AddChild(light2);
-        light1.AddChild(light3);
-
         Laya.timer.frameLoop(1, this, this.Update);
     }
+
+    public LoadLevel2() : void
+    {
+        this.map = new CustomSprite("../laya/assets/level1/bg.jpg");
+        this.map.zOrder = -1;
+        Layer.AddMap(this.map);
+        this.nodeStatus = [ [1,1,1,1,0,1,1,1],//29
+                            [1,1,1,1,0,1,0,0],
+                            [1,1,1,1,0,1,0,1],
+                            [1,1,1,1,0,1,0,1],
+                            [1,1,1,1,0,1,0,1],
+                            [1,1,1,1,0,1,0,0],//24
+                            [1,1,1,1,0,0,0,0],
+                            [1,1,1,1,0,0,0,0],
+                            [1,1,1,1,1,1,1,0],
+                            [1,1,1,1,1,1,1,0],
+                            [1,1,1,1,1,1,1,0],//19
+                            [1,1,1,1,1,1,1,0],
+                            [1,1,1,1,1,1,1,0],
+                            [1,1,1,1,1,1,1,0],
+                            [1,1,1,1,1,1,0,0],
+                            [1,1,1,1,1,1,0,1],//14
+                            [1,1,1,1,1,1,0,0],
+                            [1,1,1,1,1,1,0,0],
+                            [0,1,1,1,1,1,0,0],
+                            [0,1,1,1,1,1,1,0],
+                            [0,1,1,1,1,1,1,0],//9
+                            [0,1,0,0,0,1,1,0],
+                            [0,1,0,0,0,1,1,0],
+                            [0,1,0,0,0,1,0,0],
+                            [0,1,1,0,1,1,0,1],
+                            [0,0,0,0,1,1,0,0],//4
+                            [0,0,0,1,1,1,1,0],
+                            [0,0,0,0,0,0,1,0],
+                            [1,0,1,0,0,0,0,0],
+                            [1,0,1,1,1,1,1,1],];//0
+                            
+        this.width = this.nodeStatus[0].length;
+        this.height = this.nodeStatus.length;
+        this.totalHeightInPxl = this.height * GameMap.nodeLength;
+        
+        for(var i = 0; i < this.nodeStatus.length; i++)
+        {
+            this.currentStatus.push([]);
+            this.nodeSprite.push([]);
+            for(var j = 0; j < this.nodeStatus[i].length; j++)
+            {
+                var value : number = this.nodeStatus[this.nodeStatus.length - 1 - i][j];
+                this.currentStatus[i].push(value);
+                
+                if ( value == 1)
+                    continue;
+
+                var path : string = "";
+                
+                if (value == 0)
+                    path = "../laya/assets/placeHolder/White.png";
+               else  if (value == 2)
+                    path = "../laya/assets/level1/obstacle_01.png";
+                var sp : CustomSprite = new CustomSprite(path);
+                var offsetW : number = this.GetPosW(j);
+                var offsetH : number = this.GetPosH(i);
+                sp.pos(offsetW, offsetH);
+                this.objectContainer.addChild(sp);
+                this.nodeSprite[i].push(sp);
+
+            }
+        }
+                
+        Layer.AddObjects(this.objectContainer);
+
+        // this.AddGameObject("../laya/assets/comp/image.png",3,4,2,1,true);
+        // this.AddGameObject("../laya/assets/placeHolder/Brown.png",6,3,1,1,true);
+        // this.AddGameObject("../laya/assets/placeHolder/Brown.png",9,3,1,1,false);
+
+        this.player = new Player(this,"back",0,1);
+
+        this.map.on(Laya.Event.MOUSE_DOWN,this,this.MouseDown);
+
+        for(var i = 0; i < this.nodeStatus.length; i++)
+        {
+            this.mapNodes.push([]);
+            for(var j = 0; j < this.nodeStatus[i].length; j++)
+            {
+                this.mapNodes[i].push(new MapNode(i,j));
+            }
+        }
+
+        var lights = [
+            new ObjectLight(this, 2, 1, 1, 1, false),
+
+            new ObjectLight(this, 9, 0, 1, 1, false),
+
+            new ObjectLight(this, 1, 6, 1, 1, false),
+            new ObjectLight(this, 4, 6, 1, 1, false, false),
+            new ObjectLight(this, 13, 7, 1, 1, false),
+            new ObjectLight(this, 26, 6, 1, 1, false, false),
+            new ObjectLight(this, 28, 7, 1, 1, false),
+            new ObjectLight(this, 26, 4, 1, 1, false, false),
+            new ObjectLight(this, 29, 4, 1, 1, false),
+        ]
+
+        lights[0].AddChild(lights[1]);
+        lights[0].AddChild(lights[2]);
+
+        lights[2].AddChild(lights[3]);
+        lights[3].AddChild(lights[4]);
+        lights[4].AddChild(lights[5]);
+        lights[4].AddChild(lights[7]);
+
+        lights[5].AddChild(lights[6]);
+        lights[7].AddChild(lights[8]);
+        
+
+        for (var i = 0; i < lights.length; ++i)
+            this.AddGameObject(lights[i]);
+
+        var actress = new Actress(this,"back",2,1, false, lights[0]);
+        this.AddCharacter(actress);
+
+        var nodes : MapNode[] = [
+	        this.mapNodes[7][3],
+	        this.mapNodes[7][2],
+	        this.mapNodes[7][4],
+        ]
+        var firefly = new Firefly(this, "../laya/assets/item/firefly.png", 7, 3, false, nodes);
+        this.AddCharacter(firefly);
+
+        Laya.timer.frameLoop(1, this, this.Update);
+    }    
  
     public AddCharacter(character : any)
     {
@@ -236,20 +404,49 @@ class GameMap{
 
     private Update(e: Event): void {
         var pos : number = this.objectContainer.y + this.player.GetUpperBound();
-        if (pos / Laya.stage.height < 0.3)
+
+        var posX : number = this.objectContainer.x + this.player.GetUpperX();
+        if (posX / Laya.stage.width < 0.3)
+        {
+            this.objectContainer.pos(this.objectContainer.x + (Laya.stage.width * 0.3 - posX),
+                    this.objectContainer.y);
+        }
+        else if (posX / Laya.stage.width > 0.6)
+        {
+            this.objectContainer.pos(this.objectContainer.x + (Laya.stage.width * 0.6 - posX),
+                    this.objectContainer.y);
+        }
+        
+        var upLimit = 0.5;
+        var lowLimit = 0.8;
+        if (pos / Laya.stage.height < upLimit)
         {
             if (this.objectContainer.y + Laya.stage.height < this.totalHeightInPxl)
             {
                 this.objectContainer.pos(this.objectContainer.x,
-                    this.objectContainer.y + (Laya.stage.height * 0.3 - pos));
+                    this.objectContainer.y + (Laya.stage.height * upLimit - pos));
+                
+                Layer.GetInstance().foregroundNear.pos(Layer.GetInstance().foregroundNear.x,
+                    Layer.GetInstance().foregroundNear.y + (Laya.stage.height * upLimit - pos) * 3);
+                Layer.GetInstance().foregroundMid.pos(Layer.GetInstance().foregroundMid.x,
+                    Layer.GetInstance().foregroundMid.y + (Laya.stage.height * upLimit - pos) * 2);
+                Layer.GetInstance().foregroundFar.pos(Layer.GetInstance().foregroundFar.x,
+                    Layer.GetInstance().foregroundFar.y + (Laya.stage.height * upLimit - pos) * 1);
             }
         }
-        else if (pos / Laya.stage.height > 0.7)
+        else if (pos / Laya.stage.height > lowLimit)
         {
             if ( this.objectContainer.y > 0)
             {
                 this.objectContainer.pos(this.objectContainer.x,
-                    this.objectContainer.y + (Laya.stage.height * 0.7 - pos));
+                    this.objectContainer.y + (Laya.stage.height * lowLimit - pos));
+                
+                Layer.GetInstance().foregroundNear.pos(Layer.GetInstance().foregroundNear.x,
+                    Layer.GetInstance().foregroundNear.y + (Laya.stage.height * lowLimit - pos) * 3);
+                Layer.GetInstance().foregroundMid.pos(Layer.GetInstance().foregroundMid.x,
+                    Layer.GetInstance().foregroundMid.y + (Laya.stage.height * lowLimit - pos) * 2);
+                Layer.GetInstance().foregroundFar.pos(Layer.GetInstance().foregroundFar.x,
+                    Layer.GetInstance().foregroundFar.y + (Laya.stage.height * lowLimit - pos) * 1);
                 if (this.objectContainer.y < 0)
                     this.objectContainer.y = 0;
             }
