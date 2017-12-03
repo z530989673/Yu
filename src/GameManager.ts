@@ -17,6 +17,8 @@ class GameManager {
 		this.energy = 0;
 		this.map = map;
 		this.player = map.player;
+		// this.player.Save(4, 29);
+		// this.player.Load();
 		EventCenter.addEventListener(new GameEvent("standPos", null, this), this.standPos);
 		EventCenter.addEventListener(new GameEvent("touchLatern", null, this), this.touchLatern);
 		EventCenter.addEventListener(new GameEvent("touchWater", null, this), this.touchWater);
@@ -28,7 +30,7 @@ class GameManager {
 
 	private startSingleBlockLevel(e:GameEvent) : void
 	{
-		e.eventInst.map.player
+		e.eventInst.map.player.Save(4, 29);
         var nodes : MapNode[] = [
 	        e.eventInst.map.mapNodes[13][3],
 	        e.eventInst.map.mapNodes[12][3],
@@ -49,7 +51,11 @@ class GameManager {
 	        e.eventInst.map.mapNodes[5][1],
 	        e.eventInst.map.mapNodes[5][0]
 	       	];
-		e.eventInst.map.AddCharacter(new Ball(e.eventInst.map, "../laya/assets/item/icon_wildfire.png", 5, 5, false, nodes1));
+	    var ball = new Ball(e.eventInst.map, "../laya/assets/item/icon_wildfire.png", 5, 5, false, []);
+		e.eventInst.map.AddCharacter(ball);
+		e.eventInst.map.MoveTo(20, 5, ball);
+		// ball.MoveTo(nodes1);
+		// e.eventArgs.map = nodes1;
 
 	}
 
@@ -97,8 +103,18 @@ class GameManager {
 	{
 		var player = e.eventArgs[0];
 		var character = e.eventArgs[1];
-
 		player.Load();
+
+		// if(character.ClassName == "Character")
+		// {
+		// 	player.Load();
+		// }
+		// else if (character.ClassName == "Ball")
+		// {
+		// 	var ball:Ball = character;
+		// 	var X = ball.indexW;
+		// 	var Y = ball.indexH;
+		// }
 	}
 
 	standPos(e:GameEvent)
@@ -116,9 +132,9 @@ class GameManager {
 			e.eventInst.isMusicStoneStart = true;
 			e.eventInst.startMusicStoneLevel(e);
 		} 
-		if (PosY == 50)
+		if (PosY == 30)
 		{
-			this.startBallLevel();
+			e.eventInst.startBallLevel(e);
 		}
 		// if (PosY == 100)
 		// {
@@ -151,10 +167,12 @@ class GameManager {
 	{
 		e.eventInst.wakeupGirl(e); 
 	}
-	startBallLevel()
+	startBallLevel(e:GameEvent)
 	{
-
-	}
+		var nodes1 : MapNode[] = [];
+		e.eventInst.map.AddCharacter(new Ball(e.eventInst.map, "../laya/assets/item/icon_wildfire.png", 33, 5, false, nodes1));
+		// e.eventInst.map.AddCharacter()
+	}	
 	finishBallLevel()
 	{
 
@@ -247,8 +265,7 @@ class GameManager {
 		var pitch = e.eventArgs;
 		if(pitch == 1)
 		{
-			// var gateNode:MapNode = e.eventInst.map.mapNodes[34][3];
-			// gateNode.
+
 		}
 
 		if(pitch == 2)
@@ -315,6 +332,5 @@ class GameManager {
 	{
 		// this.map.AddCharacter("../laya/assets/placeHolder/Green.png", 8, 3, true, [this.map.mapNodes[8][3], this.map.mapNodes[8][4]]);
 		this.map.AddCharacter(character);
-
 	}
 }

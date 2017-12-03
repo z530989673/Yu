@@ -139,6 +139,10 @@ class Character{
         }
     }
 
+    public ClassName() : string
+    {
+        return "Character";
+    }
     public GetRect() : Rectangle
     {
         var x = this.image.x;
