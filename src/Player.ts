@@ -50,6 +50,7 @@ class Player{
         Laya.loader.load("../laya/pages/firefly.part", Handler.create(this, this.onHoldParticleLoaded), null, Loader.JSON);
         Laya.loader.load("../laya/pages/timeStop.part", Handler.create(this, this.onParticleLoaded), null, Loader.JSON);
         EventCenter.addEventListener(new GameEvent("holdFirefly", null, this), this.OnHoldFirefly);
+        EventCenter.addEventListener(new GameEvent("LightEnableChanged", null, this), this.OnLightEnableChanged);
     }
 
     public onHoldParticleLoaded(settings: ParticleSetting) : void
@@ -251,5 +252,11 @@ class Player{
         var inst = e.eventInst;
         inst.isHoldFirefly = true;
         inst.map.RestoreUpdate();
+    }
+
+    private OnLightEnableChanged(e:GameEvent) : void
+    {
+        var inst = e.eventInst;
+        inst.isHoldFirefly = false;
     }
 }
