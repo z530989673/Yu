@@ -232,20 +232,23 @@ class GameMap{
             {
                 var value : number = this.nodeStatus[this.nodeStatus.length - 1 - i][j];
                 this.currentStatus[i].push(value);
+                
+                if ( value == 1)
+                    continue;
+
                 var path : string = "";
+                
                 if (value == 0)
                     path = "../laya/assets/placeHolder/White.png";
-                else if (value == 1)
-                    path = "../laya/assets/placeHolder/Black.png";
-                else if (value == 7)
-                    path = "../laya/assets/placeHolder/Flag.png";
+               else  if (value == 2)
+                    path = "../laya/assets/level1/obstacle_01.png";
                 var sp : CustomSprite = new CustomSprite(path);
                 var offsetW : number = this.GetPosW(j);
                 var offsetH : number = this.GetPosH(i);
                 sp.pos(offsetW, offsetH);
-                sp.zOrder = -10000;
                 this.objectContainer.addChild(sp);
                 this.nodeSprite[i].push(sp);
+
             }
         }
                 
@@ -255,7 +258,7 @@ class GameMap{
         // this.AddGameObject("../laya/assets/placeHolder/Brown.png",6,3,1,1,true);
         // this.AddGameObject("../laya/assets/placeHolder/Brown.png",9,3,1,1,false);
 
-        this.player = new Player(this,"../laya/assets/character/boy_back.png",0,1);
+        this.player = new Player(this,"back",0,1);
 
         this.map.on(Laya.Event.MOUSE_DOWN,this,this.MouseDown);
 
@@ -305,7 +308,7 @@ class GameMap{
         for (var i = 0; i < lights.length; ++i)
             this.AddGameObject(lights[i]);
 
-        var actress = new Actress(this,"../laya/assets/character/girl_back.png",2,1, false, lights[0]);
+        var actress = new Actress(this,"back",2,1, false, lights[0]);
         this.AddCharacter(actress);
 
         var nodes : MapNode[] = [

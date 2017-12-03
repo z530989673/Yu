@@ -10,14 +10,21 @@ class ObjectLight extends GameObject
     public enable : boolean = true;
 
     private onTexPath : string = "../laya/assets/item/icon_lantern.png";
-    private offTexPath : string = "../laya/assets/item/shadow.png";
+    private offTexPath : string = "../laya/assets/item/icon_nolantern.png";
 
     constructor(m : GameMap, indexH : number, indexW : number,
                 sH : number, sW : number, blockable : boolean, enable : boolean = true){
-        super(m, "../laya/assets/item/icon_lantern.png", indexH, indexW, sH, sW, blockable);
+        super(m, "", indexH, indexW, sH, sW, blockable);
 
-        if (!enable)
-            this.SetEnable(false)
+        this.enable = enable;
+        var path = enable ? this.onTexPath : this.offTexPath
+
+        this.image = new Sprite();
+        this.image.loadImage(path);
+        this.image.zOrder = indexH;
+        this.map.AddObject(this.image);
+        this.image.pos(m.GetPosW(indexW), m.GetPosH(indexH));
+
 		EventCenter.addEventListener(new GameEvent("TurnLight", null, this), this.CheckTurnLight);
     }
 
@@ -55,6 +62,7 @@ class ObjectLight extends GameObject
         var path = enable?this.onTexPath:this.offTexPath;
         this.image.graphics.clear();
         this.image.loadImage(path);
+        // this.image.visible = enable;
 
         EventCenter.dispatchAll(new GameEvent("LightEnableChanged", [this, enable], this));
     }

@@ -86,13 +86,16 @@ module Yu
         public ChangeTexture(path : string)
         {
             this.path = path;
-            Laya.loader.load([path,this.noisePath], Handler.create(this, this.LoadComplete), null, Loader.IMAGE);
+            Laya.loader.load(path, Handler.create(this, this.LoadComplete), null, Loader.IMAGE);
         }
 
         private LoadComplete():void
         {
             var texture:Texture = Loader.getRes(this.path);
-            this.Init(texture);
+            if (texture == null)
+                console.log(this.path);
+            else
+                this.Init(texture);
         }
 
         public RefreshTexture() : void

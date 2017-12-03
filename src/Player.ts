@@ -90,7 +90,7 @@ class Player{
         if (this.wayPoints.length == 0)
         {
             this.status = PlayerStatus.Idle;
-            Laya.timer.once(1000, this, this.TurnLight);
+            Laya.timer.once(500, this, this.TurnLight);
         }
         else
         {
