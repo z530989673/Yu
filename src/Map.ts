@@ -37,11 +37,62 @@ class GameMap{
         //Laya.timer.frameLoop(1, this, this.Update);
     }
 
-    public LoadLevel1() : void
+    public ClearLevel() : void
     {
-        this.map = new CustomSprite("../laya/assets/level1/bg.jpg");
+    }
+
+    public LoadBasicLevel(level : string) : void
+    {
+        this.map = new CustomSprite("../laya/assets/" + level + "/bg.jpg");
         this.map.zOrder = -1;
         Layer.AddMap(this.map);
+
+        for(var i = 0; i < 20; i++)
+        {
+            var closeShot : CustomSprite = new CustomSprite("../laya/assets/" + level + "/close_shot_01.png");
+            closeShot.pos(-250,1600 - i * 800);
+            Layer.AddForeGroundNear(closeShot);
+        }
+        
+        for(var i = 0; i < 15; i++)
+        {
+            var closeShot : CustomSprite = new CustomSprite("../laya/assets/" + level + "/close_shot_02.png");
+            closeShot.pos(-250,1000 - i * 800);
+            Layer.AddForeGroundMid(closeShot);
+        }
+        
+        for(var i = 0; i < 10; i++)
+        {
+            var closeShot : CustomSprite = new CustomSprite("../laya/assets/" + level + "/close_shot_03.png");
+            closeShot.pos(-250,1500 - i * 800);
+            Layer.AddForeGroundFar(closeShot);
+        }
+
+        for(var i = 0; i < 20; i++)
+        {
+            var closeShot : CustomSprite = new CustomSprite("../laya/assets/" + level + "/close_shot_01_r.png");
+            closeShot.pos(1080 - 300,2000 - i * 800);
+            Layer.AddForeGroundNear(closeShot);
+        }
+        
+        for(var i = 0; i < 15; i++)
+        {
+            var closeShot : CustomSprite = new CustomSprite("../laya/assets/" + level + "/close_shot_02_r.png");
+            closeShot.pos(1080 - 300,1400 - i * 800);
+            Layer.AddForeGroundMid(closeShot);
+        }
+        
+        for(var i = 0; i < 10; i++)
+        {
+            var closeShot : CustomSprite = new CustomSprite("../laya/assets/" + level + "/close_shot_03_r.png");
+            closeShot.pos(1080 - 300,1900 - i * 800);
+            Layer.AddForeGroundFar(closeShot);
+        }
+    }
+
+    public LoadLevel1() : void
+    {
+        this.LoadBasicLevel("level1");
         this.nodeStatus = [ [0,0,0,0,0,0,0,0],
                             [0,0,0,0,0,0,0,0],
                             [0,0,0,0,0,0,0,0],//44
@@ -97,6 +148,12 @@ class GameMap{
         ground.pos(150,-750);
         this.objectContainer.addChild(ground);
 
+        var ground1 : CustomSprite = new CustomSprite("../laya/assets/level1/land_02_long.png");
+        ground1.pos(0,-2300);
+        ground1.scale(1,1);
+        this.objectContainer.addChild(ground1);
+        
+
         for(var i = 0; i < this.nodeStatus.length; i++)
         {
             this.currentStatus.push([]);
@@ -113,9 +170,10 @@ class GameMap{
                 else if (value == 7)
                     path = "../laya/assets/placeHolder/Flag.png";
                 //var sp : CustomSprite = new CustomSprite(path);
-                var offsetW : number = this.GetPosW(j);
-                var offsetH : number = this.GetPosH(i);
+                //var offsetW : number = this.GetPosW(j);
+                //var offsetH : number = this.GetPosH(i);
                 //sp.pos(offsetW, offsetH);
+                //sp.scale(GameMap.nodeLength /125,GameMap.nodeLength / 125);
                 //sp.zOrder = -10000;
                 //this.objectContainer.addChild(sp);
                 //this.nodeSprite[i].push(sp);
@@ -236,12 +294,32 @@ class GameMap{
 
     private Update(e: Event): void {
         var pos : number = this.objectContainer.y + this.player.GetUpperBound();
+
+        var posX : number = this.objectContainer.x + this.player.GetUpperX();
+        if (posX / Laya.stage.width < 0.3)
+        {
+            this.objectContainer.pos(this.objectContainer.x + (Laya.stage.width * 0.3 - posX),
+                    this.objectContainer.y);
+        }
+        else if (posX / Laya.stage.width > 0.6)
+        {
+            this.objectContainer.pos(this.objectContainer.x + (Laya.stage.width * 0.6 - posX),
+                    this.objectContainer.y);
+        }
+        
         if (pos / Laya.stage.height < 0.3)
         {
             if (this.objectContainer.y + Laya.stage.height < this.totalHeightInPxl)
             {
                 this.objectContainer.pos(this.objectContainer.x,
                     this.objectContainer.y + (Laya.stage.height * 0.3 - pos));
+                
+                Layer.GetInstance().foregroundNear.pos(Layer.GetInstance().foregroundNear.x,
+                    Layer.GetInstance().foregroundNear.y + (Laya.stage.height * 0.3 - pos) * 3);
+                Layer.GetInstance().foregroundMid.pos(Layer.GetInstance().foregroundMid.x,
+                    Layer.GetInstance().foregroundMid.y + (Laya.stage.height * 0.3 - pos) * 2);
+                Layer.GetInstance().foregroundFar.pos(Layer.GetInstance().foregroundFar.x,
+                    Layer.GetInstance().foregroundFar.y + (Laya.stage.height * 0.3 - pos) * 1);
             }
         }
         else if (pos / Laya.stage.height > 0.7)
@@ -250,6 +328,13 @@ class GameMap{
             {
                 this.objectContainer.pos(this.objectContainer.x,
                     this.objectContainer.y + (Laya.stage.height * 0.7 - pos));
+                
+                Layer.GetInstance().foregroundNear.pos(Layer.GetInstance().foregroundNear.x,
+                    Layer.GetInstance().foregroundNear.y + (Laya.stage.height * 0.7 - pos) * 3);
+                Layer.GetInstance().foregroundMid.pos(Layer.GetInstance().foregroundMid.x,
+                    Layer.GetInstance().foregroundMid.y + (Laya.stage.height * 0.7 - pos) * 2);
+                Layer.GetInstance().foregroundFar.pos(Layer.GetInstance().foregroundFar.x,
+                    Layer.GetInstance().foregroundFar.y + (Laya.stage.height * 0.7 - pos) * 1);
                 if (this.objectContainer.y < 0)
                     this.objectContainer.y = 0;
             }

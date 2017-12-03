@@ -20,6 +20,7 @@ class Actress extends Character
         this.image.zOrder = indexH;
         this.map.AddObject(this.image);
         this.image.pos(m.GetPosW(indexW), m.GetPosH(indexH));
+        //this.image.scale(GameMap.nodeLength / 128,GameMap.nodeLength / 128);
 
         this.moveSpeed = 200;
 

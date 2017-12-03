@@ -25,13 +25,14 @@ class GameObject
         this.image.zOrder = - indexH;
         this.map.AddObject(this.image);
         this.image.pos(m.GetPosW(indexW), m.GetPosH(indexH));
+        this.image.scale(GameMap.nodeLength / 128,GameMap.nodeLength / 128);
     }
 
     public GetRect() : Rectangle
     {
         var x = this.image.x;
         var y = this.image.y;
-        return new Rectangle(x, y, this.image.width - 1, this.image.height - 1);
+        return new Rectangle(x, y, this.image.width* GameMap.nodeLength / 128 - 1, this.image.height* GameMap.nodeLength / 128 - 1);
     }
 
     public Intersects (rect : Rectangle) : boolean
