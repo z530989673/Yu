@@ -41,7 +41,7 @@ class GameMap{
     {
     }
 
-    public LoadBasicLevel(level : string) : void
+    public LoadBasicLevel(level : string, offset : number = 0) : void
     {
         this.map = new CustomSprite("../laya/assets/" + level + "/bg.jpg");
         this.map.zOrder = -1;
@@ -50,7 +50,7 @@ class GameMap{
         for(var i = 0; i < 20; i++)
         {
             var closeShot : CustomSprite = new CustomSprite("../laya/assets/" + level + "/close_shot_01.png");
-            closeShot.pos(-250,1600 - i * 800);
+            closeShot.pos(-250 - offset,1600 - i * 800);
             Layer.AddForeGroundNear(closeShot);
         }
         
@@ -186,9 +186,8 @@ class GameMap{
 
     public LoadLevel2() : void
     {
-        this.map = new CustomSprite("../laya/assets/level1/bg.jpg");
-        this.map.zOrder = -1;
-        Layer.AddMap(this.map);
+        this.LoadBasicLevel("level2", 100);
+
         this.nodeStatus = [ [1,1,0,1,0,1,1,1],//29
                             [1,1,0,1,0,1,0,0],
                             [1,1,0,1,0,1,0,1],
@@ -246,7 +245,7 @@ class GameMap{
                 var offsetW : number = this.GetPosW(j);
                 var offsetH : number = this.GetPosH(i);
                 sp.pos(offsetW, offsetH);
-                //this.objectContainer.addChild(sp);
+                this.objectContainer.addChild(sp);
                 this.nodeSprite[i].push(sp);
 
             }
