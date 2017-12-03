@@ -31,7 +31,6 @@ class GameManager {
 
 	private startSingleBlockLevel(e:GameEvent) : void
 	{
-		e.eventInst.map.player.Save(4, 29);
         var nodes : MapNode[] = [
 	        e.eventInst.map.mapNodes[18][3],
 	        e.eventInst.map.mapNodes[11][3]];
@@ -131,8 +130,11 @@ class GameManager {
         	EventCenter.dispatchAll(new GameEvent("holdFirefly", character, this));
 			return;
 		}
-		
-		player.Load();
+		else
+		{
+			player.Load();		
+		}
+
 		if(character.type == CharacterType.ACTRESS)
 		{
 			character.FindPrevTargetObject();
@@ -141,39 +143,39 @@ class GameManager {
 
 	standPos(e:GameEvent)
 	{
-		var PosX = e.eventArgs[0];
-		var PosY = e.eventArgs[1];
-		if (PosY == 5 && !e.eventInst.isSingleBlockStart)
-		{			
-			e.eventInst.c = true;
-			e.eventInst.startSingleBlockLevel(e);
-		}
-		if (PosY == 19 && !e.eventInst.isMusicStoneStart)
-		{
-			e.eventInst.map.player.Save(2, 19);
-			e.eventInst.isMusicStoneStart = true;
-			e.eventInst.startMusicStoneLevel(e);
-		} 
-		if (PosY == 30)
-		{
-			e.eventInst.startBallLevel(e);
-		}
-		// if (PosY == 100)
-		// {
-		// 	this.startLaternLevel();
+		// var PosX = e.eventArgs[0];
+		// var PosY = e.eventArgs[1];
+		// if (PosY == 5 && !e.eventInst.isSingleBlockStart)
+		// {			
+		// 	e.eventInst.c = true;
+		// 	e.eventInst.startSingleBlockLevel(e);
 		// }
-		if (PosY == 150)
-		{
-			this.startBridgeLevel();
-		}
-		if (PosY == 200)
-		{
-			this.startBoreLevel();
-		}
-		if (PosY == 250)
-		{
-			this.startCloseLevel();
-		}
+		// if (PosY == 19 && !e.eventInst.isMusicStoneStart)
+		// {
+		// 	e.eventInst.map.player.Save(2, 19);
+		// 	e.eventInst.isMusicStoneStart = true;
+		// 	e.eventInst.startMusicStoneLevel(e);
+		// } 
+		// if (PosY == 30)
+		// {
+		// 	e.eventInst.startBallLevel(e);
+		// }
+		// // if (PosY == 100)
+		// // {
+		// // 	this.startLaternLevel();
+		// // }
+		// if (PosY == 150)
+		// {
+		// 	this.startBridgeLevel();
+		// }
+		// if (PosY == 200)
+		// {
+		// 	this.startBoreLevel();
+		// }
+		// if (PosY == 250)
+		// {
+		// 	this.startCloseLevel();
+		// }
 	}
 	wakeupGirl(e:GameEvent)
 	{

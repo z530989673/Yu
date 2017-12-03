@@ -30,6 +30,8 @@ class GameMap{
     public objects : GameObject[] = new Array();
     public characters : Character[] = new Array();
 
+    public level = 1;
+    public actress:Actress;
     constructor(){
         this.objectContainer.pos(0,0);
         this.objectContainer.zOrder = 0;
@@ -92,6 +94,7 @@ class GameMap{
 
     public LoadLevel1() : void
     {
+        this.level = 1;
         this.LoadBasicLevel("level1");
         this.nodeStatus = [ [1,1,1,0,1,1,1,1],//34
                             [0,0,0,0,0,0,0,0],
@@ -193,6 +196,7 @@ class GameMap{
 
     public LoadLevel2() : void
     {
+        this.level = 2;
         this.LoadBasicLevel("level2", 150);
 
         this.nodeStatus = [ [1,1,1,1,0,1,1,1],//29
@@ -308,6 +312,7 @@ class GameMap{
 
         var actress = new Actress(this,"back",2,1, false, lights[0]);
         this.AddCharacter(actress);
+        this.actress = actress;
 
         var nodes : MapNode[] = [
 	        this.mapNodes[8][2],
@@ -322,8 +327,11 @@ class GameMap{
     }    
     public LoadLevel3()
     {
+        this.level = 3;
         this.map = new CustomSprite("../laya/assets/level1/bg.jpg");
+        // this.LoadBasicLevel("level4");
         this.map.zOrder = -1;
+
         Layer.AddMap(this.map);
         this.nodeStatus = [ 
                             [0,0,0,0,0,0,0,0],//19
@@ -345,7 +353,7 @@ class GameMap{
                             [0,0,0,0,0,0,0,0],
                             [0,0,0,0,0,0,0,0],
                             [0,0,0,0,0,0,0,0],
-                            [1,0,0,0,0,1,1,1],];//0
+                            [0,0,0,0,0,0,0,0],];//0
 
         
 
@@ -377,10 +385,9 @@ class GameMap{
                 sp.pos(offsetW, offsetH);
                 this.objectContainer.addChild(sp);
                 this.nodeSprite[i].push(sp);
-
             }
         }
-                
+
         Layer.AddObjects(this.objectContainer);
 
         this.player = new Player(this,"back",0,1);
@@ -395,7 +402,7 @@ class GameMap{
                 this.mapNodes[i].push(new MapNode(i,j));
             }
         }
-        for(var i = 10; i<=15; i++)
+        for(var i = 7; i<=12; i++)
         {
             var nodes : MapNode[] = [
                 this.mapNodes[i][3 + i % 2],
@@ -407,11 +414,47 @@ class GameMap{
         }
 
 
+        var lights = [
+            new ObjectLight(this, 15, 4, 1, 1, false),
+
+            // new ObjectLight(this, 10, 4, 1, 1, false),
+            new ObjectLight(this, 18, 4, 1, 1, false),
+
+            // new ObjectLight(this, 1, 6, 1, 1, false),
+            // new ObjectLight(this, 4, 6, 1, 1, false, false),
+            // new ObjectLight(this, 13, 7, 1, 1, false),
+            // new ObjectLight(this, 26, 6, 1, 1, false, false),
+            // new ObjectLight(this, 28, 7, 1, 1, false),
+            // new ObjectLight(this, 26, 4, 1, 1, false, false),
+            // new ObjectLight(this, 29, 4, 1, 1, false),
+        ]
+
+
+        for (var i = 0; i < lights.length; ++i)
+            this.AddGameObject(lights[i]);
+
+        lights[0].AddChild(lights[1]);
+        // lights[0].AddChild(lights[2]);
+
+        // lights[2].AddChild(lights[3]);
+        // lights[3].AddChild(lights[4]);
+        // lights[4].AddChild(lights[5]);
+        // lights[4].AddChild(lights[7]);
+
+        // lights[5].AddChild(lights[6]);
+        // lights[7].AddChild(lights[8]);
+        
+
+        var actress = new Actress(this,"back",7,4, false, lights[0]);
+        this.AddCharacter(actress);
+
+        this.actress = actress;
         Laya.timer.frameLoop(1, this, this.Update);
     }
 
     public AddCharacter(character : any)
     {
+
         if (CustomSprite.Paused())
         {            
             var playerX : number = this.player.GexX();
