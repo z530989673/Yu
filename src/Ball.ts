@@ -55,12 +55,26 @@ class Ball
         {
             var n : MapNode = this.wayPoints.pop();
             
-	        this.dirH = n.indexH - this.indexH;
-	        this.dirW = n.indexW - this.indexW;
-	        this.dirLength = Math.sqrt(this.dirH * this.dirH + this.dirW * this.dirW);
-	        this.indexH = n.indexH;
-	        this.indexW = n.indexW;
-	        this.image.zOrder = this.indexH;
+	        // this.dirH = n.indexH - this.indexH;
+	        // this.dirW = n.indexW - this.indexW;
+	        // this.dirLength = Math.sqrt(this.dirH * this.dirH + this.dirW * this.dirW);
+	        // this.indexH = n.indexH;
+	        // this.indexW = n.indexW;
+	        // this.image.zOrder = this.indexH;
+            // this.nextWayPoints.push(n);
+            if (this.map.IsWalkable(n.indexH,n.indexW))
+            {
+                this.dirH = n.indexH - this.indexH;
+                this.dirW = n.indexW - this.indexW;
+                this.dirLength = Math.sqrt(this.dirH * this.dirH + this.dirW * this.dirW);
+                this.indexH = n.indexH;
+                this.indexW = n.indexW;
+                if (this.blockable)
+                    this.map.SetStatus(this.indexH,this.indexW,NodeStatus.Block);
+                //this.image.zOrder = this.indexH;
+            }
+            else
+                this.status = PlayerStatus.Idle;
         }
     }
 }

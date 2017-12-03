@@ -43,7 +43,7 @@ class Character{
         {
             this.image = new Sprite();
             this.image.loadImage(path);
-            this.image.zOrder = indexH;
+            //this.image.zOrder = indexH;
             this.map.AddObject(this.image);
             this.image.scale(GameMap.nodeLength / 128,GameMap.nodeLength / 128);
             this.image.pos(m.GetPosW(indexW), m.GetPosH(indexH));
@@ -124,7 +124,7 @@ class Character{
                 this.indexW = n.indexW;
                 if (this.blockable)
                     this.map.SetStatus(this.indexH,this.indexW,NodeStatus.Block);
-                this.image.zOrder = this.indexH;
+                //this.image.zOrder = this.indexH;
             }
             else
                 this.status = PlayerStatus.Idle;

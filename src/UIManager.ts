@@ -3,9 +3,21 @@
 */
 class UIManager{
     public game : GameMain;
-    public button : Button;
+    public button : Sprite;
+    public health : Sprite[] = Array();
     constructor(game : GameMain){
         this.game = game;
+
+        for(var i = 0; i < 3; i++)
+        {
+            var sp : Sprite = new Sprite();
+            sp.loadImage("../laya/assets/item/icon_life.png");
+            sp.pos(50 + i * 128,50);
+
+            this.health.push(sp);
+            Layer.AddUI(sp);
+        }
+
 
         Laya.loader.load("../laya/assets/comp/button.png", Handler.create(this, this.createButton));
 
@@ -14,9 +26,10 @@ class UIManager{
     }
 
     private createButton(): void {
-        this.button = new Button("../laya/assets/comp/button.png");
-        this.button.pos(Laya.stage.width - 200,Laya.stage.height - 200);
-        this.button.scale(1.8,6);
+        this.button = new Sprite();
+        this.button.loadImage("../laya/assets/level2/button_normal.png");
+        this.button.pos(Laya.stage.width - 400,Laya.stage.height - 400);
+        
         this.button.mouseThrough = true;
         this.button.on(Laya.Event.MOUSE_UP,this,this.SkillButtonPressed);
         Layer.AddUI(this.button);
@@ -25,8 +38,12 @@ class UIManager{
     private OnHoldFirefly(e:GameEvent) : void
     {
         var inst = e.eventInst;
+        inst.button.graphics.clear();
+        inst.button.loadImage("../laya/assets/placeHolder/Touch.png");
+        
         inst.button.off(Laya.Event.MOUSE_UP,inst,inst.SkillButtonPressed);
         inst.button.on(Laya.Event.MOUSE_UP,inst,inst.ThroughButtonPressed);
+
     }
 
     private OnLightEnableChanged(e:GameEvent) : void
@@ -38,21 +55,50 @@ class UIManager{
             inst.button.on(Laya.Event.MOUSE_UP,inst,inst.SkillButtonPressed);
             inst.button.off(Laya.Event.MOUSE_UP,inst,inst.ThroughButtonPressed);
         }
+        
+        inst.CheckButton();
     }
 
     public ThroughButtonPressed(e : Event) : void
     {
+        var x = this.button.mouseX - this.button.width / 2;
+        var y = this.button.mouseY - this.button.height / 2;
+        var dis = Math.sqrt(x * x + y * y);
+        if (dis > 140)
+            return;
         this.button.on(Laya.Event.MOUSE_UP,this,this.SkillButtonPressed)
         this.button.off(Laya.Event.MOUSE_UP,this,this.ThroughButtonPressed);
         this.game.map.player.isHoldFirefly = false;
+        
+        this.CheckButton();
     }
 
     public SkillButtonPressed(e : Event) : void
     {
+        var x = this.button.mouseX - this.button.width / 2;
+        var y = this.button.mouseY - this.button.height / 2;
+        var dis = Math.sqrt(x * x + y * y);
+        if (dis > 140)
+            return;
         e.stopPropagation();
         if (this.game.map.IsPaused())
+        {
             this.game.map.RestoreUpdate();
+        }
         else
+        {
             this.game.map.StopUpdate();
+        }
+
+        this.CheckButton();
+    }
+
+    public CheckButton() : void
+    {
+        this.button.graphics.clear();
+        if (this.game.map.IsPaused())
+            this.button.loadImage("../laya/assets/level2/button_frozentime.png");
+        else
+            this.button.loadImage("../laya/assets/level2/button_normal.png");
     }
 }

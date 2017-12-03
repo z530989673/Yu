@@ -41,7 +41,7 @@ class GameMap{
     {
     }
 
-    public LoadBasicLevel(level : string) : void
+    public LoadBasicLevel(level : string, offset : number = 0) : void
     {
         this.map = new CustomSprite("../laya/assets/" + level + "/bg.jpg");
         this.map.zOrder = -1;
@@ -50,7 +50,7 @@ class GameMap{
         for(var i = 0; i < 20; i++)
         {
             var closeShot : CustomSprite = new CustomSprite("../laya/assets/" + level + "/close_shot_01.png");
-            closeShot.pos(-250,1600 - i * 800);
+            closeShot.pos(-250 - offset,1600 - i * 800);
             Layer.AddForeGroundNear(closeShot);
         }
         
@@ -193,9 +193,8 @@ class GameMap{
 
     public LoadLevel2() : void
     {
-        this.map = new CustomSprite("../laya/assets/level1/bg.jpg");
-        this.map.zOrder = -1;
-        Layer.AddMap(this.map);
+        this.LoadBasicLevel("level2", 150);
+
         this.nodeStatus = [ [1,1,1,1,0,1,1,1],//29
                             [1,1,1,1,0,1,0,0],
                             [1,1,1,1,0,1,0,1],
@@ -213,8 +212,8 @@ class GameMap{
                             [1,1,1,1,1,1,0,0],
                             [1,1,1,1,1,1,0,1],//14
                             [1,1,1,1,1,1,0,0],
-                            [1,1,1,1,1,1,0,0],
-                            [0,1,1,1,1,1,0,0],
+                            [1,1,1,1,1,1,1,0],
+                            [0,1,1,1,1,1,1,0],
                             [0,1,1,1,1,1,1,0],
                             [0,1,1,1,1,1,1,0],//9
                             [0,1,0,0,0,1,1,0],
@@ -311,11 +310,12 @@ class GameMap{
         this.AddCharacter(actress);
 
         var nodes : MapNode[] = [
-	        this.mapNodes[7][3],
-	        this.mapNodes[7][2],
-	        this.mapNodes[7][4],
+	        this.mapNodes[8][2],
+	        this.mapNodes[6][2],
+	        this.mapNodes[6][4],
+	        this.mapNodes[8][4],
         ]
-        var firefly = new Firefly(this, "../laya/assets/item/firefly.png", 7, 3, false, nodes);
+        var firefly = new Firefly(this, "../laya/assets/item/firefly.png", 8, 2, false, nodes);
         this.AddCharacter(firefly);
 
         Laya.timer.frameLoop(1, this, this.Update);
