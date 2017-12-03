@@ -15,7 +15,8 @@ class Actress extends Character
             Laya.timer.once(3000, this, this.FindNextTargetObject);
 
         this.image = new Sprite();
-        this.image.loadImage(path);
+        
+        this.image.loadImage("../laya/assets/character/girl_" + path + ".png");
         this.image.zOrder = indexH;
         this.map.AddObject(this.image);
         this.image.pos(m.GetPosW(indexW), m.GetPosH(indexH));
@@ -72,6 +73,7 @@ class Actress extends Character
             {
                 this.dirH = n.indexH - this.indexH;
                 this.dirW = n.indexW - this.indexW;
+                this.ChangeDir();
                 this.dirLength = Math.sqrt(this.dirH * this.dirH + this.dirW * this.dirW);
                 this.indexH = n.indexH;
                 this.indexW = n.indexW;
@@ -84,6 +86,20 @@ class Actress extends Character
         }
     }
 
+    public ChangeDir() : void
+    {
+        var str = "back";
+        if (this.dirW == 0 && this.dirH == -1)
+            str = "front";
+        else if (this.dirW == 1 && this.dirH == 0)
+            str = "right"
+        else if (this.dirW == -1 && this.dirH == 0)
+            str = "left";
+        
+        this.image.graphics.clear();
+        this.image.loadImage("../laya/assets/character/girl_" + str + ".png");
+    }
+
     public MoveTo(checkPoints : MapNode[]) : void
     {
         this.wayPoints = checkPoints;
@@ -92,6 +108,7 @@ class Actress extends Character
         {
             this.dirW = checkPoint.indexW - this.indexW;
             this.dirH = checkPoint.indexH - this.indexH;
+            this.ChangeDir();
             this.indexH = checkPoint.indexH;
             this.indexW = checkPoint.indexW;
             this.status = PlayerStatus.Move;

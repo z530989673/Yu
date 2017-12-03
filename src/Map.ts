@@ -67,32 +67,36 @@ class GameMap{
                             [0,1,0,0,0,0,0,0],//24
                             [1,1,1,1,0,1,1,1],
                             [0,0,0,0,0,0,0,0],
-                            [1,1,1,0,1,1,1,1],
-                            [0,0,0,0,0,0,0,0],//19
-                            [0,0,0,0,0,0,0,0],
-                            [0,0,0,0,0,0,0,0],
-                            [0,0,0,0,0,0,0,0],
-                            [0,0,0,0,0,0,0,0],
-                            [0,0,0,0,0,0,0,0],//14
-                            [0,0,0,0,0,0,0,0],
-                            [0,0,0,0,0,0,0,0],
-                            [0,0,0,0,0,0,0,0],
-                            [0,0,0,0,0,0,0,0],
-                            [1,1,1,0,1,1,1,1],//9
-                            [1,1,1,0,1,1,1,1],
-                            [1,1,1,0,1,1,1,1],
-                            [1,0,0,0,0,0,0,1],
-                            [1,0,0,0,0,0,0,1],
-                            [1,0,0,0,0,0,0,1],//4
-                            [1,0,0,0,0,0,0,1],
-                            [1,0,0,0,0,0,0,1],
-                            [1,0,0,0,0,0,0,1],
-                            [1,0,0,0,0,0,0,1],];//0
+                            [1,1,0,0,0,0,1,1],
+                            [1,1,0,0,0,0,1,1],//19
+                            [1,1,0,0,0,0,0,1],
+                            [1,1,1,0,0,0,1,1],
+                            [1,1,1,0,0,0,1,1],
+                            [1,1,1,0,0,1,1,1],
+                            [1,1,1,0,0,1,1,1],//14
+                            [1,1,1,0,0,1,1,1],
+                            [1,1,1,0,0,1,1,1],
+                            [1,1,1,0,0,1,1,1],
+                            [1,1,1,0,0,1,1,1],
+                            [1,1,1,0,0,0,1,1],//9
+                            [1,1,1,0,0,0,1,1],
+                            [1,1,0,0,0,0,1,1],
+                            [1,1,0,0,0,0,1,1],
+                            [1,1,0,0,0,0,1,1],
+                            [1,1,0,0,0,0,1,1],//4
+                            [1,0,0,0,0,0,1,1],
+                            [1,0,0,0,0,0,1,1],
+                            [1,1,0,0,0,1,1,1],
+                            [1,1,0,0,0,1,1,1],];//0
                             
         this.width = this.nodeStatus[0].length;
         this.height = this.nodeStatus.length;
         this.totalHeightInPxl = this.height * GameMap.nodeLength;
         
+        var ground : CustomSprite = new CustomSprite("../laya/assets/level1/land_01.png");
+        ground.pos(150,-750);
+        this.objectContainer.addChild(ground);
+
         for(var i = 0; i < this.nodeStatus.length; i++)
         {
             this.currentStatus.push([]);
@@ -105,26 +109,22 @@ class GameMap{
                 if (value == 0)
                     path = "../laya/assets/placeHolder/White.png";
                 else if (value == 1)
-                    path = "../laya/assets/placeHolder/Black.png";
+                    path = "";
                 else if (value == 7)
                     path = "../laya/assets/placeHolder/Flag.png";
-                var sp : CustomSprite = new CustomSprite(path);
+                //var sp : CustomSprite = new CustomSprite(path);
                 var offsetW : number = this.GetPosW(j);
                 var offsetH : number = this.GetPosH(i);
-                sp.pos(offsetW, offsetH);
-                sp.zOrder = -10000;
+                //sp.pos(offsetW, offsetH);
+                //sp.zOrder = -10000;
                 //this.objectContainer.addChild(sp);
-                this.nodeSprite[i].push(sp);
+                //this.nodeSprite[i].push(sp);
             }
         }
-                
+        
         Layer.AddObjects(this.objectContainer);
 
-        // this.AddGameObject("../laya/assets/comp/image.png",3,4,2,1,true);
-        // this.AddGameObject("../laya/assets/placeHolder/Brown.png",6,3,1,1,true);
-        // this.AddGameObject("../laya/assets/placeHolder/Brown.png",9,3,1,1,false);
-
-        this.player = new Player(this,"../laya/assets/character/boy_back.png",0,3);
+        this.player = new Player(this,"back",0,3);
 
         this.map.on(Laya.Event.MOUSE_DOWN,this,this.MouseDown);
 
@@ -141,6 +141,7 @@ class GameMap{
         var light1 = new ObjectLight(this, "../laya/assets/item/icon_lantern.png", 8, 3, 1, 1, false);
         var light2 = new ObjectLight(this, "../laya/assets/item/icon_lantern.png", 14, 1, 1, 1, false);
         var light3 = new ObjectLight(this, "../laya/assets/item/icon_lantern.png", 13, 6, 1, 1, false);
+        var girl = new Actress(this,"back",1,3,false,light);
         this.AddGameObject(light);
         this.AddGameObject(light1);
         this.AddGameObject(light2);

@@ -31,7 +31,8 @@ class Character{
             this.map.SetStatus(this.indexH,this.indexW,NodeStatus.Block);
         if (path != "")
         {
-            this.image = new CustomSprite(path);
+            this.image = new Sprite();
+            this.image.loadImage(path);
             this.image.zOrder = indexH;
             this.map.AddObject(this.image);
             this.image.pos(m.GetPosW(indexW), m.GetPosH(indexH));

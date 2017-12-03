@@ -31,7 +31,7 @@ class Player{
         this.indexW = indexW;
         this.indexH = indexH;
         this.image = new Sprite();
-        this.image.loadImage(path);
+        this.image.loadImage("../laya/assets/character/boy_" + path + ".png");
         this.image.zOrder = indexH;
         this.map.AddObject(this.image);
         this.image.pos(m.GetPosW(indexW), m.GetPosH(indexH));
@@ -100,6 +100,7 @@ class Player{
             {
                 this.dirH = n.indexH - this.indexH;
                 this.dirW = n.indexW - this.indexW;
+                this.ChangeDir();
                 this.indexH = n.indexH;
                 this.indexW = n.indexW;
                 this.image.zOrder = this.indexH;
@@ -107,6 +108,20 @@ class Player{
             else
                 this.status = PlayerStatus.Idle;
         }
+    }
+
+    public ChangeDir() : void
+    {
+        var str = "back";
+        if (this.dirW == 0 && this.dirH == -1)
+            str = "front";
+        else if (this.dirW == 1 && this.dirH == 0)
+            str = "right"
+        else if (this.dirW == -1 && this.dirH == 0)
+            str = "left";
+        
+        this.image.graphics.clear();
+        this.image.loadImage("../laya/assets/character/boy_" + str + ".png");
     }
 
     public MoveTo(checkPoints : MapNode[]) : void
@@ -122,6 +137,7 @@ class Player{
             this.indexH = checkPoint.indexH;
             this.indexW = checkPoint.indexW;
             this.status = PlayerStatus.Move;
+            this.ChangeDir();
         }
     }
 

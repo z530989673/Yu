@@ -75,8 +75,8 @@ class GameManager {
 			e.eventInst.map.mapNodes[21][4],
 			// e.eventInst.map.mapNodes[21][5],
 		];
-        var character : Character = new Character(e.eventInst.map, "../laya/assets/placeHolder/Flag.png", 25, 3, false, nodes);
-        var character2 : Character = new Character(e.eventInst.map, "../laya/assets/placeHolder/Flag.png", 21, 1, false, nodes2);
+        var character : Character = new Character(e.eventInst.map, "../laya/assets/item/icon_wildfire.png", 25, 3, false, nodes);
+        var character2 : Character = new Character(e.eventInst.map, "../laya/assets/item/icon_wildfire.png", 21, 1, false, nodes2);
         // var character3 : Character = new Character(e.eventInst.map, "../laya/assets/placeHolder/Flag.png", 21, 1, false, nodes3);
         e.eventInst.addCharacter(character);
         e.eventInst.addCharacter(character2);
