@@ -320,7 +320,96 @@ class GameMap{
 
         Laya.timer.frameLoop(1, this, this.Update);
     }    
- 
+    public LoadLevel3()
+    {
+        this.map = new CustomSprite("../laya/assets/level1/bg.jpg");
+        this.map.zOrder = -1;
+        Layer.AddMap(this.map);
+        this.nodeStatus = [ 
+                            [0,0,0,0,0,0,0,0],//19
+                            [0,0,0,0,0,0,0,0],
+                            [0,0,0,0,0,0,0,0],
+                            [0,0,0,0,0,0,0,0],
+                            [0,0,0,0,0,0,0,0],
+                            [0,0,0,0,0,0,0,0],//14
+                            [0,0,0,0,0,0,0,0],
+                            [1,1,1,0,0,1,1,1],
+                            [1,1,1,0,0,1,1,1],
+                            [1,1,1,0,0,1,1,1],
+                            [1,1,1,0,0,1,1,1],//9
+                            [1,1,1,0,0,1,1,1],
+                            [1,1,1,0,0,1,1,1],
+                            [0,0,0,0,0,0,0,0],
+                            [0,0,0,0,0,0,0,0],
+                            [0,0,0,0,0,0,0,0],//4
+                            [0,0,0,0,0,0,0,0],
+                            [0,0,0,0,0,0,0,0],
+                            [0,0,0,0,0,0,0,0],
+                            [1,0,0,0,0,1,1,1],];//0
+
+        
+
+        this.width = this.nodeStatus[0].length;
+        this.height = this.nodeStatus.length;
+        this.totalHeightInPxl = this.height * GameMap.nodeLength;
+        
+        for(var i = 0; i < this.nodeStatus.length; i++)
+        {
+            this.currentStatus.push([]);
+            this.nodeSprite.push([]);
+            for(var j = 0; j < this.nodeStatus[i].length; j++)
+            {
+                var value : number = this.nodeStatus[this.nodeStatus.length - 1 - i][j];
+                this.currentStatus[i].push(value);
+                
+                if ( value == 1)
+                    continue;
+
+                var path : string = "";
+                
+                if (value == 0)
+                    path = "../laya/assets/placeHolder/White.png";
+               else  if (value == 2)
+                    path = "../laya/assets/level1/obstacle_01.png";
+                var sp : CustomSprite = new CustomSprite(path);
+                var offsetW : number = this.GetPosW(j);
+                var offsetH : number = this.GetPosH(i);
+                sp.pos(offsetW, offsetH);
+                this.objectContainer.addChild(sp);
+                this.nodeSprite[i].push(sp);
+
+            }
+        }
+                
+        Layer.AddObjects(this.objectContainer);
+
+        this.player = new Player(this,"back",0,1);
+
+        this.map.on(Laya.Event.MOUSE_DOWN,this,this.MouseDown);
+
+        for(var i = 0; i < this.nodeStatus.length; i++)
+        {
+            this.mapNodes.push([]);
+            for(var j = 0; j < this.nodeStatus[i].length; j++)
+            {
+                this.mapNodes[i].push(new MapNode(i,j));
+            }
+        }
+        for(var i = 10; i<=15; i++)
+        {
+            var nodes : MapNode[] = [
+                this.mapNodes[i][3 + i % 2],
+                this.mapNodes[i][4 - i % 2],
+            ]
+            var firefly = new Firefly(this, "../laya/assets/item/firefly.png", i, 3 + i % 2, false, nodes);
+            firefly.isNeedReborn = false;
+            this.AddCharacter(firefly);
+        }
+
+
+        Laya.timer.frameLoop(1, this, this.Update);
+    }
+
     public AddCharacter(character : any)
     {
         if (CustomSprite.Paused())
