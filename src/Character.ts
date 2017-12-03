@@ -21,9 +21,10 @@ class Character{
     public wayPoints1 : MapNode[] = [];
     public wayPoints2 : MapNode[] = [];
 
-    constructor(m : GameMap, path : string, indexH : number, indexW : number, blockable : boolean, checkPoints : MapNode[]){
+    constructor(m : GameMap, path : string, indexH : number, indexW : number, blockable : boolean, checkPoints : MapNode[], speed : number = 1000){
         this.map = m;
 
+        this.moveSpeed = speed;
         this.indexW = indexW;
         this.indexH = indexH;
         this.blockable = blockable;

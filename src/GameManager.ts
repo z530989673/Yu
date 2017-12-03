@@ -30,26 +30,26 @@ class GameManager {
 	{
 		e.eventInst.map.player
         var nodes : MapNode[] = [
-	        e.eventInst.map.mapNodes[13][3],
-	        e.eventInst.map.mapNodes[12][3],
-	        e.eventInst.map.mapNodes[11][3],
-	        e.eventInst.map.mapNodes[10][3],
-	        e.eventInst.map.mapNodes[9][3],
-	        e.eventInst.map.mapNodes[8][3],
-	        e.eventInst.map.mapNodes[7][3],
-	        e.eventInst.map.mapNodes[6][3]];
-        var character : Character = new Character(e.eventInst.map, "../laya/assets/item/icon_wildfire.png", 13, 3, false, nodes);
+	        e.eventInst.map.mapNodes[18][3],
+	        e.eventInst.map.mapNodes[11][3]];
+        var character : Character = new Character(e.eventInst.map, "../laya/assets/item/icon_wildfire.png", 18, 3, false, nodes);
 		e.eventInst.addCharacter(character);
 
-		var nodes1 : MapNode[] = [
-	        e.eventInst.map.mapNodes[5][5],
-	        e.eventInst.map.mapNodes[5][4],
-	        e.eventInst.map.mapNodes[5][3],
-	        e.eventInst.map.mapNodes[5][2],
-	        e.eventInst.map.mapNodes[5][1],
-	        e.eventInst.map.mapNodes[5][0]
-	       	];
-		e.eventInst.map.AddCharacter(new Ball(e.eventInst.map, "../laya/assets/item/icon_wildfire.png", 5, 5, false, nodes1));
+        var nodes2 : MapNode[] = [
+	        e.eventInst.map.mapNodes[18][4],
+	        e.eventInst.map.mapNodes[13][4]];
+        var character2 : Character = new Character(e.eventInst.map, "../laya/assets/item/icon_wildfire.png", 18, 4, false, nodes2);
+		e.eventInst.addCharacter(character2);
+
+		// var nodes1 : MapNode[] = [
+	    //     e.eventInst.map.mapNodes[5][5],
+	    //     e.eventInst.map.mapNodes[5][4],
+	    //     e.eventInst.map.mapNodes[5][3],
+	    //     e.eventInst.map.mapNodes[5][2],
+	    //     e.eventInst.map.mapNodes[5][1],
+	    //     e.eventInst.map.mapNodes[5][0]
+	    //    	];
+		// e.eventInst.map.AddCharacter(new Ball(e.eventInst.map, "../laya/assets/item/icon_wildfire.png", 5, 5, false, nodes1));
 
 	}
 
@@ -110,9 +110,9 @@ class GameManager {
 			e.eventInst.isSingleBlockStart = true;
 			e.eventInst.startSingleBlockLevel(e);
 		}
-		if (PosY == 15 && !e.eventInst.isMusicStoneStart)
+		if (PosY == 19 && !e.eventInst.isMusicStoneStart)
 		{
-			e.eventInst.map.player.Save(3, 15);
+			e.eventInst.map.player.Save(2, 19);
 			e.eventInst.isMusicStoneStart = true;
 			e.eventInst.startMusicStoneLevel(e);
 		} 

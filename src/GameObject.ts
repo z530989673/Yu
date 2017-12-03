@@ -22,7 +22,7 @@ class GameObject
         this.blockable = blockable;
 
         this.image = new CustomSprite(path);
-        this.image.zOrder = - indexH;
+        //this.image.zOrder = - indexH;
         this.map.AddObject(this.image);
         this.image.pos(m.GetPosW(indexW), m.GetPosH(indexH));
         this.image.scale(GameMap.nodeLength / 128,GameMap.nodeLength / 128);

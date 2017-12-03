@@ -93,31 +93,19 @@ class GameMap{
     public LoadLevel1() : void
     {
         this.LoadBasicLevel("level1");
-        this.nodeStatus = [ [0,0,0,0,0,0,0,0],
-                            [0,0,0,0,0,0,0,0],
-                            [0,0,0,0,0,0,0,0],//44
-                            [0,0,0,0,0,0,0,0],
-                            [0,0,0,0,0,0,0,0],
-                            [1,1,1,0,1,1,1,1],
-                            [0,0,0,0,0,0,0,0],
-                            [0,0,0,0,0,0,0,0],//39
-                            [0,0,0,0,0,0,0,0],
-                            [0,0,0,0,0,0,0,0],
-                            [0,0,0,0,0,0,0,0],
-                            [0,0,0,0,0,0,0,0],
-                            [1,1,1,0,1,1,1,1],//34
+        this.nodeStatus = [ [1,1,1,0,1,1,1,1],//34
                             [0,0,0,0,0,0,0,0],
                             [0,0,0,0,0,0,0,0],
                             [0,0,0,0,0,0,0,0],
                             [0,0,0,0,0,0,0,0],
                             [0,0,0,0,0,0,0,0],//29
-                            [1,1,1,0,1,1,1,1],
-                            [0,0,0,0,0,0,1,0],
-                            [0,1,1,0,1,0,0,0],
-                            [0,1,1,0,1,1,1,1],
-                            [0,1,0,0,0,0,0,0],//24
-                            [1,1,1,1,0,1,1,1],
-                            [0,0,0,0,0,0,0,0],
+                            [2,2,2,0,2,2,2,2],
+                            [0,0,0,0,0,0,2,0],
+                            [0,2,2,0,2,0,0,0],
+                            [0,2,2,0,2,2,2,2],
+                            [0,2,0,0,0,0,0,0],//24
+                            [2,2,2,2,0,2,2,2],
+                            [1,0,0,0,0,0,0,1],
                             [1,1,0,0,0,0,1,1],
                             [1,1,0,0,0,0,1,1],//19
                             [1,1,0,0,0,0,0,1],
@@ -148,11 +136,9 @@ class GameMap{
         ground.pos(150,-750);
         this.objectContainer.addChild(ground);
 
-        var ground1 : CustomSprite = new CustomSprite("../laya/assets/level1/land_02_long.png");
-        ground1.pos(0,-2300);
-        ground1.scale(1,1);
+        var ground1 : CustomSprite = new CustomSprite("../laya/assets/level1/land_full.jpg");
+        ground1.pos(0,-2665);
         this.objectContainer.addChild(ground1);
-        
 
         for(var i = 0; i < this.nodeStatus.length; i++)
         {
@@ -162,21 +148,21 @@ class GameMap{
             {
                 var value : number = this.nodeStatus[this.nodeStatus.length - 1 - i][j];
                 this.currentStatus[i].push(value);
+                
+                if (value == 0 || value == 1)
+                    continue;
+
                 var path : string = "";
-                if (value == 0)
-                    path = "../laya/assets/placeHolder/White.png";
-                else if (value == 1)
-                    path = "";
-                else if (value == 7)
-                    path = "../laya/assets/placeHolder/Flag.png";
-                //var sp : CustomSprite = new CustomSprite(path);
-                //var offsetW : number = this.GetPosW(j);
-                //var offsetH : number = this.GetPosH(i);
-                //sp.pos(offsetW, offsetH);
-                //sp.scale(GameMap.nodeLength /125,GameMap.nodeLength / 125);
-                //sp.zOrder = -10000;
-                //this.objectContainer.addChild(sp);
-                //this.nodeSprite[i].push(sp);
+                
+                if (value == 2)
+                    path = "../laya/assets/level1/obstacle_01.png";
+                var sp : CustomSprite = new CustomSprite(path);
+                var offsetW : number = this.GetPosW(j);
+                var offsetH : number = this.GetPosH(i);
+                sp.pos(offsetW, offsetH);
+                this.objectContainer.addChild(sp);
+                this.nodeSprite[i].push(sp);
+
             }
         }
         
@@ -194,19 +180,6 @@ class GameMap{
                 this.mapNodes[i].push(new MapNode(i,j));
             }
         }
-
-        var light = new ObjectLight(this, "../laya/assets/item/icon_lantern.png", 1, 3, 1, 1, false);
-        var light1 = new ObjectLight(this, "../laya/assets/item/icon_lantern.png", 8, 3, 1, 1, false);
-        var light2 = new ObjectLight(this, "../laya/assets/item/icon_lantern.png", 14, 1, 1, 1, false);
-        var light3 = new ObjectLight(this, "../laya/assets/item/icon_lantern.png", 13, 6, 1, 1, false);
-        var girl = new Actress(this,"back",1,3,false,light);
-        this.AddGameObject(light);
-        this.AddGameObject(light1);
-        this.AddGameObject(light2);
-        this.AddGameObject(light3);
-        light.AddChild(light1);
-        light1.AddChild(light2);
-        light1.AddChild(light3);
 
         Laya.timer.frameLoop(1, this, this.Update);
     }
@@ -307,34 +280,36 @@ class GameMap{
                     this.objectContainer.y);
         }
         
-        if (pos / Laya.stage.height < 0.3)
+        var upLimit = 0.5;
+        var lowLimit = 0.8;
+        if (pos / Laya.stage.height < upLimit)
         {
             if (this.objectContainer.y + Laya.stage.height < this.totalHeightInPxl)
             {
                 this.objectContainer.pos(this.objectContainer.x,
-                    this.objectContainer.y + (Laya.stage.height * 0.3 - pos));
+                    this.objectContainer.y + (Laya.stage.height * upLimit - pos));
                 
                 Layer.GetInstance().foregroundNear.pos(Layer.GetInstance().foregroundNear.x,
-                    Layer.GetInstance().foregroundNear.y + (Laya.stage.height * 0.3 - pos) * 3);
+                    Layer.GetInstance().foregroundNear.y + (Laya.stage.height * upLimit - pos) * 3);
                 Layer.GetInstance().foregroundMid.pos(Layer.GetInstance().foregroundMid.x,
-                    Layer.GetInstance().foregroundMid.y + (Laya.stage.height * 0.3 - pos) * 2);
+                    Layer.GetInstance().foregroundMid.y + (Laya.stage.height * upLimit - pos) * 2);
                 Layer.GetInstance().foregroundFar.pos(Layer.GetInstance().foregroundFar.x,
-                    Layer.GetInstance().foregroundFar.y + (Laya.stage.height * 0.3 - pos) * 1);
+                    Layer.GetInstance().foregroundFar.y + (Laya.stage.height * upLimit - pos) * 1);
             }
         }
-        else if (pos / Laya.stage.height > 0.7)
+        else if (pos / Laya.stage.height > lowLimit)
         {
             if ( this.objectContainer.y > 0)
             {
                 this.objectContainer.pos(this.objectContainer.x,
-                    this.objectContainer.y + (Laya.stage.height * 0.7 - pos));
+                    this.objectContainer.y + (Laya.stage.height * lowLimit - pos));
                 
                 Layer.GetInstance().foregroundNear.pos(Layer.GetInstance().foregroundNear.x,
-                    Layer.GetInstance().foregroundNear.y + (Laya.stage.height * 0.7 - pos) * 3);
+                    Layer.GetInstance().foregroundNear.y + (Laya.stage.height * lowLimit - pos) * 3);
                 Layer.GetInstance().foregroundMid.pos(Layer.GetInstance().foregroundMid.x,
-                    Layer.GetInstance().foregroundMid.y + (Laya.stage.height * 0.7 - pos) * 2);
+                    Layer.GetInstance().foregroundMid.y + (Laya.stage.height * lowLimit - pos) * 2);
                 Layer.GetInstance().foregroundFar.pos(Layer.GetInstance().foregroundFar.x,
-                    Layer.GetInstance().foregroundFar.y + (Laya.stage.height * 0.7 - pos) * 1);
+                    Layer.GetInstance().foregroundFar.y + (Laya.stage.height * lowLimit - pos) * 1);
                 if (this.objectContainer.y < 0)
                     this.objectContainer.y = 0;
             }
