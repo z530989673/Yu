@@ -150,7 +150,6 @@ class Player{
                 this.ChangeDir();
                 this.indexH = n.indexH;
                 this.indexW = n.indexW;
-                this.image.zOrder = this.indexH;
             }
             else
                 this.status = PlayerStatus.Idle;
@@ -201,7 +200,7 @@ class Player{
 
         this.indexW = this.saveW;
         this.indexH = this.saveH;
-        this.image.zOrder = this.indexH;
+        //this.image.zOrder = this.indexH;
         this.image.pos(this.map.GetPosW(this.indexW), this.map.GetPosH(this.indexH));
     }
 

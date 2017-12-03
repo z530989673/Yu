@@ -22,7 +22,7 @@ class ObjectLight extends GameObject
 
         this.image = new Sprite();
         this.image.loadImage(path);
-        this.image.zOrder = indexH;
+        //this.image.zOrder = indexH;
         this.map.AddObject(this.image);
         this.image.pos(m.GetPosW(indexW), m.GetPosH(indexH));
 

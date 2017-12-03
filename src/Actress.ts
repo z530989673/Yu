@@ -24,7 +24,7 @@ class Actress extends Character
         this.image = new Sprite();
         
         this.image.loadImage("../laya/assets/character/girl_" + path + ".png");
-        this.image.zOrder = indexH;
+        //this.image.zOrder = indexH;
         this.map.AddObject(this.image);
         this.image.pos(m.GetPosW(indexW), m.GetPosH(indexH));
         //this.image.scale(GameMap.nodeLength / 128,GameMap.nodeLength / 128);
@@ -102,7 +102,7 @@ class Actress extends Character
                 this.indexW = n.indexW;
                 if (this.blockable)
                     this.map.SetStatus(this.indexH,this.indexW,NodeStatus.Block);
-                this.image.zOrder = this.indexH;
+                //this.image.zOrder = this.indexH;
             }
             else
                 this.status = PlayerStatus.Idle;
@@ -155,9 +155,11 @@ class Actress extends Character
     //被吓到了赶紧跑回去
     public FindPrevTargetObject() : void
     {
+
         var PrevTargetObject = this.currTargetObject.parent;
         if (PrevTargetObject != null)
         {
+            Laya.timer.clear(this, this.FindNextTargetObject);
             this.currTargetObject = PrevTargetObject;
             this.map.MoveTo(PrevTargetObject.indexH, PrevTargetObject.indexW, this);
         }

@@ -205,8 +205,8 @@ class GameMap{
                             [1,1,1,1,1,1,0,0],
                             [1,1,1,1,1,1,0,1],//14
                             [1,1,1,1,1,1,0,0],
-                            [1,1,1,1,1,1,0,0],
-                            [0,1,1,1,1,1,0,0],
+                            [1,1,1,1,1,1,1,0],
+                            [0,1,1,1,1,1,1,0],
                             [0,1,1,1,1,1,1,0],
                             [0,1,1,1,1,1,1,0],//9
                             [0,1,0,0,0,1,1,0],
@@ -303,11 +303,12 @@ class GameMap{
         this.AddCharacter(actress);
 
         var nodes : MapNode[] = [
-	        this.mapNodes[7][3],
-	        this.mapNodes[7][2],
-	        this.mapNodes[7][4],
+	        this.mapNodes[8][2],
+	        this.mapNodes[6][2],
+	        this.mapNodes[6][4],
+	        this.mapNodes[8][4],
         ]
-        var firefly = new Firefly(this, "../laya/assets/item/firefly.png", 7, 3, false, nodes);
+        var firefly = new Firefly(this, "../laya/assets/item/firefly.png", 8, 2, false, nodes);
         this.AddCharacter(firefly);
 
         Laya.timer.frameLoop(1, this, this.Update);

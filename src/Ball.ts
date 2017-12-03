@@ -44,7 +44,7 @@ class Ball extends Character
                 this.indexW = n.indexW;
                 if (this.blockable)
                     this.map.SetStatus(this.indexH,this.indexW,NodeStatus.Block);
-                this.image.zOrder = this.indexH;
+                //this.image.zOrder = this.indexH;
             }
             else
                 this.status = PlayerStatus.Idle;
