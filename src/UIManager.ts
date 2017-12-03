@@ -29,6 +29,7 @@ class UIManager{
         this.button = new Sprite();
         this.button.loadImage("../laya/assets/level2/button_normal.png");
         this.button.pos(Laya.stage.width - 400,Laya.stage.height - 400);
+        
         this.button.mouseThrough = true;
         this.button.on(Laya.Event.MOUSE_UP,this,this.SkillButtonPressed);
         Layer.AddUI(this.button);
@@ -60,6 +61,11 @@ class UIManager{
 
     public ThroughButtonPressed(e : Event) : void
     {
+        var x = this.button.mouseX - this.button.width / 2;
+        var y = this.button.mouseY - this.button.height / 2;
+        var dis = Math.sqrt(x * x + y * y);
+        if (dis > 140)
+            return;
         this.button.on(Laya.Event.MOUSE_UP,this,this.SkillButtonPressed)
         this.button.off(Laya.Event.MOUSE_UP,this,this.ThroughButtonPressed);
         this.game.map.player.isHoldFirefly = false;
@@ -69,6 +75,11 @@ class UIManager{
 
     public SkillButtonPressed(e : Event) : void
     {
+        var x = this.button.mouseX - this.button.width / 2;
+        var y = this.button.mouseY - this.button.height / 2;
+        var dis = Math.sqrt(x * x + y * y);
+        if (dis > 140)
+            return;
         e.stopPropagation();
         if (this.game.map.IsPaused())
         {
