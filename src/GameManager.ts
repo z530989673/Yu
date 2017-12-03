@@ -24,7 +24,7 @@ class GameManager {
 		EventCenter.addEventListener(new GameEvent("touchMusicStone", null, this), this.musicStoneTouch);
 		EventCenter.addEventListener(new GameEvent("playerCollision", null, this), this.playerCollision);
 		EventCenter.addEventListener(new GameEvent("ballSwitchTouch", null, this), this.ballSwitchTouch);
-	}
+ 	}
 
 	private startSingleBlockLevel(e:GameEvent) : void
 	{
@@ -40,6 +40,17 @@ class GameManager {
 	        e.eventInst.map.mapNodes[6][3]];
         var character : Character = new Character(e.eventInst.map, "../laya/assets/item/icon_wildfire.png", 13, 3, false, nodes);
 		e.eventInst.addCharacter(character);
+
+		var nodes1 : MapNode[] = [
+	        e.eventInst.map.mapNodes[5][5],
+	        e.eventInst.map.mapNodes[5][4],
+	        e.eventInst.map.mapNodes[5][3],
+	        e.eventInst.map.mapNodes[5][2],
+	        e.eventInst.map.mapNodes[5][1],
+	        e.eventInst.map.mapNodes[5][0]
+	       	];
+		e.eventInst.map.AddCharacter(new Ball(e.eventInst.map, "../laya/assets/item/icon_wildfire.png", 5, 5, false, nodes1));
+
 	}
 
 	private startMusicStoneLevel(e:GameEvent) 
@@ -86,6 +97,7 @@ class GameManager {
 	{
 		var player = e.eventArgs[0];
 		var character = e.eventArgs[1];
+
 		player.Load();
 	}
 
@@ -239,10 +251,25 @@ class GameManager {
 			// gateNode.
 		}
 
+		if(pitch == 2)
+		{
+
+		}
+
+		if(pitch == 3)
+		{
+
+		}
+
+		if(pitch == 4)
+		{
+
+		}
 	}
 	ballSwitchTouch(e:GameEvent)
 	{
 		e.eventInst.openGate(e);
+
 		// e.eventInst.
 	}
 	musicStoneTouch(e:GameEvent)
