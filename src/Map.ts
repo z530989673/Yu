@@ -39,7 +39,7 @@ class GameMap{
 
     public LoadLevel1() : void
     {
-        this.map = new CustomSprite("../laya/assets/map/level1.png");
+        this.map = new CustomSprite("../laya/assets/level1/bg.jpg");
         this.map.zOrder = -1;
         Layer.AddMap(this.map);
         this.nodeStatus = [ [0,0,0,0,0,0,0,0],
@@ -124,7 +124,7 @@ class GameMap{
         // this.AddGameObject("../laya/assets/placeHolder/Brown.png",6,3,1,1,true);
         // this.AddGameObject("../laya/assets/placeHolder/Brown.png",9,3,1,1,false);
 
-        this.player = new Player(this,"../laya/assets/placeHolder/Red.png",0,3);
+        this.player = new Player(this,"../laya/assets/character/boy_back.png",0,3);
 
         this.map.on(Laya.Event.MOUSE_DOWN,this,this.MouseDown);
 
@@ -137,10 +137,10 @@ class GameMap{
             }
         }
 
-        var light = new ObjectLight(this, "../laya/assets/placeHolder/Brown.png", 1, 3, 1, 1, false);
-        var light1 = new ObjectLight(this, "../laya/assets/placeHolder/Brown.png", 8, 3, 1, 1, false);
-        var light2 = new ObjectLight(this, "../laya/assets/placeHolder/Brown.png", 14, 1, 1, 1, false);
-        var light3 = new ObjectLight(this, "../laya/assets/placeHolder/Brown.png", 13, 6, 1, 1, false);
+        var light = new ObjectLight(this, "../laya/assets/item/icon_lantern.png", 1, 3, 1, 1, false);
+        var light1 = new ObjectLight(this, "../laya/assets/item/icon_lantern.png", 8, 3, 1, 1, false);
+        var light2 = new ObjectLight(this, "../laya/assets/item/icon_lantern.png", 14, 1, 1, 1, false);
+        var light3 = new ObjectLight(this, "../laya/assets/item/icon_lantern.png", 13, 6, 1, 1, false);
         this.AddGameObject(light);
         this.AddGameObject(light1);
         this.AddGameObject(light2);

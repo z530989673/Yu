@@ -166,7 +166,7 @@ class Player{
     {
         var x = this.image.x;
         var y = this.image.y;
-        return new Rectangle(x, y, this.image.width, this.image.height);
+        return new Rectangle(x, y, this.image.width - 1, this.image.height - 1);
     }
 
     public Intersects (rect : Rectangle) : boolean
