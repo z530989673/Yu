@@ -51,7 +51,7 @@ void main(){\
 	else\
 	{\
 		float grey = c.r * 0.30 + c.g * 0.59 + c.b * 0.11;\
-		gl_FragColor = vec4(vec3(grey),1);\
+		gl_FragColor = vec4(vec3(grey),c.a);\
 	}\
 }";
 
