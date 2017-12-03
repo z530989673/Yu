@@ -137,20 +137,143 @@ class GameMap{
             }
         }
 
-        var light = new ObjectLight(this, "../laya/assets/item/icon_lantern.png", 1, 3, 1, 1, false);
-        var light1 = new ObjectLight(this, "../laya/assets/item/icon_lantern.png", 8, 3, 1, 1, false);
-        var light2 = new ObjectLight(this, "../laya/assets/item/icon_lantern.png", 14, 1, 1, 1, false);
-        var light3 = new ObjectLight(this, "../laya/assets/item/icon_lantern.png", 13, 6, 1, 1, false);
-        this.AddGameObject(light);
-        this.AddGameObject(light1);
-        this.AddGameObject(light2);
-        this.AddGameObject(light3);
-        light.AddChild(light1);
-        light1.AddChild(light2);
-        light1.AddChild(light3);
-
         Laya.timer.frameLoop(1, this, this.Update);
     }
+
+    public LoadLevel2() : void
+    {
+        this.map = new CustomSprite("../laya/assets/level1/bg.jpg");
+        this.map.zOrder = -1;
+        Layer.AddMap(this.map);
+        this.nodeStatus = [ [1,1,0,1,0,1,1,1],//29
+                            [1,1,0,1,0,1,0,0],
+                            [1,1,0,1,0,1,0,1],
+                            [0,0,0,1,0,1,0,1],
+                            [1,0,1,1,0,1,0,1],
+                            [0,0,0,1,0,1,0,0],//24
+                            [0,0,0,1,0,0,0,0],
+                            [0,0,0,1,0,0,0,0],
+                            [1,1,0,0,1,1,1,0],
+                            [1,0,1,0,1,0,1,0],
+                            [1,0,1,0,1,0,1,0],//19
+                            [1,0,1,0,1,0,1,0],
+                            [1,0,0,0,1,0,1,0],
+                            [0,1,1,0,0,0,1,0],
+                            [0,1,1,0,0,1,0,0],
+                            [0,1,1,0,0,1,0,1],//14
+                            [0,1,1,0,0,1,0,0],
+                            [0,1,1,0,0,1,0,0],
+                            [0,0,0,0,0,1,0,0],
+                            [0,1,1,1,1,1,1,0],
+                            [0,1,1,1,1,1,1,0],//9
+                            [0,1,0,0,0,1,1,0],
+                            [0,1,0,0,0,1,1,0],
+                            [0,1,0,0,0,1,0,0],
+                            [0,1,1,0,1,1,0,1],
+                            [0,0,0,0,1,1,0,0],//4
+                            [0,0,0,1,1,1,1,0],
+                            [0,0,0,0,0,0,1,0],
+                            [1,0,1,0,0,0,0,0],
+                            [1,0,1,1,1,1,1,1],];//0
+                            
+        this.width = this.nodeStatus[0].length;
+        this.height = this.nodeStatus.length;
+        this.totalHeightInPxl = this.height * GameMap.nodeLength;
+        
+        for(var i = 0; i < this.nodeStatus.length; i++)
+        {
+            this.currentStatus.push([]);
+            this.nodeSprite.push([]);
+            for(var j = 0; j < this.nodeStatus[i].length; j++)
+            {
+                var value : number = this.nodeStatus[this.nodeStatus.length - 1 - i][j];
+                this.currentStatus[i].push(value);
+                var path : string = "";
+                if (value == 0)
+                    path = "../laya/assets/placeHolder/White.png";
+                else if (value == 1)
+                    path = "../laya/assets/placeHolder/Black.png";
+                else if (value == 7)
+                    path = "../laya/assets/placeHolder/Flag.png";
+                var sp : CustomSprite = new CustomSprite(path);
+                var offsetW : number = this.GetPosW(j);
+                var offsetH : number = this.GetPosH(i);
+                sp.pos(offsetW, offsetH);
+                sp.zOrder = -10000;
+                this.objectContainer.addChild(sp);
+                this.nodeSprite[i].push(sp);
+            }
+        }
+                
+        Layer.AddObjects(this.objectContainer);
+
+        // this.AddGameObject("../laya/assets/comp/image.png",3,4,2,1,true);
+        // this.AddGameObject("../laya/assets/placeHolder/Brown.png",6,3,1,1,true);
+        // this.AddGameObject("../laya/assets/placeHolder/Brown.png",9,3,1,1,false);
+
+        this.player = new Player(this,"../laya/assets/character/boy_back.png",0,1);
+
+        this.map.on(Laya.Event.MOUSE_DOWN,this,this.MouseDown);
+
+        for(var i = 0; i < this.nodeStatus.length; i++)
+        {
+            this.mapNodes.push([]);
+            for(var j = 0; j < this.nodeStatus[i].length; j++)
+            {
+                this.mapNodes[i].push(new MapNode(i,j));
+            }
+        }
+
+        var lights = [
+            new ObjectLight(this, 2, 1, 1, 1, false),
+
+            new ObjectLight(this, 16, 0, 1, 1, false),
+
+            new ObjectLight(this, 13, 3, 1, 1, false, false),
+            new ObjectLight(this, 20, 1, 1, 1, false),
+            new ObjectLight(this, 26, 0, 1, 1, false),
+
+            new ObjectLight(this, 1, 6, 1, 1, false),
+            new ObjectLight(this, 4, 6, 1, 1, false, false),
+            new ObjectLight(this, 13, 7, 1, 1, false),
+            new ObjectLight(this, 26, 6, 1, 1, false, false),
+            new ObjectLight(this, 28, 7, 1, 1, false),
+            new ObjectLight(this, 26, 4, 1, 1, false, false),
+            new ObjectLight(this, 29, 4, 1, 1, false),
+        ]
+
+        lights[0].AddChild(lights[1]);
+        lights[0].AddChild(lights[2]);
+        lights[0].AddChild(lights[5]);
+
+        lights[2].AddChild(lights[3]);
+        lights[2].AddChild(lights[4]);
+
+        lights[5].AddChild(lights[6]);
+        lights[6].AddChild(lights[7]);
+        lights[7].AddChild(lights[8]);
+        lights[7].AddChild(lights[10]);
+
+        lights[8].AddChild(lights[9]);
+        lights[10].AddChild(lights[11]);
+        
+
+        for (var i = 0; i < lights.length; ++i)
+            this.AddGameObject(lights[i]);
+
+        var actress = new Actress(this,"../laya/assets/character/girl_back.png",2,1, false, lights[0]);
+        this.AddCharacter(actress);
+
+        var nodes : MapNode[] = [
+	        this.mapNodes[7][3],
+	        this.mapNodes[7][2],
+	        this.mapNodes[7][4],
+        ]
+        var firefly = new Firefly(this, "../laya/assets/item/firefly.png", 7, 3, false, nodes);
+        this.AddCharacter(firefly);
+
+        Laya.timer.frameLoop(1, this, this.Update);
+    }    
  
     public AddCharacter(character : any)
     {

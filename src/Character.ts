@@ -1,6 +1,13 @@
 /*
 * name;
 */
+enum CharacterType
+{
+    NORMAL = 0,
+    ACTRESS,
+    FIREFLY,
+}
+
 class Character{
     protected map :GameMap;
     protected image : any;
@@ -14,6 +21,8 @@ class Character{
     public dirLength : number = 0;
     public blockable : boolean = false;
     public isActive = true;
+    public enableCollision = true;
+    public type : CharacterType = CharacterType.NORMAL;
     
     public wayPoints : MapNode[];
     public nextWayPoints : MapNode[];

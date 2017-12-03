@@ -25,9 +25,11 @@ class CollisionManager
         var playerRect = player.GetRect();
         for(var i = 0; i < characters.length; i++)
         {
+            if (!characters[i].enableCollision)
+                continue;
             if (characters[i].Intersects(playerRect))
             {
-                EventCenter.dispatchAll(new GameEvent("playerCollision", [player, characters], this));
+                EventCenter.dispatchAll(new GameEvent("playerCollision", [player, characters[i]], this));
                 return;
             }
         }

@@ -17,7 +17,7 @@ class GameManager {
 		this.energy = 0;
 		this.map = map;
 		this.player = map.player;
-		EventCenter.addEventListener(new GameEvent("standPos", null, this), this.standPos);
+		// EventCenter.addEventListener(new GameEvent("standPos", null, this), this.standPos);
 		EventCenter.addEventListener(new GameEvent("touchLatern", null, this), this.touchLatern);
 		EventCenter.addEventListener(new GameEvent("touchWater", null, this), this.touchWater);
 		EventCenter.addEventListener(new GameEvent("touchBall", null, this), this.touchBall);
@@ -86,7 +86,17 @@ class GameManager {
 	{
 		var player = e.eventArgs[0];
 		var character = e.eventArgs[1];
+		if (character.type == CharacterType.FIREFLY && e.eventInst.map.IsPaused())
+		{
+        	EventCenter.dispatchAll(new GameEvent("holdFirefly", character, this));
+			return;
+		}
+		
 		player.Load();
+		if(character.type == CharacterType.ACTRESS)
+		{
+			character.FindPrevTargetObject();
+		}
 	}
 
 	standPos(e:GameEvent)
@@ -95,7 +105,7 @@ class GameManager {
 		var PosY = e.eventArgs[1];
 		if (PosY == 5 && !e.eventInst.isSingleBlockStart)
 		{			
-			e.eventInst.isSingleBlockStart = true;
+			e.eventInst.c = true;
 			e.eventInst.startSingleBlockLevel(e);
 		}
 		if (PosY == 15 && !e.eventInst.isMusicStoneStart)

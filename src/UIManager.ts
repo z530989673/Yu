@@ -8,6 +8,8 @@ class UIManager{
         this.game = game;
 
         Laya.loader.load("../laya/assets/comp/button.png", Handler.create(this, this.createButton));
+
+        EventCenter.addEventListener(new GameEvent("holdFirefly", null, this), this.OnHoldFirefly);
     }
 
     private createButton(): void {
@@ -17,6 +19,20 @@ class UIManager{
         this.button.mouseThrough = true;
         this.button.on(Laya.Event.MOUSE_UP,this,this.SkillButtonPressed);
         Layer.AddUI(this.button);
+    }
+
+    private OnHoldFirefly(e:GameEvent) : void
+    {
+        var inst = e.eventInst;
+        inst.button.off(Laya.Event.MOUSE_UP,inst,inst.SkillButtonPressed)
+        inst.button.on(Laya.Event.MOUSE_UP,inst,inst.ThroughButtonPressed);
+    }
+
+    public ThroughButtonPressed(e : Event) : void
+    {
+        this.button.on(Laya.Event.MOUSE_UP,this,this.SkillButtonPressed)
+        this.button.off(Laya.Event.MOUSE_UP,this,this.ThroughButtonPressed);
+        this.game.map.player.isHoldFirefly = false;
     }
 
     public SkillButtonPressed(e : Event) : void

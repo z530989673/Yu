@@ -23,6 +23,7 @@ class Player{
 
     public saveW : number = 0;
     public saveH : number = 0;
+    public isHoldFirefly : boolean = false;
 
     constructor(m : GameMap, path : string, indexH : number, indexW : number){
         this.map = m;
@@ -41,6 +42,7 @@ class Player{
         Laya.timer.frameLoop(1, this, this.Update);
         
         Laya.loader.load("../laya/pages/timeStop.part", Handler.create(this, this.onParticleLoaded), null, Loader.JSON);
+        EventCenter.addEventListener(new GameEvent("holdFirefly", null, this), this.OnHoldFirefly);
     }
 
     public onParticleLoaded(settings: ParticleSetting) : void
@@ -177,5 +179,12 @@ class Player{
     private TurnLight(args) : void
     {
         EventCenter.dispatchAll(new GameEvent("TurnLight", this, this));
+    }
+
+    private OnHoldFirefly(e:GameEvent) : void
+    {
+        var inst = e.eventInst;
+        inst.isHoldFirefly = true;
+        inst.map.RestoreUpdate();
     }
 }

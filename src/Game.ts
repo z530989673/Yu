@@ -38,7 +38,8 @@ class GameMain{
         this.uiMgr = new UIManager(this);
         this.gm = new GameManager(this.map);
         this.cm = new CollisionManager(this.map);
-        this.map.LoadLevel1();
+        // this.map.LoadLevel1();
+        this.map.LoadLevel2();
 
         //Laya.Stat.show(0,0);
 
