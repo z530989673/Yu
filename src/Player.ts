@@ -32,10 +32,11 @@ class Player{
         this.indexW = indexW;
         this.indexH = indexH;
         this.image = new Sprite();
-        this.image.loadImage(path);
+        this.image.loadImage("../laya/assets/character/boy_" + path + ".png");
         this.image.zOrder = indexH;
         this.map.AddObject(this.image);
         this.image.pos(m.GetPosW(indexW), m.GetPosH(indexH));
+        //this.image.scale(GameMap.nodeLength / 128,GameMap.nodeLength / 128);
         var point : Point = this.image.localToGlobal(new Point(GameMap.nodeLength / 2,GameMap.nodeLength));
         Yu.CustomShaderValue.pointPos = [point.x,point.y];
 
@@ -52,7 +53,7 @@ class Player{
         this.particle.emitter.start();
         this.particle.emitter.minEmissionTime = 0.1;
         this.particle.play();
-        Layer.AddForeGroundFar(this.particle);
+        Layer.AddObjects(this.particle);
         this.particle.x = Laya.stage.width / 2;
         this.particle.y = Laya.stage.height / 2;
     }
@@ -102,6 +103,7 @@ class Player{
             {
                 this.dirH = n.indexH - this.indexH;
                 this.dirW = n.indexW - this.indexW;
+                this.ChangeDir();
                 this.indexH = n.indexH;
                 this.indexW = n.indexW;
                 this.image.zOrder = this.indexH;
@@ -109,6 +111,20 @@ class Player{
             else
                 this.status = PlayerStatus.Idle;
         }
+    }
+
+    public ChangeDir() : void
+    {
+        var str = "back";
+        if (this.dirW == 0 && this.dirH == -1)
+            str = "front";
+        else if (this.dirW == 1 && this.dirH == 0)
+            str = "right"
+        else if (this.dirW == -1 && this.dirH == 0)
+            str = "left";
+        
+        this.image.graphics.clear();
+        this.image.loadImage("../laya/assets/character/boy_" + str + ".png");
     }
 
     public MoveTo(checkPoints : MapNode[]) : void
@@ -124,6 +140,7 @@ class Player{
             this.indexH = checkPoint.indexH;
             this.indexW = checkPoint.indexW;
             this.status = PlayerStatus.Move;
+            this.ChangeDir();
         }
     }
 
@@ -154,6 +171,11 @@ class Player{
         return this.image.y + GameMap.nodeLength / 2;
     }
 
+    public GetUpperX() : number
+    {
+        return this.image.x;
+    }
+
     public GetUpperBound() : number
     {
         return this.image.y;
@@ -168,7 +190,7 @@ class Player{
     {
         var x = this.image.x;
         var y = this.image.y;
-        return new Rectangle(x, y, this.image.width - 1, this.image.height - 1);
+        return new Rectangle(x, y, this.image.width * GameMap.nodeLength / 128- 1, this.image.height* GameMap.nodeLength / 128 - 1);
     }
 
     public Intersects (rect : Rectangle) : boolean

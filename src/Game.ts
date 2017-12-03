@@ -41,7 +41,7 @@ class GameMain{
         // this.map.LoadLevel1();
         this.map.LoadLevel2();
 
-        //Laya.Stat.show(0,0);
+        Laya.Stat.show(0,0);
 
         Laya.timer.frameLoop(1, this, this.Update);
 

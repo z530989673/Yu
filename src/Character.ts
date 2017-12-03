@@ -30,9 +30,10 @@ class Character{
     public wayPoints1 : MapNode[] = [];
     public wayPoints2 : MapNode[] = [];
 
-    constructor(m : GameMap, path : string, indexH : number, indexW : number, blockable : boolean, checkPoints : MapNode[]){
+    constructor(m : GameMap, path : string, indexH : number, indexW : number, blockable : boolean, checkPoints : MapNode[], speed : number = 1000){
         this.map = m;
 
+        this.moveSpeed = speed;
         this.indexW = indexW;
         this.indexH = indexH;
         this.blockable = blockable;
@@ -40,9 +41,11 @@ class Character{
             this.map.SetStatus(this.indexH,this.indexW,NodeStatus.Block);
         if (path != "")
         {
-            this.image = new CustomSprite(path);
+            this.image = new Sprite();
+            this.image.loadImage(path);
             this.image.zOrder = indexH;
             this.map.AddObject(this.image);
+            this.image.scale(GameMap.nodeLength / 128,GameMap.nodeLength / 128);
             this.image.pos(m.GetPosW(indexW), m.GetPosH(indexH));
         }
 
@@ -151,7 +154,7 @@ class Character{
     {
         var x = this.image.x;
         var y = this.image.y;
-        return new Rectangle(x, y, this.image.width - 1, this.image.height - 1);
+        return new Rectangle(x, y, this.image.width* GameMap.nodeLength / 128 - 1, this.image.height* GameMap.nodeLength / 128 - 1);
     }
 
     public Intersects (rect : Rectangle) : boolean
