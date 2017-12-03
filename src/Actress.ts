@@ -5,6 +5,9 @@
 class Actress extends Character
 {
     private currTargetObject : ObjectLight = null;
+    
+    private filter : Laya.GlowFilter;
+    private frameCount = 0;
 
     constructor(m : GameMap, path : string, indexH : number, indexW : number, blockable : boolean, rootObject : ObjectLight = null)
     {
@@ -23,9 +26,24 @@ class Actress extends Character
         this.image.pos(m.GetPosW(indexW), m.GetPosH(indexH));
         //this.image.scale(GameMap.nodeLength / 128,GameMap.nodeLength / 128);
 
+        
+        this.filter = new Laya.GlowFilter("#cef708",10,-1,-1);
+        Laya.timer.loop(100,this,this.ChangeBlur);
+
         this.moveSpeed = 500;
 
         EventCenter.addEventListener(new GameEvent("LightEnableChanged", null, this), this.TargetObjectEnableChange);
+    }
+
+    public ChangeBlur() : void
+    {
+        this.frameCount++;
+        {
+            this.filter.blur = this.frameCount % 20;
+            if (this.filter.blur > 10)
+                this.filter.blur = 20 - this.filter.blur;
+            this.image.filters = [this.filter];
+        }
     }
 
     public Update() : void

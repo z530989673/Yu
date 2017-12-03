@@ -246,7 +246,7 @@ class GameMap{
                 var offsetW : number = this.GetPosW(j);
                 var offsetH : number = this.GetPosH(i);
                 sp.pos(offsetW, offsetH);
-                this.objectContainer.addChild(sp);
+                //this.objectContainer.addChild(sp);
                 this.nodeSprite[i].push(sp);
 
             }

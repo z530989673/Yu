@@ -11,6 +11,7 @@ class Player{
     protected map : GameMap;
     protected image : Sprite;
     protected particle : Particle2D;
+    protected holdParticle : Particle2D;
     public indexW : number = 0;
     public indexH : number = 0;
     public moveSpeed : number = 500;
@@ -20,20 +21,24 @@ class Player{
     public dirH : number = 0;
     
     public wayPoints : MapNode[] = [];
+    private filter : Laya.GlowFilter;
 
     public saveW : number = 0;
     public saveH : number = 0;
     public isHoldFirefly : boolean = false;
+    private frameCount = 0;
 
     constructor(m : GameMap, path : string, indexH : number, indexW : number){
         this.map = m;
         this.Save(indexW, indexH);
-
+        
+        this.filter = new Laya.GlowFilter("#08f7ce",10,-1,-1);
+        
         this.indexW = indexW;
         this.indexH = indexH;
         this.image = new Sprite();
         this.image.loadImage("../laya/assets/character/boy_" + path + ".png");
-        this.image.zOrder = indexH;
+        //this.image.zOrder = indexH;
         this.map.AddObject(this.image);
         this.image.pos(m.GetPosW(indexW), m.GetPosH(indexH));
         //this.image.scale(GameMap.nodeLength / 128,GameMap.nodeLength / 128);
@@ -41,9 +46,21 @@ class Player{
         Yu.CustomShaderValue.pointPos = [point.x,point.y];
 
         Laya.timer.frameLoop(1, this, this.Update);
-        
+        Laya.timer.loop(100,this,this.ChangeBlur);
+        Laya.loader.load("../laya/pages/firefly.part", Handler.create(this, this.onHoldParticleLoaded), null, Loader.JSON);
         Laya.loader.load("../laya/pages/timeStop.part", Handler.create(this, this.onParticleLoaded), null, Loader.JSON);
         EventCenter.addEventListener(new GameEvent("holdFirefly", null, this), this.OnHoldFirefly);
+    }
+
+    public onHoldParticleLoaded(settings: ParticleSetting) : void
+    {
+        settings.textureName = "../laya/assets/" + settings.textureName;
+        this.holdParticle = new Particle2D(settings);
+        this.holdParticle.stop();
+        this.holdParticle.emitter.minEmissionTime = 0.1;
+        this.holdParticle.emitter.stop();
+        this.holdParticle.zOrder = 100;
+        this.map.AddObject(this.holdParticle);
     }
 
     public onParticleLoaded(settings: ParticleSetting) : void
@@ -58,8 +75,34 @@ class Player{
         this.particle.y = Laya.stage.height / 2;
     }
 
+    public ChangeBlur() : void
+    {
+        this.frameCount++;
+        {
+            this.filter.blur = this.frameCount % 20;
+            if (this.filter.blur > 10)
+                this.filter.blur = 20 - this.filter.blur;
+            this.image.filters = [this.filter];
+        }
+    }
+
     public Update() : void
     {
+        if (this.isHoldFirefly)
+        {
+            this.holdParticle.emitter.start();
+            this.holdParticle.play(); 
+            this.holdParticle.x = this.image.x + GameMap.nodeLength / 2;
+            this.holdParticle.y = this.image.y + GameMap.nodeLength / 2;
+        }
+        else
+        {
+            if (this.holdParticle != null)
+            {
+                this.holdParticle.emitter.stop();
+                this.holdParticle.stop(); 
+            }
+        }
         var point : Point = this.image.localToGlobal(new Point(GameMap.nodeLength / 2,GameMap.nodeLength));
         Yu.CustomShaderValue.pointPos = [point.x,point.y];
         if (this.status == PlayerStatus.Idle)
