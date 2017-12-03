@@ -42,7 +42,20 @@ class GameMap{
         this.map = new CustomSprite("../laya/assets/map/level1.png");
         this.map.zOrder = -1;
         Layer.AddMap(this.map);
-        this.nodeStatus = [ [0,0,0,0,0,0,0,0],//34
+        this.nodeStatus = [ [0,0,0,0,0,0,0,0],
+                            [0,0,0,0,0,0,0,0],
+                            [0,0,0,0,0,0,0,0],//44
+                            [0,0,0,0,0,0,0,0],
+                            [0,0,0,0,0,0,0,0],
+                            [1,1,1,1,1,1,1,1],
+                            [0,0,0,0,0,0,0,0],
+                            [0,0,0,0,0,0,0,0],//39
+                            [0,0,0,0,0,0,0,0],
+                            [0,0,0,0,0,0,0,0],
+                            [0,0,0,0,0,0,0,0],
+                            [0,0,0,0,0,0,0,0],
+                            [1,1,1,1,1,1,1,1],//34
+                            [0,0,0,0,0,0,0,0],
                             [0,0,0,0,0,0,0,0],
                             [0,0,0,0,0,0,0,0],
                             [0,0,0,0,0,0,0,0],
@@ -52,9 +65,9 @@ class GameMap{
                             [0,1,1,0,1,0,0,0],
                             [0,1,1,0,1,1,1,1],
                             [0,1,0,0,0,0,0,0],//24
-                            [1,1,0,1,0,1,1,1],
-                            [0,0,0,1,0,0,0,0],
                             [1,1,1,1,0,1,1,1],
+                            [0,0,0,0,0,0,0,0],
+                            [1,1,1,0,1,1,1,1],
                             [0,0,0,0,0,0,0,0],//19
                             [0,0,0,0,0,0,0,0],
                             [0,0,0,0,0,0,0,0],
@@ -136,8 +149,8 @@ class GameMap{
         light1.AddChild(light2);
         light1.AddChild(light3);
 
-        var actress = new Actress(this, "../laya/assets/placeHolder/Green.png", 1, 3, false, light);
-        this.AddCharacter(actress);
+        // var actress = new Actress(this, "../laya/assets/placeHolder/Green.png", 1, 3, false, light);
+        // this.AddCharacter(actress);
 
         // this.AddCharacter("../laya/assets/placeHolder/Green.png",8,3,true,nodes);
         //var nodes : MapNode[] = [this.mapNodes[8][3],this.mapNodes[8][4],this.mapNodes[8][5]];
