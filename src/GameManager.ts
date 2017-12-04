@@ -36,17 +36,17 @@ class GameManager {
         var character : Character = new Character(e.eventInst.map, "../laya/assets/item/icon_wildfire.png", 18, 3, false, nodes);
 		e.eventInst.addCharacter(character);
 
-		var nodes1 : MapNode[] = [
-	        e.eventInst.map.mapNodes[5][5],
-	        e.eventInst.map.mapNodes[5][4],
-	        e.eventInst.map.mapNodes[5][3],
-	        e.eventInst.map.mapNodes[5][2],
-	        e.eventInst.map.mapNodes[5][1],
-	        e.eventInst.map.mapNodes[5][0]
-	       	];
-	    var ball = new Ball(e.eventInst.map, "../laya/assets/item/icon_wildfire.png", 5, 5, false, []);
-		e.eventInst.map.AddCharacter(ball);
-		e.eventInst.map.MoveTo(20, 5, ball);
+		// var nodes1 : MapNode[] = [
+	    //     e.eventInst.map.mapNodes[5][5],
+	    //     e.eventInst.map.mapNodes[5][4],
+	    //     e.eventInst.map.mapNodes[5][3],
+	    //     e.eventInst.map.mapNodes[5][2],
+	    //     e.eventInst.map.mapNodes[5][1],
+	    //     e.eventInst.map.mapNodes[5][0]
+	    //    	];
+	    // var ball = new Ball(e.eventInst.map, "../laya/assets/item/icon_wildfire.png", 5, 5, false, []);
+		// e.eventInst.map.AddCharacter(ball);
+		// e.eventInst.map.MoveTo(20, 5, ball);
 		// ball.MoveTo(nodes1);
 		// e.eventArgs.map = nodes1;
         var nodes2 : MapNode[] = [

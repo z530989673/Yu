@@ -209,7 +209,11 @@ class GameMap{
         this.level = 2;
         this.LoadBasicLevel("level2", 150);
 
-        this.nodeStatus = [ [1,1,1,1,0,1,1,1],//29
+        this.nodeStatus = [ [1,1,1,1,1,1,1,1],
+                            [1,1,1,1,1,1,1,1],
+                            [1,1,1,1,1,1,1,1],
+                            [1,1,1,1,1,1,1,1],
+                            [1,1,1,1,0,1,1,1],//29
                             [1,1,1,1,0,1,0,0],
                             [1,1,1,1,0,1,0,1],
                             [1,1,1,1,0,1,0,1],
@@ -238,6 +242,8 @@ class GameMap{
                             [0,0,0,1,1,1,1,0],
                             [0,0,0,0,0,0,1,0],
                             [1,0,1,0,0,0,0,0],
+                            [1,0,1,1,1,1,1,1],//0
+                            [1,0,1,1,1,1,1,1],//0
                             [1,0,1,1,1,1,1,1],];//0
                             
         this.width = this.nodeStatus[0].length;
@@ -274,7 +280,7 @@ class GameMap{
                 
         Layer.AddObjects(this.objectContainer);
 
-        this.player = new Player(this,"back",0,1);
+        this.player = new Player(this,"back",2,1);
 
         this.map.on(Laya.Event.MOUSE_DOWN,this,this.MouseDown);
 
@@ -288,17 +294,17 @@ class GameMap{
         }
 
         var lights = [
-            new ObjectLight(this, 2, 1, 1, 1, false),
+            new ObjectLight(this, 4, 1, 1, 1, false),
 
-            new ObjectLight(this, 9, 0, 1, 1, false),
+            new ObjectLight(this, 11, 0, 1, 1, false),
 
-            new ObjectLight(this, 1, 6, 1, 1, false),
-            new ObjectLight(this, 4, 6, 1, 1, false, false),
-            new ObjectLight(this, 13, 7, 1, 1, false),
-            new ObjectLight(this, 26, 6, 1, 1, false, false),
-            new ObjectLight(this, 28, 7, 1, 1, false),
-            new ObjectLight(this, 26, 4, 1, 1, false, false),
-            new ObjectLight(this, 29, 4, 1, 1, false),
+            new ObjectLight(this, 3, 6, 1, 1, false),
+            new ObjectLight(this, 6, 6, 1, 1, false, false),
+            new ObjectLight(this, 15, 7, 1, 1, false),
+            new ObjectLight(this, 28, 6, 1, 1, false, false),
+            new ObjectLight(this, 30, 7, 1, 1, false),
+            new ObjectLight(this, 28, 4, 1, 1, false, false),
+            new ObjectLight(this, 31, 4, 1, 1, false),
         ]
 
         lights[0].AddChild(lights[1]);
@@ -316,17 +322,17 @@ class GameMap{
         for (var i = 0; i < lights.length; ++i)
             this.AddGameObject(lights[i]);
 
-        var actress = new Actress(this,"back",2,1, false, lights[0]);
+        var actress = new Actress(this,"back",4,1, false, lights[0]);
         this.AddCharacter(actress);
         this.actress = actress;
 
         var nodes : MapNode[] = [
+	        this.mapNodes[10][2],
 	        this.mapNodes[8][2],
-	        this.mapNodes[6][2],
-	        this.mapNodes[6][4],
 	        this.mapNodes[8][4],
+	        this.mapNodes[10][4],
         ]
-        var firefly = new Firefly(this, "../laya/assets/item/firefly.png", 8, 2, false, nodes);
+        var firefly = new Firefly(this, "../laya/assets/item/firefly.png", 10, 2, false, nodes);
         this.AddCharacter(firefly);
 
         Laya.timer.frameLoop(1, this, this.Update);
@@ -556,7 +562,7 @@ class GameMap{
         }
         
         var upLimit = 0.5;
-        var lowLimit = 0.8;
+        var lowLimit = 0.7;
         if (pos / Laya.stage.height < upLimit)
         {
             if (this.objectContainer.y + Laya.stage.height < this.totalHeightInPxl)

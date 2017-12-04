@@ -28,7 +28,7 @@ class UIManager{
     private createButton(): void {
         this.button = new Sprite();
         this.button.loadImage("../laya/assets/level2/button_normal.png");
-        this.button.pos(Laya.stage.width - 400,Laya.stage.height - 400);
+        this.button.pos(Laya.stage.width - 320,Laya.stage.height - 320);
         
         this.button.mouseThrough = true;
         this.button.on(Laya.Event.MOUSE_UP,this,this.SkillButtonPressed);
