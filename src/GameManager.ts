@@ -159,6 +159,9 @@ class GameManager {
 		}
 		if (level == 3)
 		{
+			var gPosY = e.eventInst.map.actress.indexH;
+			if (gPosY == 22)
+				e.eventInst.map.actress.SetVisible(false);
 			if(PosY == 22)
 			{
 				e.eventInst.map.player.Load();
@@ -170,13 +173,13 @@ class GameManager {
 		        	e.eventInst.map.GetPosH(e.eventInst.indexH));
 		        // e.eventInst.map.actres
 				// e.eventInst.map.actress.
-				e.eventInst.game.ResetLevel(2);
+				e.eventInst.game.ResetLevel(3);
 			}
 		}
 		else if (level == 2)
 		{
 			var gPosY = e.eventInst.map.actress.indexH;
-			if (gPosY >= 15 && PosY >= 14)
+			if (gPosY >= 15 && PosY >= 13)
 			{
 				Laya.timer.once(10,e.eventInst.game,e.eventInst.game.ResetLevel,[3]);
 			}
