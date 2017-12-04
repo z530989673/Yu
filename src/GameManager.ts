@@ -36,15 +36,6 @@ class GameManager {
         var character : Character = new Character(e.eventInst.map, "../laya/assets/item/icon_wildfire.png", 18, 3, false, nodes);
 		e.eventInst.addCharacter(character);
 
-		var nodes1 : MapNode[] = [
-	        e.eventInst.map.mapNodes[5][5],
-	        e.eventInst.map.mapNodes[5][4],
-	        e.eventInst.map.mapNodes[5][3],
-	        e.eventInst.map.mapNodes[5][2],
-	        e.eventInst.map.mapNodes[5][1],
-	        e.eventInst.map.mapNodes[5][0]
-	       	];
-	 //    var ball = new Ball(e.eventInst.map, "../laya/assets/item/icon_wildfire.png", 5, 5, false, []);
 		// e.eventInst.map.AddCharacter(ball);
 		// e.eventInst.map.MoveTo(20, 5, ball);
 		// ball.MoveTo(nodes1);
@@ -162,10 +153,10 @@ class GameManager {
 			e.eventInst.isMusicStoneStart = true;
 			e.eventInst.startMusicStoneLevel(e);
 		}
-		if (PosY == 33)
+		if (PosY == 33 && e.eventInst.map.level == 1)
 		{
 			EventCenter.removeEventListener(new GameEvent("standPos", null, this),GameManager.standPos);
-			e.eventInst.game.ResetLevel();
+			e.eventInst.game.ResetLevel(2);
 		}
 	}
 	wakeupGirl(e:GameEvent)

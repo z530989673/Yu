@@ -62,7 +62,10 @@ class GameMain{
     {
         this.map.ResetLevel();
         this.cm = new CollisionManager(this.map);
-        this.map.LoadLevel2();
+        if (i == 2)
+            this.map.LoadLevel2();
+        else if (i == 3)
+            this.map.LoadLevel3();
         
     }
 }
