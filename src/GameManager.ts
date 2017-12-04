@@ -5,19 +5,21 @@ class GameManager {
 	public girlHappiness: number;
 	public boyHappiness: number;
 	public energy: number;
-	public map:GameMap
-	public player:Player
+	public map:GameMap;
+	public player:Player;
+	public game : GameMain;
 	private isSingleBlockStart = false;
 	private isMusicStoneStart = false;
 	private stoneCurrentID = 1;
-	constructor(map : GameMap) {
+	constructor(game : GameMain) {
 		this.score = 0;
 		this.girlHappiness = 0;
 		this.boyHappiness = 0;
 		this.energy = 0;
-		this.map = map;
-		this.player = map.player;
-		// EventCenter.addEventListener(new GameEvent("standPos", null, this), this.standPos);
+		this.map = game.map;
+		this.game = game;
+		this.player = game.map.player;
+		EventCenter.addEventListener(new GameEvent("standPos", null, this), GameManager.standPos);
 		EventCenter.addEventListener(new GameEvent("touchLatern", null, this), this.touchLatern);
 		EventCenter.addEventListener(new GameEvent("touchWater", null, this), this.touchWater);
 		EventCenter.addEventListener(new GameEvent("touchBall", null, this), this.touchBall);
@@ -28,7 +30,6 @@ class GameManager {
 
 	private startSingleBlockLevel(e:GameEvent) : void
 	{
-		e.eventInst.map.player
         var nodes : MapNode[] = [
 	        e.eventInst.map.mapNodes[18][3],
 	        e.eventInst.map.mapNodes[11][3]];
@@ -111,13 +112,13 @@ class GameManager {
 		}
 	}
 
-	standPos(e:GameEvent)
+	public static standPos(e:GameEvent)
 	{
 		var PosX = e.eventArgs[0];
 		var PosY = e.eventArgs[1];
 		if (PosY == 5 && !e.eventInst.isSingleBlockStart)
 		{			
-			e.eventInst.c = true;
+			e.eventInst.isSingleBlockStart = true;
 			e.eventInst.startSingleBlockLevel(e);
 		}
 		if (PosY == 19 && !e.eventInst.isMusicStoneStart)
@@ -125,27 +126,32 @@ class GameManager {
 			e.eventInst.map.player.Save(2, 19);
 			e.eventInst.isMusicStoneStart = true;
 			e.eventInst.startMusicStoneLevel(e);
-		} 
-		if (PosY == 50)
-		{
-			this.startBallLevel();
 		}
-		// if (PosY == 100)
+		if (PosY == 34)
+		{
+			EventCenter.removeEventListener(new GameEvent("standPos", null, this),GameManager.standPos);
+			e.eventInst.game.ResetLevel();
+		}
+		// if (PosY == 50)
 		// {
-		// 	this.startLaternLevel();
+		// 	this.startBallLevel();
 		// }
-		if (PosY == 150)
-		{
-			this.startBridgeLevel();
-		}
-		if (PosY == 200)
-		{
-			this.startBoreLevel();
-		}
-		if (PosY == 250)
-		{
-			this.startCloseLevel();
-		}
+		// // if (PosY == 100)
+		// // {
+		// // 	this.startLaternLevel();
+		// // }
+		// if (PosY == 150)
+		// {
+		// 	this.startBridgeLevel();
+		// }
+		// if (PosY == 200)
+		// {
+		// 	this.startBoreLevel();
+		// }
+		// if (PosY == 250)
+		// {
+		// 	this.startCloseLevel();
+		// }
 	}
 	wakeupGirl(e:GameEvent)
 	{

@@ -23,7 +23,8 @@ class EventCenter {
 
   // remove a listener
   public static removeEventListener(theEvent:GameEvent, theHandler:any) {
-    this._eventHandlers[theEvent.eventName].filter(obj => obj[0] !== theHandler);
+    // this._eventHandlers[theEvent.eventName].filter(obj => obj[0] != theHandler);
+    this._eventHandlers[theEvent.eventName] = [];
   }
 
   // remove all listeners

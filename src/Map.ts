@@ -37,8 +37,18 @@ class GameMap{
         //Laya.timer.frameLoop(1, this, this.Update);
     }
 
-    public ClearLevel() : void
+    public ResetLevel() : void
     {
+        this.mapNodes = new Array();
+        this.objects = new Array();
+        this.characters = new Array();
+        this.currentStatus = new Array();
+        this.nodeSprite = new Array();
+        this.map.off(Laya.Event.MOUSE_DOWN,this,this.MouseDown);
+        Laya.timer.clearAll(this);
+        Layer.ResetLayer();
+        this.objectContainer.removeChildren();
+        this.player.Reset();
     }
 
     public LoadBasicLevel(level : string, offset : number = 0) : void
@@ -252,10 +262,6 @@ class GameMap{
         }
                 
         Layer.AddObjects(this.objectContainer);
-
-        // this.AddGameObject("../laya/assets/comp/image.png",3,4,2,1,true);
-        // this.AddGameObject("../laya/assets/placeHolder/Brown.png",6,3,1,1,true);
-        // this.AddGameObject("../laya/assets/placeHolder/Brown.png",9,3,1,1,false);
 
         this.player = new Player(this,"back",0,1);
 
