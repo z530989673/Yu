@@ -1,19 +1,18 @@
 /*
 * name;
 */
+
 enum CharacterType
 {
-    NORMAL = 0,
     ACTRESS,
-    FIREFLY,
+    FIREFLY
 }
-
 class Character{
     protected map :GameMap;
     protected image : any;
     public indexW : number = 0;
     public indexH : number = 0;
-    public moveSpeed : number = 700;
+    public moveSpeed : number = 1000;
     public waitTime : number = 0.4;
     public status : PlayerStatus = PlayerStatus.Idle;
     public dirW : number = 0;
@@ -21,19 +20,16 @@ class Character{
     public dirLength : number = 0;
     public blockable : boolean = false;
     public isActive = true;
-    public enableCollision = true;
-    public type : CharacterType = CharacterType.NORMAL;
     
     public wayPoints : MapNode[];
     public nextWayPoints : MapNode[];
-
+    public type:CharacterType;
     public wayPoints1 : MapNode[] = [];
     public wayPoints2 : MapNode[] = [];
+    public enableCollision = true;
 
-    constructor(m : GameMap, path : string, indexH : number, indexW : number, blockable : boolean, checkPoints : MapNode[], speed : number = 1000){
+    constructor(m : GameMap, path : string, indexH : number, indexW : number, blockable : boolean, checkPoints : MapNode[]){
         this.map = m;
-
-        this.moveSpeed = speed;
         this.indexW = indexW;
         this.indexH = indexH;
         this.blockable = blockable;
@@ -43,9 +39,8 @@ class Character{
         {
             this.image = new Sprite();
             this.image.loadImage(path);
-            //this.image.zOrder = indexH;
+            this.image.zOrder = indexH;
             this.map.AddObject(this.image);
-            this.image.scale(GameMap.nodeLength / 128,GameMap.nodeLength / 128);
             this.image.pos(m.GetPosW(indexW), m.GetPosH(indexH));
         }
 
@@ -124,7 +119,7 @@ class Character{
                 this.indexW = n.indexW;
                 if (this.blockable)
                     this.map.SetStatus(this.indexH,this.indexW,NodeStatus.Block);
-                //this.image.zOrder = this.indexH;
+                this.image.zOrder = this.indexH;
             }
             else
                 this.status = PlayerStatus.Idle;
@@ -158,7 +153,7 @@ class Character{
     {
         var x = this.image.x;
         var y = this.image.y;
-        return new Rectangle(x, y, this.image.width* GameMap.nodeLength / 128 - 1, this.image.height* GameMap.nodeLength / 128 - 1);
+        return new Rectangle(x, y, this.image.width - 1, this.image.height - 1);
     }
 
     public Intersects (rect : Rectangle) : boolean

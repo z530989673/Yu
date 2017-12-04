@@ -50,6 +50,8 @@ class GameMap{
         Laya.timer.clearAll(this);
         Layer.ResetLayer();
         this.objectContainer.removeChildren();
+        this.objectContainer.x = 0;
+        this.objectContainer.y = 0;
         this.player.Reset();
         this.RestoreUpdate();
     }
@@ -250,6 +252,10 @@ class GameMap{
         this.height = this.nodeStatus.length;
         this.totalHeightInPxl = this.height * GameMap.nodeLength;
         
+        var ground : CustomSprite = new CustomSprite("../laya/assets/level2/land_04_long_2.png");
+        ground.pos(28,-2166);
+        this.objectContainer.addChild(ground);
+
         for(var i = 0; i < this.nodeStatus.length; i++)
         {
             this.currentStatus.push([]);
@@ -259,14 +265,12 @@ class GameMap{
                 var value : number = this.nodeStatus[this.nodeStatus.length - 1 - i][j];
                 this.currentStatus[i].push(value);
                 
-                if ( value == 1)
+                if (value == 0 || value == 1)
                     continue;
 
                 var path : string = "";
                 
-                if (value == 0)
-                    path = "../laya/assets/placeHolder/White.png";
-               else  if (value == 2)
+                if (value == 2)
                     path = "../laya/assets/level1/obstacle_01.png";
                 var sp : CustomSprite = new CustomSprite(path);
                 var offsetW : number = this.GetPosW(j);
@@ -280,7 +284,7 @@ class GameMap{
                 
         Layer.AddObjects(this.objectContainer);
 
-        this.player = new Player(this,"back",2,1);
+        this.player = new Player(this,"back",3,1);
 
         this.map.on(Laya.Event.MOUSE_DOWN,this,this.MouseDown);
 
@@ -332,25 +336,27 @@ class GameMap{
 	        this.mapNodes[8][4],
 	        this.mapNodes[10][4],
         ]
-        var firefly = new Firefly(this, "../laya/assets/item/firefly.png", 10, 2, false, nodes);
+        var firefly = new Firefly(this, "../laya/assets/level4/firefly_interactive.png", 10, 2, false, nodes);
         this.AddCharacter(firefly);
         Laya.timer.frameLoop(1, this, this.Update);
     }    
     public LoadLevel3()
     {
         this.level = 3;
-        this.map = new CustomSprite("../laya/assets/level1/bg.jpg");
-        // this.LoadBasicLevel("level4");
-        this.map.zOrder = -1;
+        this.LoadBasicLevel("level4");
 
         Layer.AddMap(this.map);
         this.nodeStatus = [ 
-                            [1,1,1,0,0,1,1,1],//29
-                            [1,1,1,0,0,1,1,1],
-                            [1,1,1,0,0,1,1,1],
-                            [1,1,1,0,0,1,1,1],
-                            [1,1,1,0,0,1,1,1],
-                            [1,1,1,0,0,1,1,1],//24
+                            [1,1,1,1,1,1,1,1],
+                            [1,1,1,1,1,1,1,1],
+                            [1,1,1,1,1,1,1,1],
+                            [1,1,1,1,1,1,1,1],
+                            [1,1,1,1,1,1,1,1],//29
+                            [1,1,1,1,1,1,1,1],
+                            [1,1,1,1,1,1,1,1],
+                            [1,1,1,1,1,1,1,1],
+                            [1,1,1,1,1,1,1,1],
+                            [1,1,1,1,1,1,1,1],//24
                             [1,1,1,0,0,1,1,1],
                             [1,1,1,0,0,1,1,1],
                             [1,1,1,0,0,1,1,1],
@@ -381,6 +387,11 @@ class GameMap{
         this.height = this.nodeStatus.length;
         this.totalHeightInPxl = this.height * GameMap.nodeLength;
         
+
+        var ground1 : CustomSprite = new CustomSprite("../laya/assets/level4/land_07.png");
+        ground1.pos(280,-1065);
+        this.objectContainer.addChild(ground1);
+
         for(var i = 0; i < this.nodeStatus.length; i++)
         {
             this.currentStatus.push([]);
@@ -390,14 +401,12 @@ class GameMap{
                 var value : number = this.nodeStatus[this.nodeStatus.length - 1 - i][j];
                 this.currentStatus[i].push(value);
                 
-                if ( value == 1)
+                if (value == 0 || value == 1)
                     continue;
 
                 var path : string = "";
                 
-                if (value == 0)
-                    path = "../laya/assets/placeHolder/White.png";
-               else  if (value == 2)
+                if (value == 2)
                     path = "../laya/assets/level1/obstacle_01.png";
                 var sp : CustomSprite = new CustomSprite(path);
                 var offsetW : number = this.GetPosW(j);
@@ -410,7 +419,7 @@ class GameMap{
 
         Layer.AddObjects(this.objectContainer);
 
-        this.player = new Player(this,"back",0,4);
+        this.player = new Player(this,"back",0,3);
 
         this.map.on(Laya.Event.MOUSE_DOWN,this,this.MouseDown);
 
@@ -430,7 +439,7 @@ class GameMap{
                 this.mapNodes[i][3 + i % 2],
                 this.mapNodes[i][4 - i % 2],
             ]
-            var firefly = new Firefly(this, "../laya/assets/item/firefly.png", i, 3 + i % 2, false, nodes);
+            var firefly = new Firefly(this, "../laya/assets/level4/firefly_interactive.png", i, 3 + i % 2, false, nodes);
             firefly.isNeedReborn = false;
             this.AddCharacter(firefly);
         }
@@ -470,7 +479,7 @@ class GameMap{
             new ObjectLight(this, 15, 4, 1, 1, false),
 
             // new ObjectLight(this, 10, 4, 1, 1, false),
-            new ObjectLight(this, 24, 4, 1, 1, false),
+            new ObjectLight(this, 22, 4, 1, 1, false),
 
             // new ObjectLight(this, 1, 6, 1, 1, false),
             // new ObjectLight(this, 4, 6, 1, 1, false, false),

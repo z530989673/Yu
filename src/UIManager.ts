@@ -18,8 +18,7 @@ class UIManager{
             Layer.AddUI(sp);
         }
 
-
-        Laya.loader.load("../laya/assets/comp/button.png", Handler.create(this, this.createButton));
+        this.createButton();
 
         EventCenter.addEventListener(new GameEvent("holdFirefly", null, this), this.OnHoldFirefly);
         EventCenter.addEventListener(new GameEvent("LightEnableChanged", null, this), this.OnLightEnableChanged);
@@ -39,7 +38,7 @@ class UIManager{
     {
         var inst = e.eventInst;
         inst.button.graphics.clear();
-        inst.button.loadImage("../laya/assets/placeHolder/Touch.png");
+        inst.button.loadImage("../laya/assets/level4/button_flying.png");
         
         inst.button.off(Laya.Event.MOUSE_UP,inst,inst.SkillButtonPressed);
         inst.button.on(Laya.Event.MOUSE_UP,inst,inst.ThroughButtonPressed);

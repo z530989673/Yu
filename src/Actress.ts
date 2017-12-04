@@ -58,6 +58,13 @@ class Actress extends Character
             return;
         else if (this.status == PlayerStatus.Move)
         {
+            // if(this.map.level == 3)
+            // {
+
+            //     var deltaW = this.map.player.image.x - this.image.x-1200;
+            //     var deltaH = this.map.player.image.y - this.image.y-500;
+            //     this.moveSpeed = 10000000 /  (deltaW*deltaW*deltaW*deltaW + deltaH*deltaH*deltaH*deltaH);
+            // }
             var currentPosW : number = this.image.x;
             var currentPosH : number = this.image.y;
             var destPosW : number = this.map.GetPosW(this.indexW);
@@ -171,4 +178,14 @@ class Actress extends Character
         if (inst.status != PlayerStatus.Move)
             inst.FindNextTargetObject();
     }
+    public GexX() : number
+    {
+        return this.image.x + GameMap.nodeLength / 2;
+    }
+    
+    public GexY() : number
+    {
+        return this.image.y + GameMap.nodeLength / 2;
+    }
+
 }
