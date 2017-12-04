@@ -158,9 +158,9 @@ class GameManager {
 		else if (level == 2)
 		{
 			var gPosY = e.eventInst.map.actress.indexH;
-			if (PosY == 5)
+			if (gPosY >= 15 && PosY >= 14)
 			{
-				Laya.timer.once(2000,e.eventInst.game,e.eventInst.game.ResetLevel,[3]);
+				Laya.timer.once(10,e.eventInst.game,e.eventInst.game.ResetLevel,[3]);
 			}
 		}
 	}
