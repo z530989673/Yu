@@ -418,8 +418,10 @@ class GameMap{
                 this.mapNodes[i].push(new MapNode(i,j));
             }
         }
-        for(var i = 3; i<=12; i++)
+        var fireflyLine:number[] = [3,4,5,6,7,8,9,10,13,14,16,17];
+        for(var i of fireflyLine )
         {
+
             var nodes : MapNode[] = [
                 this.mapNodes[i][3 + i % 2],
                 this.mapNodes[i][4 - i % 2],
@@ -434,7 +436,7 @@ class GameMap{
             new ObjectLight(this, 15, 4, 1, 1, false),
 
             // new ObjectLight(this, 10, 4, 1, 1, false),
-            new ObjectLight(this, 18, 4, 1, 1, false),
+            new ObjectLight(this, 24, 4, 1, 1, false),
 
             // new ObjectLight(this, 1, 6, 1, 1, false),
             // new ObjectLight(this, 4, 6, 1, 1, false, false),
@@ -466,6 +468,7 @@ class GameMap{
 
         this.actress = actress;
         Laya.timer.frameLoop(1, this, this.Update);
+        // Laya.timer.loop(200,)
     }
 
     public AddCharacter(character : any)
