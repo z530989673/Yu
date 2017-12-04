@@ -27,7 +27,7 @@ class Player{
     public saveH : number = 0;
     public isHoldFirefly : boolean = false;
     private frameCount = 0;
-
+    public firstLight:ObjectLight
     constructor(m : GameMap, path : string, indexH : number, indexW : number){
         this.map = m;
         this.Save(indexW, indexH);

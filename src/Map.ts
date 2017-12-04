@@ -338,7 +338,6 @@ class GameMap{
         ]
         var firefly = new Firefly(this, "../laya/assets/level4/firefly_interactive.png", 10, 2, false, nodes);
         this.AddCharacter(firefly);
-
         Laya.timer.frameLoop(1, this, this.Update);
     }    
     public LoadLevel3()
@@ -381,7 +380,6 @@ class GameMap{
                             [1,1,1,0,0,1,1,1],
                             [1,1,1,0,0,1,1,1],];//0
         
-
         this.width = this.nodeStatus[0].length;
         this.height = this.nodeStatus.length;
         this.totalHeightInPxl = this.height * GameMap.nodeLength;
@@ -418,7 +416,8 @@ class GameMap{
 
         Layer.AddObjects(this.objectContainer);
 
-        this.player = new Player(this,"back",0,3);
+        this.player = new Player(this,"back",0,4);
+        this.player.Save(0,4);
 
         this.map.on(Laya.Event.MOUSE_DOWN,this,this.MouseDown);
 
@@ -430,7 +429,7 @@ class GameMap{
                 this.mapNodes[i].push(new MapNode(i,j));
             }
         }
-        var fireflyLine:number[] = [3,4,5,6,7,8,9,10,13,14,16,17];
+        var fireflyLine:number[] = [1,2,3,4,5,6,7,8,9,10,13,14,16,17];
         for(var i of fireflyLine )
         {
 
@@ -439,6 +438,36 @@ class GameMap{
                 this.mapNodes[i][4 - i % 2],
             ]
             var firefly = new Firefly(this, "../laya/assets/level4/firefly_interactive.png", i, 3 + i % 2, false, nodes);
+            firefly.isNeedReborn = false;
+            this.AddCharacter(firefly);
+        }
+
+        var fireflyLine:number[] = [1,4,5,8,11,13,14,16];
+        for(var i of fireflyLine )
+        {
+
+            var nodes : MapNode[] = [
+                this.mapNodes[i+2][3],
+                this.mapNodes[i+1][3],
+                this.mapNodes[i+1][4],
+                this.mapNodes[i+2][4],
+            ]
+            var firefly = new Firefly(this, "../laya/assets/item/firefly.png", i+2, 3, false, nodes);
+            firefly.isNeedReborn = false;
+            this.AddCharacter(firefly);
+        }
+
+        var fireflyLine:number[] = [2,3,6,9,15];
+        for(var i of fireflyLine )
+        {
+
+            var nodes : MapNode[] = [
+                this.mapNodes[i+1][3],
+                this.mapNodes[i+2][3],
+                this.mapNodes[i+2][4],
+                this.mapNodes[i+2][3],
+            ]
+            var firefly = new Firefly(this, "../laya/assets/item/firefly.png", i+1, 3, false, nodes);
             firefly.isNeedReborn = false;
             this.AddCharacter(firefly);
         }

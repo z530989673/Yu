@@ -13,7 +13,7 @@ import Point = Laya.Point;
 import Rectangle = Laya.Rectangle;
 import Particle2D = Laya.Particle2D;
 import ParticleSetting = Laya.ParticleSetting;
-
+import SoundManager = Laya.SoundManager;
 class GameMain{
 
     public map : GameMap;
@@ -51,10 +51,9 @@ class GameMain{
         this.uiMgr = new UIManager(this);
         this.gm = new GameManager(this);
         this.cm = new CollisionManager(this.map);
-        // this.map.LoadLevel1();
+        this.map.LoadLevel1();
         //this.map.LoadLevel2();
         // this.map.LoadLevel1();
-        this.map.LoadLevel2();
         Laya.timer.frameLoop(1, this, this.Update);
     }
 

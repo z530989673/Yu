@@ -1,4 +1,4 @@
-class MusicStone extends GameObject
+class MusicStone extends Character
 {
 	public stoneId:number;
 	public switchX:number;
@@ -7,7 +7,7 @@ class MusicStone extends GameObject
 	constructor(m : GameMap, path : string, indexW : number, indexH : number, 
 				stoneId:number)
 	{
-		super(m, path, indexW, indexH, 1, 1, false);
+		super(m, path, indexW, indexH, false,[]);
 		this.switchX = indexW;
 		this.switchY = indexH
 		var StandEvent = new GameEvent("standPos", [indexW, indexH], this);

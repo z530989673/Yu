@@ -6,7 +6,6 @@ class CollisionManager
 {
     protected map : GameMap;
     protected isActive = true;
-
     constructor(m : GameMap)
     {
         this.map = m;
