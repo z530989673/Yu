@@ -137,28 +137,34 @@ class GameManager {
 		var PosY = e.eventArgs[1];
 		var level = e.eventArgs[2];
 
-		if(level > 1)
+		if (level == 1)
 		{
-			return;
+			if (PosY == 5 && !e.eventInst.isSingleBlockStart)
+			{			
+				e.eventInst.isSingleBlockStart = true;
+				e.eventInst.startSingleBlockLevel(e);
+			}
+			if (PosY == 19 && !e.eventInst.isMusicStoneStart)
+			{
+				e.eventInst.map.player.Save(2, 19);
+				e.eventInst.isMusicStoneStart = true;
+				e.eventInst.startMusicStoneLevel(e);
+			}
+			if (PosY == 33 && e.eventInst.map.level == 1)
+			{
+				e.eventInst.game.ResetLevel(2);
+			}
 		}
-
-		if (PosY == 5 && !e.eventInst.isSingleBlockStart)
-		{			
-			e.eventInst.isSingleBlockStart = true;
-			e.eventInst.startSingleBlockLevel(e);
-		}
-		if (PosY == 19 && !e.eventInst.isMusicStoneStart)
+		else if (level == 2)
 		{
-			e.eventInst.map.player.Save(2, 19);
-			e.eventInst.isMusicStoneStart = true;
-			e.eventInst.startMusicStoneLevel(e);
-		}
-		if (PosY == 33 && e.eventInst.map.level == 1)
-		{
-			EventCenter.removeEventListener(new GameEvent("standPos", null, this),GameManager.standPos);
-			e.eventInst.game.ResetLevel(2);
+			var gPosY = e.eventInst.map.actress.indexH;
+			if (PosY == 5)
+			{
+				Laya.timer.once(2000,e.eventInst.game,e.eventInst.game.ResetLevel,[3]);
+			}
 		}
 	}
+
 	wakeupGirl(e:GameEvent)
 	{
         var actress = new Actress(e.eventInst.map, "../laya/assets/placeHolder/Green.png", 30, 4, false, null);
