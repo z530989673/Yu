@@ -51,6 +51,7 @@ class GameMap{
         Layer.ResetLayer();
         this.objectContainer.removeChildren();
         this.player.Reset();
+        this.RestoreUpdate();
     }
 
     public LoadBasicLevel(level : string, offset : number = 0) : void
@@ -106,19 +107,12 @@ class GameMap{
     {
         this.level = 1;
         this.LoadBasicLevel("level1");
-        this.nodeStatus = [ [1,1,1,0,1,1,1,1],//34
+        this.nodeStatus = [ [0,0,0,0,0,0,0,0],//34
                             [0,0,0,0,0,0,0,0],
                             [0,0,0,0,0,0,0,0],
                             [0,0,0,0,0,0,0,0],
                             [0,0,0,0,0,0,0,0],
                             [0,0,0,0,0,0,0,0],//29
-                            [1,1,1,0,1,1,1,1],
-                            [0,0,0,0,0,0,0,0],
-                            [0,1,1,0,1,0,0,0],
-                            [0,1,1,0,1,1,1,1],
-                            [0,1,0,0,0,0,0,0],//24
-                            [1,1,1,1,0,1,1,1],
-                            [0,0,0,0,0,0,0,0],
                             [2,2,2,0,2,2,2,2],
                             [0,0,0,0,0,0,2,0],
                             [0,2,2,0,2,0,0,0],
@@ -159,6 +153,12 @@ class GameMap{
         var ground1 : CustomSprite = new CustomSprite("../laya/assets/level1/land_full.jpg");
         ground1.pos(0,-2665);
         this.objectContainer.addChild(ground1);
+
+        var end_ch1 : CustomSprite = new CustomSprite("../laya/assets/level1/end_ch1.png"  );
+        var offsetW : number = this.GetPosW(1);
+        var offsetH : number = this.GetPosH(35);
+        end_ch1.pos(offsetW, offsetH);
+        this.objectContainer.addChild(end_ch1);
 
         for(var i = 0; i < this.nodeStatus.length; i++)
         {

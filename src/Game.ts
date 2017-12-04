@@ -51,8 +51,8 @@ class GameMain{
         this.uiMgr = new UIManager(this);
         this.gm = new GameManager(this);
         this.cm = new CollisionManager(this.map);
-        //this.map.LoadLevel1();
-        this.map.LoadLevel2();
+        this.map.LoadLevel1();
+        //this.map.LoadLevel2();
         // this.map.LoadLevel1();
         // this.map.LoadLevel2();
         Laya.timer.frameLoop(1, this, this.Update);
@@ -62,7 +62,10 @@ class GameMain{
     {
         this.map.ResetLevel();
         this.cm = new CollisionManager(this.map);
-        this.map.LoadLevel2();
+        if (i == 2)
+            this.map.LoadLevel2();
+        else if (i == 3)
+            this.map.LoadLevel3();
         
     }
 }

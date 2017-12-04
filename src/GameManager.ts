@@ -155,10 +155,10 @@ class GameManager {
 			e.eventInst.isMusicStoneStart = true;
 			e.eventInst.startMusicStoneLevel(e);
 		}
-		if (PosY == 33)
+		if (PosY == 33 && e.eventInst.map.level == 1)
 		{
 			EventCenter.removeEventListener(new GameEvent("standPos", null, this),GameManager.standPos);
-			e.eventInst.game.ResetLevel();
+			e.eventInst.game.ResetLevel(2);
 		}
 	}
 	wakeupGirl(e:GameEvent)
