@@ -45,9 +45,9 @@ class GameManager {
 	        e.eventInst.map.mapNodes[5][1],
 	        e.eventInst.map.mapNodes[5][0]
 	       	];
-	    var ball = new Ball(e.eventInst.map, "../laya/assets/item/icon_wildfire.png", 5, 5, false, []);
-		e.eventInst.map.AddCharacter(ball);
-		e.eventInst.map.MoveTo(20, 5, ball);
+	 //    var ball = new Ball(e.eventInst.map, "../laya/assets/item/icon_wildfire.png", 5, 5, false, []);
+		// e.eventInst.map.AddCharacter(ball);
+		// e.eventInst.map.MoveTo(20, 5, ball);
 		// ball.MoveTo(nodes1);
 		// e.eventArgs.map = nodes1;
         var nodes2 : MapNode[] = [
@@ -132,7 +132,17 @@ class GameManager {
 		}
 		else
 		{
-			player.Load();		
+			
+			player.Load();
+			// if(e.eventInst.map.level == 3)
+			// {
+			// 	var actress = e.eventInst.map.actress;
+		 //        actress.indexW = 4;
+		 //        actress.indexH = 7;
+		 //        //this.image.zOrder = this.indexH;
+		 //        actress.image.pos(actress.map.GetPosW(actress.indexW), actress.map.GetPosH(actress.indexH));
+ 	
+			// }
 		}
 
 		if(character.type == CharacterType.ACTRESS)
