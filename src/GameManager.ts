@@ -36,15 +36,6 @@ class GameManager {
         var character : Character = new Character(e.eventInst.map, "../laya/assets/item/icon_wildfire.png", 18, 3, false, nodes);
 		e.eventInst.addCharacter(character);
 
-		// var nodes1 : MapNode[] = [
-	    //     e.eventInst.map.mapNodes[5][5],
-	    //     e.eventInst.map.mapNodes[5][4],
-	    //     e.eventInst.map.mapNodes[5][3],
-	    //     e.eventInst.map.mapNodes[5][2],
-	    //     e.eventInst.map.mapNodes[5][1],
-	    //     e.eventInst.map.mapNodes[5][0]
-	    //    	];
-	    // var ball = new Ball(e.eventInst.map, "../laya/assets/item/icon_wildfire.png", 5, 5, false, []);
 		// e.eventInst.map.AddCharacter(ball);
 		// e.eventInst.map.MoveTo(20, 5, ball);
 		// ball.MoveTo(nodes1);
@@ -129,9 +120,9 @@ class GameManager {
         	EventCenter.dispatchAll(new GameEvent("holdFirefly", character, this));
 			return;
 		}
-		else
+		else if (character.type != CharacterType.FIREFLY)
 		{
-			player.Load();		
+			player.Load();
 		}
 
 		if(character.type == CharacterType.ACTRESS)
@@ -144,6 +135,13 @@ class GameManager {
 	{
 		var PosX = e.eventArgs[0];
 		var PosY = e.eventArgs[1];
+		var level = e.eventArgs[2];
+
+		if(level > 1)
+		{
+			return;
+		}
+
 		if (PosY == 5 && !e.eventInst.isSingleBlockStart)
 		{			
 			e.eventInst.isSingleBlockStart = true;

@@ -346,27 +346,37 @@ class GameMap{
 
         Layer.AddMap(this.map);
         this.nodeStatus = [ 
-                            [0,0,0,0,0,0,0,0],//19
-                            [0,0,0,0,0,0,0,0],
-                            [0,0,0,0,0,0,0,0],
-                            [0,0,0,0,0,0,0,0],
-                            [0,0,0,0,0,0,0,0],
-                            [0,0,0,0,0,0,0,0],//14
-                            [0,0,0,0,0,0,0,0],
+                            [1,1,1,0,0,1,1,1],//29
+                            [1,1,1,0,0,1,1,1],
+                            [1,1,1,0,0,1,1,1],
+                            [1,1,1,0,0,1,1,1],
+                            [1,1,1,0,0,1,1,1],
+                            [1,1,1,0,0,1,1,1],//24
+                            [1,1,1,0,0,1,1,1],
+                            [1,1,1,0,0,1,1,1],
+                            [1,1,1,0,0,1,1,1],
+                            [1,1,1,0,0,1,1,1],//19
+                            [1,1,1,0,0,1,1,1],
+                            [1,1,1,0,0,1,1,1],
+                            [1,1,1,0,0,1,1,1],
+                            [1,1,1,0,0,1,1,1],
+                            [1,1,1,0,0,1,1,1],//14
+                            [1,1,1,0,0,1,1,1],
                             [1,1,1,0,0,1,1,1],
                             [1,1,1,0,0,1,1,1],
                             [1,1,1,0,0,1,1,1],
                             [1,1,1,0,0,1,1,1],//9
                             [1,1,1,0,0,1,1,1],
                             [1,1,1,0,0,1,1,1],
-                            [0,0,0,0,0,0,0,0],
-                            [0,0,0,0,0,0,0,0],
-                            [0,0,0,0,0,0,0,0],//4
-                            [0,0,0,0,0,0,0,0],
-                            [0,0,0,0,0,0,0,0],
-                            [0,0,0,0,0,0,0,0],
-                            [0,0,0,0,0,0,0,0],];//0
+                            [1,1,1,0,0,1,1,1],
+                            [1,1,1,0,0,1,1,1],
+                            [1,1,1,0,0,1,1,1],//4
+                            [1,1,1,0,0,1,1,1],
+                            [1,1,1,0,0,1,1,1],
+                            [1,1,1,0,0,1,1,1],
+                            [1,1,1,0,0,1,1,1],];//0
 
+        this.player = new Player(this,"back",0,4);
         
 
         this.width = this.nodeStatus[0].length;
@@ -402,7 +412,7 @@ class GameMap{
 
         Layer.AddObjects(this.objectContainer);
 
-        this.player = new Player(this,"back",0,1);
+        this.player = new Player(this,"back",0,4);
 
         this.map.on(Laya.Event.MOUSE_DOWN,this,this.MouseDown);
 
@@ -414,7 +424,7 @@ class GameMap{
                 this.mapNodes[i].push(new MapNode(i,j));
             }
         }
-        for(var i = 7; i<=12; i++)
+        for(var i = 3; i<=12; i++)
         {
             var nodes : MapNode[] = [
                 this.mapNodes[i][3 + i % 2],
@@ -457,7 +467,7 @@ class GameMap{
         // lights[7].AddChild(lights[8]);
         
 
-        var actress = new Actress(this,"back",7,4, false, lights[0]);
+        var actress = new Actress(this,"back",7,4, false, lights[0], 1000);
         this.AddCharacter(actress);
 
         this.actress = actress;
