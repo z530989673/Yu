@@ -5,22 +5,21 @@ class GameManager {
 	public girlHappiness: number;
 	public boyHappiness: number;
 	public energy: number;
-	public map:GameMap
-	public player:Player
+	public map:GameMap;
+	public player:Player;
+	public game : GameMain;
 	private isSingleBlockStart = false;
 	private isMusicStoneStart = false;
 	private stoneCurrentID = 1;
-	constructor(map : GameMap) {
+	constructor(game : GameMain) {
 		this.score = 0;
 		this.girlHappiness = 0;
 		this.boyHappiness = 0;
 		this.energy = 0;
-		this.map = map;
-		this.player = map.player;
-		// this.player.Save(4, 29);
-		// this.player.Load();
-		EventCenter.addEventListener(new GameEvent("standPos", null, this), this.standPos);
-		// EventCenter.addEventListener(new GameEvent("standPos", null, this), this.standPos);
+		this.map = game.map;
+		this.game = game;
+		this.player = game.map.player;
+		EventCenter.addEventListener(new GameEvent("standPos", null, this), GameManager.standPos);
 		EventCenter.addEventListener(new GameEvent("touchLatern", null, this), this.touchLatern);
 		EventCenter.addEventListener(new GameEvent("touchWater", null, this), this.touchWater);
 		EventCenter.addEventListener(new GameEvent("touchBall", null, this), this.touchBall);
@@ -130,19 +129,9 @@ class GameManager {
         	EventCenter.dispatchAll(new GameEvent("holdFirefly", character, this));
 			return;
 		}
-		else
+		else if (character.type != CharacterType.FIREFLY)
 		{
-			
 			player.Load();
-			// if(e.eventInst.map.level == 3)
-			// {
-			// 	var actress = e.eventInst.map.actress;
-		 //        actress.indexW = 4;
-		 //        actress.indexH = 7;
-		 //        //this.image.zOrder = this.indexH;
-		 //        actress.image.pos(actress.map.GetPosW(actress.indexW), actress.map.GetPosH(actress.indexH));
- 	
-			// }
 		}
 
 		if(character.type == CharacterType.ACTRESS)
@@ -151,41 +140,33 @@ class GameManager {
 		}
 	}
 
-	standPos(e:GameEvent)
+	public static standPos(e:GameEvent)
 	{
-		// var PosX = e.eventArgs[0];
-		// var PosY = e.eventArgs[1];
-		// if (PosY == 5 && !e.eventInst.isSingleBlockStart)
-		// {			
-		// 	e.eventInst.c = true;
-		// 	e.eventInst.startSingleBlockLevel(e);
-		// }
-		// if (PosY == 19 && !e.eventInst.isMusicStoneStart)
-		// {
-		// 	e.eventInst.map.player.Save(2, 19);
-		// 	e.eventInst.isMusicStoneStart = true;
-		// 	e.eventInst.startMusicStoneLevel(e);
-		// } 
-		// if (PosY == 30)
-		// {
-		// 	e.eventInst.startBallLevel(e);
-		// }
-		// // if (PosY == 100)
-		// // {
-		// // 	this.startLaternLevel();
-		// // }
-		// if (PosY == 150)
-		// {
-		// 	this.startBridgeLevel();
-		// }
-		// if (PosY == 200)
-		// {
-		// 	this.startBoreLevel();
-		// }
-		// if (PosY == 250)
-		// {
-		// 	this.startCloseLevel();
-		// }
+		var PosX = e.eventArgs[0];
+		var PosY = e.eventArgs[1];
+		var level = e.eventArgs[2];
+
+		if(level > 1)
+		{
+			return;
+		}
+
+		if (PosY == 5 && !e.eventInst.isSingleBlockStart)
+		{			
+			e.eventInst.isSingleBlockStart = true;
+			e.eventInst.startSingleBlockLevel(e);
+		}
+		if (PosY == 19 && !e.eventInst.isMusicStoneStart)
+		{
+			e.eventInst.map.player.Save(2, 19);
+			e.eventInst.isMusicStoneStart = true;
+			e.eventInst.startMusicStoneLevel(e);
+		}
+		if (PosY == 33)
+		{
+			EventCenter.removeEventListener(new GameEvent("standPos", null, this),GameManager.standPos);
+			e.eventInst.game.ResetLevel();
+		}
 	}
 	wakeupGirl(e:GameEvent)
 	{

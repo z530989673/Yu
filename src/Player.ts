@@ -52,10 +52,16 @@ class Player{
         EventCenter.addEventListener(new GameEvent("holdFirefly", null, this), this.OnHoldFirefly);
         EventCenter.addEventListener(new GameEvent("LightEnableChanged", null, this), this.OnLightEnableChanged);
     }
+    
+    public Reset()
+    {
+        Laya.timer.clearAll(this);
+    }
 
     public onHoldParticleLoaded(settings: ParticleSetting) : void
     {
-        settings.textureName = "../laya/assets/" + settings.textureName;
+        if (settings.textureName.search("../laya/assets/") == -1)
+            settings.textureName = "../laya/assets/" + settings.textureName;
         this.holdParticle = new Particle2D(settings);
         this.holdParticle.stop();
         this.holdParticle.emitter.minEmissionTime = 0.1;
@@ -66,7 +72,8 @@ class Player{
 
     public onParticleLoaded(settings: ParticleSetting) : void
     {
-        settings.textureName = "../laya/assets/" + settings.textureName;
+        if (settings.textureName.search("../laya/assets/") == -1)
+            settings.textureName = "../laya/assets/" + settings.textureName;
         this.particle = new Particle2D(settings);
         this.particle.emitter.start();
         this.particle.emitter.minEmissionTime = 0.1;
@@ -139,8 +146,7 @@ class Player{
         else
         {
             var n : MapNode = this.wayPoints.pop();
-            var pos = [n.indexW, n.indexH];
-            console.log(pos);
+            var pos = [n.indexW, n.indexH, this.map.level];
             EventCenter.dispatchAll(new GameEvent("standPos", pos, this));
         
             if (this.map.IsWalkable(n.indexH,n.indexW))

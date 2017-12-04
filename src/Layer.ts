@@ -87,4 +87,14 @@ class Layer{
     {
         Layer.GetInstance().ui.addChild(s);
     }
+
+    public static ResetLayer() : void
+    {
+        Layer.GetInstance().background.removeChildren();
+        Layer.GetInstance().map.removeChildren();
+        Layer.GetInstance().objects.removeChildren();
+        Layer.GetInstance().foregroundFar.removeChildren();
+        Layer.GetInstance().foregroundMid.removeChildren();
+        Layer.GetInstance().foregroundNear.removeChildren();
+    }
 }

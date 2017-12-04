@@ -4,12 +4,12 @@
 
 class Actress extends Character
 {
-    private currTargetObject : ObjectLight = null;
+    public currTargetObject : ObjectLight = null;
     
     private filter : Laya.GlowFilter;
     private frameCount = 0;
 
-    constructor(m : GameMap, path : string, indexH : number, indexW : number, blockable : boolean, rootObject : ObjectLight = null)
+    constructor(m : GameMap, path : string, indexH : number, indexW : number, blockable : boolean, rootObject : ObjectLight = null, speed : number = 500)
     {
         super(m, "", indexH, indexW, blockable, []);
         this.type = CharacterType.ACTRESS;
@@ -33,7 +33,7 @@ class Actress extends Character
         this.filter = new Laya.GlowFilter("#cef708",10,-1,-1);
         Laya.timer.loop(100,this,this.ChangeBlur);
 
-        this.moveSpeed = 500;
+        this.moveSpeed = speed;
 
         EventCenter.addEventListener(new GameEvent("LightEnableChanged", null, this), this.TargetObjectEnableChange);
     }
