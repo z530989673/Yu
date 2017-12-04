@@ -11,11 +11,11 @@ class Latern extends GameObject
 		this.switchX = switchX;
 		this.switchY = switchY
 		var StandEvent = new GameEvent("standPos", [indexW, indexH], this);
-		EventCenter.addEventListener(StandEvent, this.standStone);
+		EventCenter.addEventListener(StandEvent, this.standLatern);
 		this.laternId = laternId;
 	}
 
-	standStone(e:GameEvent)
+	standLatern(e:GameEvent)
 	{
 		var Pos = e.eventArgs;
 		if (this.switchX == Pos[0] && this.switchY == Pos[1]) 

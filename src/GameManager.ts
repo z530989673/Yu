@@ -36,6 +36,19 @@ class GameManager {
         var character : Character = new Character(e.eventInst.map, "../laya/assets/item/icon_wildfire.png", 18, 3, false, nodes);
 		e.eventInst.addCharacter(character);
 
+		var nodes1 : MapNode[] = [
+	        e.eventInst.map.mapNodes[5][5],
+	        e.eventInst.map.mapNodes[5][4],
+	        e.eventInst.map.mapNodes[5][3],
+	        e.eventInst.map.mapNodes[5][2],
+	        e.eventInst.map.mapNodes[5][1],
+	        e.eventInst.map.mapNodes[5][0]
+	       	];
+	    var ball = new Ball(e.eventInst.map, "../laya/assets/item/icon_wildfire.png", 5, 5, false, []);
+		e.eventInst.map.AddCharacter(ball);
+		e.eventInst.map.MoveTo(20, 5, ball);
+		// ball.MoveTo(nodes1);
+		// e.eventArgs.map = nodes1;
         var nodes2 : MapNode[] = [
 	        e.eventInst.map.mapNodes[18][4],
 	        e.eventInst.map.mapNodes[13][4]];
@@ -98,14 +111,29 @@ class GameManager {
 	{
 		var player = e.eventArgs[0];
 		var character = e.eventArgs[1];
+		// player.Load();
+
+		// if(character.ClassName == "Character")
+		// {
+		// 	player.Load();
+		// }
+		// else if (character.ClassName == "Ball")
+		// {
+		// 	var ball:Ball = character;
+		// 	var X = ball.indexW;
+		// 	var Y = ball.indexH;
+		// }
 
 		if (character.type == CharacterType.FIREFLY && e.eventInst.map.IsPaused())
 		{
         	EventCenter.dispatchAll(new GameEvent("holdFirefly", character, this));
 			return;
 		}
-		
-		player.Load();
+		else
+		{
+			player.Load();		
+		}
+
 		if(character.type == CharacterType.ACTRESS)
 		{
 			character.FindPrevTargetObject();
@@ -127,31 +155,11 @@ class GameManager {
 			e.eventInst.isMusicStoneStart = true;
 			e.eventInst.startMusicStoneLevel(e);
 		}
-		if (PosY == 34)
+		if (PosY == 33)
 		{
 			EventCenter.removeEventListener(new GameEvent("standPos", null, this),GameManager.standPos);
 			e.eventInst.game.ResetLevel();
 		}
-		// if (PosY == 50)
-		// {
-		// 	this.startBallLevel();
-		// }
-		// // if (PosY == 100)
-		// // {
-		// // 	this.startLaternLevel();
-		// // }
-		// if (PosY == 150)
-		// {
-		// 	this.startBridgeLevel();
-		// }
-		// if (PosY == 200)
-		// {
-		// 	this.startBoreLevel();
-		// }
-		// if (PosY == 250)
-		// {
-		// 	this.startCloseLevel();
-		// }
 	}
 	wakeupGirl(e:GameEvent)
 	{
@@ -167,10 +175,12 @@ class GameManager {
 	{
 		e.eventInst.wakeupGirl(e); 
 	}
-	startBallLevel()
+	startBallLevel(e:GameEvent)
 	{
-
-	}
+		var nodes1 : MapNode[] = [];
+		e.eventInst.map.AddCharacter(new Ball(e.eventInst.map, "../laya/assets/item/icon_wildfire.png", 33, 5, false, nodes1));
+		// e.eventInst.map.AddCharacter()
+	}	
 	finishBallLevel()
 	{
 
@@ -263,8 +273,7 @@ class GameManager {
 		var pitch = e.eventArgs;
 		if(pitch == 1)
 		{
-			// var gateNode:MapNode = e.eventInst.map.mapNodes[34][3];
-			// gateNode.
+
 		}
 
 		if(pitch == 2)
@@ -331,6 +340,5 @@ class GameManager {
 	{
 		// this.map.AddCharacter("../laya/assets/placeHolder/Green.png", 8, 3, true, [this.map.mapNodes[8][3], this.map.mapNodes[8][4]]);
 		this.map.AddCharacter(character);
-
 	}
 }

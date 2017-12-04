@@ -4,6 +4,7 @@
 
 class Firefly extends Character
 {
+    public isNeedReborn = true;
     constructor(m : GameMap, path : string, indexH : number, indexW : number, blockable : boolean, checkPoints : MapNode[]){
         super(m, path, indexH, indexW, blockable, checkPoints);
         this.type = CharacterType.FIREFLY;
@@ -32,8 +33,12 @@ class Firefly extends Character
 
     private OnActive()
     {
-        this.image.visible = true;
-        this.enableCollision = true;
+        if(this.isNeedReborn)
+        {
+            this.image.visible = true;
+            this.enableCollision = true;
+        }
+
     }
 
     private OnHoldFirefly(e:GameEvent) : void
