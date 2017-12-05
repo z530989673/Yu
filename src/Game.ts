@@ -33,7 +33,7 @@ class GameMain{
         Laya.stage.scaleMode = "showall";
         Laya.stage.bgColor = "#232628";
 
-        Laya.Stat.show(0,0);
+        //Laya.Stat.show(0,0);
 
 
         Laya.loader.load(["../laya/assets/item/shadow.png",
@@ -54,7 +54,7 @@ class GameMain{
         // this.map.LoadLevel1();
         //this.map.LoadLevel2();
         // this.map.LoadLevel1();
-        this.map.LoadLevel2();
+        this.map.LoadLevel1();
         Laya.timer.frameLoop(1, this, this.Update);
     }
 
