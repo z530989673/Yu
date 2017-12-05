@@ -35,16 +35,17 @@ uniform vec4 uv_noise_info;\
 uniform sampler2D texture;\
 uniform sampler2D u_tex1;\
 uniform vec2 u_pointPos;\
-uniform vec2 pos_info;\
+uniform vec4 pos_info;\
 void main(){\
 	vec4 c = texture2D(texture, v_texcoord);\
 	vec4 noise = texture2D(u_tex1, v_worldPos*uv_noise_info.zw + uv_noise_info.xy);\
-	float d = length(v_worldPos * vec2(1080,1920) - u_pointPos) + noise.r * 200.0;\
-	if (pos_info.y + 100.0 < d)\
+	float d = length(v_worldPos * vec2(54,96) - u_pointPos) + noise.r * 10.0;\
+	float y = pos_info.y;\
+	if (y + 5.0 < d)\
 		gl_FragColor =  c;\
-	else if (pos_info.y < d)\
+	else if (y < d)\
 	{\
-		float weight = (d - pos_info.y) / 100.0;\
+		float weight = (d - y) / 5.0;\
 		float grey = c.r * 0.30 + c.g * 0.59 + c.b * 0.11;\
 		gl_FragColor = vec4(vec3(grey) * weight,1);\
 	}\

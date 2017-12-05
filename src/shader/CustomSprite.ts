@@ -106,9 +106,9 @@ module Yu
             {
                 this.shaderValue.uv_info = [this.tex.uv[0],this.tex.uv[1],this.tex.uv[4] - this.tex.uv[0],this.tex.uv[5] - this.tex.uv[1]];        
                 this.shaderValue.uv_noise_info = [this.noiseTex.uv[0],this.noiseTex.uv[1],this.noiseTex.uv[4] - this.noiseTex.uv[0],this.noiseTex.uv[5] - this.noiseTex.uv[1]];   
-                this.shaderValue.u_pointPos = CustomShaderValue.pointPos;     
+                this.shaderValue.u_pointPos = [CustomShaderValue.pointPos[0] / 20,CustomShaderValue.pointPos[1] / 20];     
                 var point : Point = this.localToGlobal(new Point(GameMap.nodeLength / 2,GameMap.nodeLength / 2));
-                this.shaderValue.pos_info = [CustomSprite.isPaused,CustomSprite.radius];
+                this.shaderValue.pos_info = [CustomSprite.isPaused,CustomSprite.radius / 20.0,CustomSprite.radius % 256, 0.0];
             }
         }
 
