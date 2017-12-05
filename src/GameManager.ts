@@ -12,6 +12,13 @@ class GameManager {
 	private isSingleBlockStart = false;
 	private isMusicStoneStart = false;
 	private stoneCurrentID = 1;
+
+	private musicStone1:MusicStone;
+	private musicStone2:MusicStone;
+	private musicStone3:MusicStone;
+	private musicStone4:MusicStone;
+	private musicStone5:MusicStone;
+	private musicStone6:MusicStone;
 	constructor(game : GameMain) {
 		this.score = 0;
 		this.girlHappiness = 0;
@@ -32,9 +39,9 @@ class GameManager {
 	private startSingleBlockLevel(e:GameEvent) : void
 	{
         var nodes : MapNode[] = [
-	        e.eventInst.map.mapNodes[18][3],
-	        e.eventInst.map.mapNodes[11][3]];
-        var character : Character = new Character(e.eventInst.map, "../laya/assets/item/icon_wildfire.png", 18, 3, false, nodes);
+	        e.eventInst.map.mapNodes[12][3],
+	        e.eventInst.map.mapNodes[18][3]];
+        var character : Character = new Character(e.eventInst.map, "../laya/assets/item/icon_wildfire.png", 12, 3, false, nodes);
 		e.eventInst.addCharacter(character);
 
 		// e.eventInst.map.AddCharacter(ball);
@@ -42,9 +49,9 @@ class GameManager {
 		// ball.MoveTo(nodes1);
 		// e.eventArgs.map = nodes1;
         var nodes2 : MapNode[] = [
-	        e.eventInst.map.mapNodes[18][4],
-	        e.eventInst.map.mapNodes[13][4]];
-        var character2 : Character = new Character(e.eventInst.map, "../laya/assets/item/icon_wildfire.png", 18, 4, false, nodes2);
+	        e.eventInst.map.mapNodes[11][4],
+	        e.eventInst.map.mapNodes[17][4]];
+        var character2 : Character = new Character(e.eventInst.map, "../laya/assets/item/icon_wildfire.png", 11, 4, false, nodes2);
 		e.eventInst.addCharacter(character2);
 
 		// var nodes1 : MapNode[] = [
@@ -61,18 +68,26 @@ class GameManager {
 
 	private startMusicStoneLevel(e:GameEvent) 
 	{
-		var musicStone1 = new MusicStone(e.eventInst.map, "../laya/assets/level1/note02.png",21, 6, 1);
-		var musicStone2 = new MusicStone(e.eventInst.map, "../laya/assets/level1/note03.png",21, 1, 2);
-		var musicStone3 = new MusicStone(e.eventInst.map, "../laya/assets/level1/note01.png",22, 4, 3);
-		var musicStone4 = new MusicStone(e.eventInst.map, "../laya/assets/level1/note04.png",23, 0, 4);
-		var musicStone5 = new MusicStone(e.eventInst.map, "../laya/assets/level1/note05.png",26, 7, 5);
-		var musicStone6 = new MusicStone(e.eventInst.map, "../laya/assets/level1/note06.png",27, 3, 6);
-		e.eventInst.map.AddGameObject(musicStone1);
-		e.eventInst.map.AddGameObject(musicStone2);
-		e.eventInst.map.AddGameObject(musicStone3);
-		e.eventInst.map.AddGameObject(musicStone4);
-		e.eventInst.map.AddGameObject(musicStone5);
-		e.eventInst.map.AddGameObject(musicStone6);
+		e.eventInst.musicStone1 = new MusicStone(e.eventInst.map, "../laya/assets/level1/note02.png",22, 4, 1);
+		e.eventInst.musicStone2 = new MusicStone(e.eventInst.map, "../laya/assets/level1/note03.png",23, 2, 2);
+		e.eventInst.musicStone3 = new MusicStone(e.eventInst.map, "../laya/assets/level1/note01.png",25, 3, 3);
+		e.eventInst.musicStone4 = new MusicStone(e.eventInst.map, "../laya/assets/level1/note04.png",26, 6, 4);
+		e.eventInst.musicStone5 = new MusicStone(e.eventInst.map, "../laya/assets/level1/note05.png",29, 5, 5);
+		e.eventInst.musicStone6 = new MusicStone(e.eventInst.map, "../laya/assets/level1/note06.png",29, 3, 6);
+		
+		// e.eventInst.musicStone1.image.visible = false;
+		e.eventInst.musicStone2.image.visible = false;
+		e.eventInst.musicStone3.image.visible = false;
+		e.eventInst.musicStone4.image.visible = false;
+		e.eventInst.musicStone5.image.visible = false;
+		e.eventInst.musicStone6.image.visible = false;
+
+		e.eventInst.map.AddGameObject(e.eventInst.musicStone1);
+		e.eventInst.map.AddGameObject(e.eventInst.musicStone2);
+		e.eventInst.map.AddGameObject(e.eventInst.musicStone3);
+		e.eventInst.map.AddGameObject(e.eventInst.musicStone4);
+		e.eventInst.map.AddGameObject(e.eventInst.musicStone5);
+		e.eventInst.map.AddGameObject(e.eventInst.musicStone6);
 		
 		var nodes:MapNode[] = 
 		[
@@ -92,11 +107,43 @@ class GameManager {
 			e.eventInst.map.mapNodes[21][4],
 			// e.eventInst.map.mapNodes[21][5],
 		];
+		var nodes3:MapNode[] =
+		[
+			e.eventInst.map.mapNodes[30][2],
+			e.eventInst.map.mapNodes[30][3],
+			e.eventInst.map.mapNodes[30][4],
+			e.eventInst.map.mapNodes[29][4],
+			e.eventInst.map.mapNodes[28][4],
+			e.eventInst.map.mapNodes[28][3],
+			e.eventInst.map.mapNodes[28][2],
+			e.eventInst.map.mapNodes[29][2],
+			e.eventInst.map.mapNodes[30][2],
+			// e.eventInst.map.mapNodes[21][5],
+		];
+		var nodes4:MapNode[] =
+		[
+			e.eventInst.map.mapNodes[28][4],
+			e.eventInst.map.mapNodes[28][3],
+			e.eventInst.map.mapNodes[28][2],
+			e.eventInst.map.mapNodes[29][2],
+			e.eventInst.map.mapNodes[30][2],
+			e.eventInst.map.mapNodes[30][3],
+			e.eventInst.map.mapNodes[30][4],
+			e.eventInst.map.mapNodes[29][4],
+			e.eventInst.map.mapNodes[28][4],
+			// e.eventInst.map.mapNodes[21][5],
+		];
+
         var character : Character = new Character(e.eventInst.map, "../laya/assets/item/icon_wildfire.png", 25, 3, false, nodes);
         var character2 : Character = new Character(e.eventInst.map, "../laya/assets/item/icon_wildfire.png", 21, 1, false, nodes2);
+        var character3 : Character = new Character(e.eventInst.map, "../laya/assets/item/icon_wildfire.png", 30, 2, false, nodes3);
+        var character4 : Character = new Character(e.eventInst.map, "../laya/assets/item/icon_wildfire.png", 28, 4, false, nodes4);
+        // var character5 : Character = new Character(e.eventInst.map, "../laya/assets/item/icon_wildfire.png", 28, 4, false, []);
         // var character3 : Character = new Character(e.eventInst.map, "../laya/assets/placeHolder/Flag.png", 21, 1, false, nodes3);
         e.eventInst.addCharacter(character);
         e.eventInst.addCharacter(character2);
+        e.eventInst.addCharacter(character3);
+        e.eventInst.addCharacter(character4);
         // e.eventInst.addCharacter(character3);
 	}
 	playerCollision(e:GameEvent)
@@ -140,25 +187,31 @@ class GameManager {
 
 		if (level == 1)
 		{
-			if (PosY == 5 && !e.eventInst.isSingleBlockStart)
+			if (PosY == 8 && !e.eventInst.isSingleBlockStart)
 			{			
 				e.eventInst.isSingleBlockStart = true;
+				e.eventInst.map.player.Save(8,3);
 				e.eventInst.startSingleBlockLevel(e);
+				e.eventInst.startMusicStoneLevel(e);
 			}
 			if (PosY == 19 && !e.eventInst.isMusicStoneStart)
 			{
 				e.eventInst.map.player.Save(2, 19);
 				e.eventInst.isMusicStoneStart = true;
-				e.eventInst.startMusicStoneLevel(e);
+				e.eventInst.map.RestoreUpdate();
+				// e.eventInst.startMusicStoneLevel(e);
 			}
-			if (PosY == 33 && e.eventInst.map.level == 1)
+			if (PosY == 32 && e.eventInst.map.level == 1)
 			{
-				EventCenter.removeEventListener(new GameEvent("standPos", null, this),GameManager.standPos);
+				// EventCenter.removeEventListener(new GameEvent("standPos", null, this),GameManager.standPos);
 				e.eventInst.game.ResetLevel(2);
 			}
 		}
 		if (level == 3)
 		{
+			var gPosY = e.eventInst.map.actress.indexH;
+			if (gPosY == 22)
+				e.eventInst.map.actress.SetVisible(false);
 			if(PosY == 22)
 			{
 				e.eventInst.map.player.Load();
@@ -170,15 +223,15 @@ class GameManager {
 		        	e.eventInst.map.GetPosH(e.eventInst.indexH));
 		        // e.eventInst.map.actres
 				// e.eventInst.map.actress.
-				e.eventInst.game.ResetLevel(2);
+				e.eventInst.game.ResetLevel(3);
 			}
 		}
 		else if (level == 2)
 		{
 			var gPosY = e.eventInst.map.actress.indexH;
-			if (PosY == 5)
+			if (gPosY >= 15 && PosY >= 13)
 			{
-				Laya.timer.once(2000,e.eventInst.game,e.eventInst.game.ResetLevel,[3]);
+				Laya.timer.once(10,e.eventInst.game,e.eventInst.game.ResetLevel,[3]);
 			}
 		}
 
@@ -186,16 +239,16 @@ class GameManager {
 
 	wakeupGirl(e:GameEvent)
 	{
-        var lights = 
-        [
-            new ObjectLight(e.eventInst.map, 34, 4, 1, 1, false),
-        ];
-
-        for (var i = 0; i < lights.length; ++i)
-            e.eventInst.map.AddGameObject(lights[i]);
+        // var lights = 
+        // [
+            // var lights = new ObjectLight(e.eventInst.map, 33, 4, 1, 1, false);
+        // ];
+        // lights[0].image.visible = false;
+        // for (var i = 0; i < lights.length; ++i)
+            // e.eventInst.map.AddGameObject(lights);
 
         // lights[0].AddChild(lights[1]);
-		var actress = new Actress(e.eventInst.map, "back", 30, 4, false, lights[0]);
+		var actress = new Actress(e.eventInst.map, "back", 32, 5, false, null);
         e.eventInst.map.AddCharacter(actress);
 
 	}
@@ -337,12 +390,32 @@ class GameManager {
 	{
 		console.log("musicstone touch");
 		var pitch = e.eventArgs;
-		e.eventInst.sendSound(pitch);
+		e.eventInst.sendSound(e, pitch);
 		e.eventInst.solveMusicPuzzle(e);
 	}
 	
-	sendSound(pitch:number) 
+	sendSound(e:GameEvent,pitch:number) 
 	{
+		switch (pitch) {
+			case 1:
+				e.eventInst.musicStone2.image.visible = true;
+				break;
+			
+			case 2:
+				e.eventInst.musicStone3.image.visible = true;
+				break;
+			case 3:
+				e.eventInst.musicStone4.image.visible = true;
+				break;
+			case 4:
+				e.eventInst.musicStone5.image.visible = true;
+				break;
+			case 5:
+				e.eventInst.musicStone6.image.visible = true;
+				break;
+			default:
+				break;
+		}
 		if(pitch == 6)
 			return;
 		SoundManager.playMusic("../laya/assets/music/0" + pitch + ".wav", 1 );
@@ -360,6 +433,8 @@ class GameManager {
 			e.eventInst.stoneCurrentID ++;
 			if(pitch == 6)
 			{
+				e.eventInst.map.player.Save(29, 3);
+				e.eventInst.map.RestoreUpdate();
 				e.eventInst.finishMusicStoneLevel(e);
 			}
 		}

@@ -12,7 +12,7 @@ class Character{
     protected image : any;
     public indexW : number = 0;
     public indexH : number = 0;
-    public moveSpeed : number = 1000;
+    public moveSpeed : number = 700;
     public waitTime : number = 0.4;
     public status : PlayerStatus = PlayerStatus.Idle;
     public dirW : number = 0;
@@ -28,11 +28,12 @@ class Character{
     public wayPoints2 : MapNode[] = [];
     public enableCollision = true;
 
-    constructor(m : GameMap, path : string, indexH : number, indexW : number, blockable : boolean, checkPoints : MapNode[]){
+    constructor(m : GameMap, path : string, indexH : number, indexW : number, blockable : boolean, checkPoints : MapNode[], speed : number= 700){
         this.map = m;
         this.indexW = indexW;
         this.indexH = indexH;
         this.blockable = blockable;
+        this.moveSpeed = speed;
         if (this.blockable)
             this.map.SetStatus(this.indexH,this.indexW,NodeStatus.Block);
         if (path != "")

@@ -38,6 +38,11 @@ class Actress extends Character
         EventCenter.addEventListener(new GameEvent("LightEnableChanged", null, this), this.TargetObjectEnableChange);
     }
 
+    public SetVisible(v : boolean)
+    {
+        this.image.visible = v;
+    }
+
     public ChangeBlur() : void
     {
         this.frameCount++;

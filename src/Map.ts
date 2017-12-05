@@ -65,42 +65,42 @@ class GameMap{
         for(var i = 0; i < 20; i++)
         {
             var closeShot : CustomSprite = new CustomSprite("../laya/assets/" + level + "/close_shot_01.png");
-            closeShot.pos(-250 - offset,1600 - i * 800);
+            closeShot.pos(-250 - offset,2000 - i * 800);
             Layer.AddForeGroundNear(closeShot);
         }
         
         for(var i = 0; i < 15; i++)
         {
             var closeShot : CustomSprite = new CustomSprite("../laya/assets/" + level + "/close_shot_02.png");
-            closeShot.pos(-250,1000 - i * 800);
+            closeShot.pos(-250,1400 - i * 800);
             Layer.AddForeGroundMid(closeShot);
         }
         
         for(var i = 0; i < 10; i++)
         {
             var closeShot : CustomSprite = new CustomSprite("../laya/assets/" + level + "/close_shot_03.png");
-            closeShot.pos(-250,1500 - i * 800);
+            closeShot.pos(-250,1900 - i * 800);
             Layer.AddForeGroundFar(closeShot);
         }
 
         for(var i = 0; i < 20; i++)
         {
             var closeShot : CustomSprite = new CustomSprite("../laya/assets/" + level + "/close_shot_01_r.png");
-            closeShot.pos(1080 - 300,2000 - i * 800);
+            closeShot.pos(1080 - 300,1600 - i * 800);
             Layer.AddForeGroundNear(closeShot);
         }
         
         for(var i = 0; i < 15; i++)
         {
             var closeShot : CustomSprite = new CustomSprite("../laya/assets/" + level + "/close_shot_02_r.png");
-            closeShot.pos(1080 - 300,1400 - i * 800);
+            closeShot.pos(1080 - 300,1000 - i * 800);
             Layer.AddForeGroundMid(closeShot);
         }
         
         for(var i = 0; i < 10; i++)
         {
             var closeShot : CustomSprite = new CustomSprite("../laya/assets/" + level + "/close_shot_03_r.png");
-            closeShot.pos(1080 - 300,1900 - i * 800);
+            closeShot.pos(1080 - 300,1500 - i * 800);
             Layer.AddForeGroundFar(closeShot);
         }
     }
@@ -111,12 +111,12 @@ class GameMap{
         this.LoadBasicLevel("level1");
         this.nodeStatus = [ [0,0,0,0,0,0,0,0],//34
                             [0,0,0,0,0,0,0,0],
-                            [0,0,0,0,0,0,0,0],
-                            [0,0,0,0,0,0,0,0],
-                            [0,0,0,0,0,0,0,0],
-                            [0,0,0,0,0,0,0,0],//29
-                            [2,2,2,0,2,2,2,2],
-                            [0,0,0,0,0,0,2,0],
+                            [0,0,2,0,2,0,0,0],
+                            [2,2,0,0,0,2,2,2],
+                            [0,2,0,0,0,0,0,0],
+                            [0,2,0,0,0,2,0,0],//29
+                            [2,2,2,2,2,2,0,2],
+                            [0,0,2,0,0,0,0,0],
                             [0,2,2,0,2,0,0,0],
                             [0,2,2,0,2,2,2,2],
                             [0,2,0,0,0,0,0,0],//24
@@ -135,8 +135,8 @@ class GameMap{
                             [1,1,1,0,0,1,1,1],
                             [1,1,1,0,0,0,1,1],//9
                             [1,1,1,0,0,0,1,1],
-                            [1,1,0,0,0,0,1,1],
-                            [1,1,0,0,0,0,1,1],
+                            [1,1,0,1,1,0,1,1],
+                            [1,1,0,1,1,0,1,1],
                             [1,1,0,0,0,0,1,1],
                             [1,1,0,0,0,0,1,1],//4
                             [1,0,0,0,0,0,1,1],
@@ -198,10 +198,26 @@ class GameMap{
         {
             this.mapNodes.push([]);
             for(var j = 0; j < this.nodeStatus[i].length; j++)
-            {
+             {
                 this.mapNodes[i].push(new MapNode(i,j));
             }
         }
+
+        var nodes : MapNode[] = [
+            this.mapNodes[5][5],
+            this.mapNodes[5][3]];
+        var character : Character = new Character(this, "../laya/assets/item/icon_wildfire.png", 5, 5, false, nodes);
+        this.AddCharacter(character); 
+        
+        var nodes1 : MapNode[] = [
+            this.mapNodes[7][2],
+            this.mapNodes[6][2]];
+        var character1 : Character = new Character(this, "../laya/assets/item/icon_wildfire.png", 7, 2, false, nodes1,300);
+        this.AddCharacter(character1); 
+
+        
+        var obs : GameObject = new GameObject(this, "../laya/assets/level1/obstacle_04.png",7,3,2,2,false);
+        this.AddGameObject(obs);
 
         Laya.timer.frameLoop(1, this, this.Update);
     }
@@ -209,7 +225,7 @@ class GameMap{
     public LoadLevel2() : void
     {
         this.level = 2;
-        this.LoadBasicLevel("level2", 150);
+        this.LoadBasicLevel("level2", 170);
 
         this.nodeStatus = [ [1,1,1,1,1,1,1,1],
                             [1,1,1,1,1,1,1,1],
@@ -237,10 +253,10 @@ class GameMap{
                             [0,1,1,1,1,1,1,0],
                             [0,1,1,1,1,1,1,0],//9
                             [0,1,0,0,0,1,1,0],
-                            [0,1,0,0,0,1,1,0],
                             [0,1,0,0,0,1,0,0],
-                            [0,1,1,0,1,1,0,1],
-                            [0,0,0,0,1,1,0,0],//4
+                            [0,1,0,0,0,1,0,1],
+                            [0,1,1,0,1,1,0,0],
+                            [0,0,0,0,1,1,1,0],//4
                             [0,0,0,1,1,1,1,0],
                             [0,0,0,0,0,0,1,0],
                             [1,0,1,0,0,0,0,0],
@@ -302,13 +318,13 @@ class GameMap{
 
             new ObjectLight(this, 11, 0, 1, 1, false),
 
-            new ObjectLight(this, 3, 6, 1, 1, false),
-            new ObjectLight(this, 6, 6, 1, 1, false, false),
-            new ObjectLight(this, 15, 7, 1, 1, false),
-            new ObjectLight(this, 28, 6, 1, 1, false, false),
-            new ObjectLight(this, 30, 7, 1, 1, false),
-            new ObjectLight(this, 28, 4, 1, 1, false, false),
-            new ObjectLight(this, 31, 4, 1, 1, false),
+            new ObjectLight(this, 3, 5, 1, 1, false),
+            new ObjectLight(this, 7, 6, 1, 1, false, false),
+            new ObjectLight(this, 15, 7, 1, 1, false,false),
+            // new ObjectLight(this, 28, 6, 1, 1, false, false),
+            // new ObjectLight(this, 30, 7, 1, 1, false),
+            // new ObjectLight(this, 28, 4, 1, 1, false, false),
+            // new ObjectLight(this, 31, 4, 1, 1, false),
         ]
 
         lights[0].AddChild(lights[1]);
@@ -316,11 +332,11 @@ class GameMap{
 
         lights[2].AddChild(lights[3]);
         lights[3].AddChild(lights[4]);
-        lights[4].AddChild(lights[5]);
-        lights[4].AddChild(lights[7]);
+        // lights[4].AddChild(lights[5]);
+        // lights[4].AddChild(lights[7]);
 
-        lights[5].AddChild(lights[6]);
-        lights[7].AddChild(lights[8]);
+        // lights[5].AddChild(lights[6]);
+        // lights[7].AddChild(lights[8]);
         
 
         for (var i = 0; i < lights.length; ++i)
@@ -345,7 +361,6 @@ class GameMap{
         this.level = 3;
         this.LoadBasicLevel("level4");
 
-        Layer.AddMap(this.map);
         this.nodeStatus = [ 
                             [1,1,1,1,1,1,1,1],
                             [1,1,1,1,1,1,1,1],
@@ -379,10 +394,8 @@ class GameMap{
                             [1,1,1,0,0,1,1,1],
                             [1,1,1,0,0,1,1,1],
                             [1,1,1,0,0,1,1,1],
-                            [0,0,0,0,0,1,1,1],];//0
-
-        this.player = new Player(this,"back",0,4);
-        this.player.Save(0,4);
+                            [1,1,1,0,0,1,1,1],];//0
+        
         this.width = this.nodeStatus[0].length;
         this.height = this.nodeStatus.length;
         this.totalHeightInPxl = this.height * GameMap.nodeLength;
@@ -419,7 +432,8 @@ class GameMap{
 
         Layer.AddObjects(this.objectContainer);
 
-        this.player = new Player(this,"back",0,3);
+        this.player = new Player(this,"back",0,4);
+        this.player.Save(0,4);
 
         this.map.on(Laya.Event.MOUSE_DOWN,this,this.MouseDown);
 
