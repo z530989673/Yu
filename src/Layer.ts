@@ -96,5 +96,8 @@ class Layer{
         Layer.GetInstance().foregroundFar.removeChildren();
         Layer.GetInstance().foregroundMid.removeChildren();
         Layer.GetInstance().foregroundNear.removeChildren();
+        Layer.GetInstance().foregroundFar.pos(0,0);
+        Layer.GetInstance().foregroundMid.pos(0,0);
+        Layer.GetInstance().foregroundNear.pos(0,0);
     }
 }
