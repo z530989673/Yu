@@ -448,7 +448,7 @@ class GameMap{
         
 
 
-        var fireflyLine:number[] = [1, 6, 9, 11, 15, 17, 19, 22];
+        var fireflyLine:number[] = [1,3,4, 6, 9, 11, 15, 17, 19, 22];
         for(var i of fireflyLine )
         {
 
@@ -473,15 +473,15 @@ class GameMap{
             this.AddCharacter(firefly2);
         }
 
-        var fireflyLine:number[] = [4,5,7,8,9,11,13,14,15,17,19,21];
+        var fireflyLine:number[] = [2,4,5,7,8,9,11,13,14,15,17,19,21];
         for(var i of fireflyLine )
         {
 
             var nodes : MapNode[] = [
-                this.mapNodes[i+2][3],
                 this.mapNodes[i+2][4],
+                this.mapNodes[i+2][3],
             ]
-            var firefly = new Firefly(this, "../laya/assets/item/firefly.png", i+2, 3, false, nodes);
+            var firefly = new Firefly(this, "../laya/assets/item/firefly.png", i+2, 4, false, nodes);
             firefly.isNeedReborn = false;
             this.AddCharacter(firefly);
         }
@@ -490,12 +490,12 @@ class GameMap{
         {
 
             var nodes : MapNode[] = [
-                this.mapNodes[i+2][3],
-                this.mapNodes[i+1][3],
-                this.mapNodes[i+1][4],
                 this.mapNodes[i+2][4],
+                this.mapNodes[i+1][4],
+                this.mapNodes[i+1][3],
+                this.mapNodes[i+2][3],
             ]
-            var firefly = new Firefly(this, "../laya/assets/item/firefly.png", i+2, 3, false, nodes);
+            var firefly = new Firefly(this, "../laya/assets/item/firefly.png", i+2, 4, false, nodes);
             firefly.isNeedReborn = false;
             this.AddCharacter(firefly);
         }
