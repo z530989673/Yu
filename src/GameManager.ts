@@ -190,7 +190,7 @@ class GameManager {
 			if (PosY == 8 && !e.eventInst.isSingleBlockStart)
 			{			
 				e.eventInst.isSingleBlockStart = true;
-				e.eventInst.map.player.Save(8,3);
+				e.eventInst.map.player.Save(3,8);
 				e.eventInst.startSingleBlockLevel(e);
 				e.eventInst.startMusicStoneLevel(e);
 			}
@@ -433,7 +433,7 @@ class GameManager {
 			e.eventInst.stoneCurrentID ++;
 			if(pitch == 6)
 			{
-				e.eventInst.map.player.Save(29, 3);
+				e.eventInst.map.player.Save(3, 29);
 				e.eventInst.map.RestoreUpdate();
 				e.eventInst.finishMusicStoneLevel(e);
 			}

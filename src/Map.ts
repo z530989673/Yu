@@ -433,7 +433,6 @@ class GameMap{
         Layer.AddObjects(this.objectContainer);
 
         this.player = new Player(this,"back",0,4);
-        this.player.Save(0,4);
 
         this.map.on(Laya.Event.MOUSE_DOWN,this,this.MouseDown);
 

@@ -18,7 +18,7 @@ module Yu{
 		constructor(){
 			super(0, 0);
 			
-   			this.pos_info = [0.0, 0.0];
+   			this.pos_info = [0.0, 0.0, 0.0, 0.0];
    			this.uv_info = [0.0, 0.0, 1.0, 1.0];
    			this.uv_noise_info = [0.0, 0.0, 1.0, 1.0];
 			var _vlen: number = 8 * CONST3D2D.BYTES_PE;
