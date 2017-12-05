@@ -431,20 +431,47 @@ class GameMap{
                 this.mapNodes[i].push(new MapNode(i,j));
             }
         }
-        var fireflyLine:number[] = [1,2,3,4,5,6,7,8,9,10,13,14,16,17];
+        
+
+
+        var fireflyLine:number[] = [1, 6, 9, 11, 15, 17, 19, 22];
+        for(var i of fireflyLine )
+        {
+
+            var nodes1 : MapNode[] = [
+                this.mapNodes[i][3],
+                this.mapNodes[i+1][3],
+                this.mapNodes[i+1][4],
+                this.mapNodes[i+1][3],
+            ]
+            var firefly1 = new Firefly(this, "../laya/assets/level4/firefly_interactive.png", i, 3, false, nodes1);
+            firefly1.isNeedReborn = false;
+            this.AddCharacter(firefly1);
+
+            var nodes2 : MapNode[] = [
+                this.mapNodes[i+1][3],
+                this.mapNodes[i][3],
+                this.mapNodes[i][4],
+                this.mapNodes[i][3],
+            ]
+            var firefly2 = new Firefly(this, "../laya/assets/item/firefly.png", i+1, 3, false, nodes2);
+            firefly2.isNeedReborn = false;
+            this.AddCharacter(firefly2);
+        }
+
+        var fireflyLine:number[] = [4,5,7,8,9,11,13,14,15,17,19,21];
         for(var i of fireflyLine )
         {
 
             var nodes : MapNode[] = [
-                this.mapNodes[i][3 + i % 2],
-                this.mapNodes[i][4 - i % 2],
+                this.mapNodes[i+2][3],
+                this.mapNodes[i+2][4],
             ]
-            var firefly = new Firefly(this, "../laya/assets/level4/firefly_interactive.png", i, 3 + i % 2, false, nodes);
+            var firefly = new Firefly(this, "../laya/assets/item/firefly.png", i+2, 3, false, nodes);
             firefly.isNeedReborn = false;
             this.AddCharacter(firefly);
         }
-
-        var fireflyLine:number[] = [1,4,5,8,11,13,14,16];
+        var fireflyLine:number[] = [4,5,6,7,8,9,11,15,17,18,19,20];
         for(var i of fireflyLine )
         {
 
@@ -459,7 +486,7 @@ class GameMap{
             this.AddCharacter(firefly);
         }
 
-        var fireflyLine:number[] = [2,3,6,9,15];
+        var fireflyLine:number[] = [7, 8, 9, 11, 12, 14,15, 16];
         for(var i of fireflyLine )
         {
 
